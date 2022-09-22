@@ -13,8 +13,30 @@
         <version>2.2.4.RELEASE</version>
     </parent>
     <name>petclinic</name>
-    
-  
+
+  <developers>
+      <developer>
+    		    <id>dangalmar</id>
+    		    <name>Daniel</name>
+    		    <email>dangalmar@alum.us.es</email>
+    	</developer>
+      <developer>
+            <id>fermatgom</id>
+            <name>Fernando José Mateos Gómez</name>
+            <email>fermatgom@alum.us.es</email>
+        </developer>
+        <developer>
+			<id>pgmarc</id>
+			<name>Pedro González Marcos</name>
+			<email>pedgonmar2@alum.us.es</email>
+		</developer>
+		<developer>
+		<id>carbersor</id>
+		<name>Carlos</name>
+		<email>carbersor@alum.us.es</email>
+		</developer>
+    </developers>
+
     <properties>
 
         <!-- Generic properties -->
@@ -32,35 +54,6 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
-	<developers>
-		<developer>
-			<id>pgmarc</id>
-			<name>Pedro González Marcos</name>
-			<email>pedgonmar2@alum.us.es</email>
-			<roles>
-				<role>developer</role>
-			</roles>
-		</developer>
-		<developer>
-		<id>carbersor</id>
-		<name>Carlos</name>
-		<email>deynox.sw@gmail.com</email>
-		<url>http://github.com/carlos-bermejo</url>
-		<roles>
-			<role>engineer</role>
-		</roles>
-		<properties>
-			<picUrl>
-				https://i.ytimg.com/vi/vMF-BfwQyZM/mqdefault.jpg
-			</picUrl>
-		</properties>
-		</developer>
-        <developer>
-    		<id>dangalmar</id>
-    		<name>Daniel</name>
-    		<email>dangalmar@alum.us.es</email>
-    	</developer>		
-	</developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
