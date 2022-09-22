@@ -14,48 +14,7 @@
     </parent>
     <name>petclinic</name>
 
-  <developers>
-      <developer>
-    		    <id>dangalmar</id>
-    		    <name>Daniel</name>
-    		    <email>dangalmar@alum.us.es</email>
-    	</developer>
-      <developer>
-            <id>fermatgom</id>
-            <name>Fernando José Mateos Gómez</name>
-            <email>fermatgom@alum.us.es</email>
-        </developer>
-        <developer>
-			<id>pgmarc</id>
-			<name>Pedro González Marcos</name>
-			<email>pedgonmar2@alum.us.es</email>
-		</developer>
-		<developer>
-		<id>carbersor</id>
-		<name>Carlos</name>
-		<email>carbersor@alum.us.es</email>
-		</developer>
-    </developers>
-
-    <properties>
-
-        <!-- Generic properties -->
-        <java.version>11</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- Web dependencies -->
-        <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
-        <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
-        <webjars-jquery.version>2.2.4</webjars-jquery.version>
-        <wro4j.version>1.8.0</wro4j.version>
-
-        <jacoco.version>0.8.5</jacoco.version>
-        <spring-format.version>0.0.19</spring-format.version>
-
-    </properties>
-
-<developers>
+	<developers>
       <developer>
     		    <id>dangalmar</id>
     		    <name>Daniel</name>
@@ -82,6 +41,24 @@
 		<email>carzarrei@alum.us.es</email>
 		</developer>
     </developers>
+
+    <properties>
+
+        <!-- Generic properties -->
+        <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Web dependencies -->
+        <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
+        <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
+        <webjars-jquery.version>2.2.4</webjars-jquery.version>
+        <wro4j.version>1.8.0</wro4j.version>
+
+        <jacoco.version>0.8.5</jacoco.version>
+        <spring-format.version>0.0.19</spring-format.version>
+
+    </properties>
     
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
