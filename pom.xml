@@ -13,7 +13,8 @@
         <version>2.2.4.RELEASE</version>
     </parent>
     <name>petclinic</name>
-
+    
+  
     <properties>
 
         <!-- Generic properties -->
@@ -41,6 +42,29 @@
 			</roles>
 		</developer>
 	</developers>
+
+	<developers>
+		<developer>
+		<id>carbersor</id>
+		<name>Carlos</name>
+		<email>deynox.sw@gmail.com</email>
+		<url>http://github.com/carlos-bermejo</url>
+		<roles>
+			<role>engineer</role>
+		</roles>
+		<properties>
+			<picUrl>
+				https://i.ytimg.com/vi/vMF-BfwQyZM/mqdefault.jpg
+			</picUrl>
+		</properties>
+		</developer>
+        <developer>
+    		<id>dangalmar</id>
+    		<name>Daniel</name>
+    		<email>dangalmar@alum.us.es</email>
+    	</developer>
+	</developers>
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
