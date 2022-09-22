@@ -33,20 +33,21 @@
     </properties>
     
     <developers>
- <developer>
- <id>Leo</id>
- <name>Leonardo</name>
- <email>leo@tmht.com</email>
- <url>http://www.tmht.com/leo</url>
- <roles>
- <role>leader</role>
- </roles>
- <properties>
- <picUrl>
+ 		<developer>
+ 		<id>pedlopruz</id>
+ 		<name> Pedro Lopez</name>
+ 		<email>pedlopruz@alum.us.es</email>
+ 		<url></url>
+ 		<roles>
+ 		<role></role>
+ 		</roles>
+ 		<properties>
+ 		<picUrl>
 
-</picUrl>
- </properties>
- </developer>
+		</picUrl>
+ 		</properties>
+ 		</developer>
+ </developers>
    	 <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
