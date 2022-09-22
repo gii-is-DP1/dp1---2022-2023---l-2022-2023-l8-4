@@ -13,13 +13,20 @@
         <version>2.2.4.RELEASE</version>
     </parent>
     <name>petclinic</name>
-    <developers>
-        <developer>
+
+  <developers>
+      <developer>
+    		    <id>dangalmar</id>
+    		    <name>Daniel</name>
+    		    <email>dangalmar@alum.us.es</email>
+    	</developer>
+      <developer>
             <id>fermatgom</id>
             <name>Fernando José Mateos Gómez</name>
             <email>fermatgom@alum.us.es</email>
         </developer>
     </developers>
+
     <properties>
 
         <!-- Generic properties -->
@@ -37,6 +44,23 @@
         <spring-format.version>0.0.19</spring-format.version>
 
     </properties>
+
+	<developers>
+		<developer>
+		<id>carbersor</id>
+		<name>Carlos</name>
+		<email>deynox.sw@gmail.com</email>
+		<url>http://github.com/carlos-bermejo</url>
+		<roles>
+			<role>engineer</role>
+		</roles>
+		<properties>
+			<picUrl>
+				https://i.ytimg.com/vi/vMF-BfwQyZM/mqdefault.jpg
+			</picUrl>
+		</properties>
+		</developer>
+	</developers>
 
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
