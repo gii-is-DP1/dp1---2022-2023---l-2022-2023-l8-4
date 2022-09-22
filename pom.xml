@@ -34,16 +34,13 @@
     </properties>
 	<developers>
 		<developer>
-			<id>Leo</id>
+			<id>pgmarc</id>
 			<name>Pedro González Marcos</name>
 			<email>pedgonmar2@alum.us.es</email>
 			<roles>
 				<role>developer</role>
 			</roles>
 		</developer>
-	</developers>
-
-	<developers>
 		<developer>
 		<id>carbersor</id>
 		<name>Carlos</name>
@@ -62,7 +59,7 @@
     		<id>dangalmar</id>
     		<name>Daniel</name>
     		<email>dangalmar@alum.us.es</email>
-    	</developer>
+    	</developer>		
 	</developers>
 
     <dependencies>
