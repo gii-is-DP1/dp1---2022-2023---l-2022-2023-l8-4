@@ -13,6 +13,14 @@
         <version>2.2.4.RELEASE</version>
     </parent>
     <name>petclinic</name>
+    
+    <developers>
+    	<developer>
+    		<id>dangalmar</id>
+    		<name>Daniel</name>
+    		<email>dangalmar@alum.us.es</email>
+    	</developer>	
+    </developers>
 
     <properties>
 
