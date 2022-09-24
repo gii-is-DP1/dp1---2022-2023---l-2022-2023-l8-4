@@ -14,12 +14,39 @@
     </parent>
     <name>G3-18-4</name>
     
-    <developers>
+   
+
+	<developers>
       <developer>
-    		    <id>pedlopruz</id>
-    		    <name>Pedro</name>
-    		    <email>pedlopruz@alum.us.es</email>
+    		    <id>dangalmar</id>
+    		    <name>Daniel</name>
+    		    <email>dangalmar@alum.us.es</email>
     	</developer>
+      <developer>
+            <id>fermatgom</id>
+            <name>Fernando José Mateos Gómez</name>
+            <email>fermatgom@alum.us.es</email>
+        </developer>
+        <developer>
+			<id>pgmarc</id>
+			<name>Pedro González Marcos</name>
+			<email>pedgonmar2@alum.us.es</email>
+		</developer>
+		<developer>
+		<id>carbersor</id>
+		<name>Carlos</name>
+		<email>carbersor@alum.us.es</email>
+		</developer>
+		<developer>
+		<id>carzarrei</id>
+		<name>Carlos</name>
+		<email>carzarrei@alum.us.es</email>
+		</developer>
+    <developer>
+    <id>pedlopruz</id>
+    <name>Pedro</name>
+    <email>pedlopruz@alum.us.es</email>
+    </developer>
     </developers>
 
     <properties>
@@ -40,8 +67,12 @@
 
     </properties>
     
+
  
    	 <dependencies>
+
+    <dependencies>
+
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
