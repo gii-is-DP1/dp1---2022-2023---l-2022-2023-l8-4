@@ -81,13 +81,14 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (10, 'Mulligan', '2
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (11, 'Freddy', '2010-03-09', 5, 9);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (12, 'Lucky', '2010-06-24', 2, 10);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-06-08', 1, 10);
-INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Ted', '2012-06-10', 1, 15);
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Pepita', '2011-01-07', 7, 11);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (15, 'Canepi', '2014-01-30', 2, 12);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Simeon', '2011-02-27', 2, 13);
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (17, 'Rockie', '2017-02-12', 2, 5);
+INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'Ted', '2012-06-10', 1, 15);
+
 
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
