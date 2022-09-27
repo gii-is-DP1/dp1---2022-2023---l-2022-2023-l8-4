@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>G3-18-4</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,27 +12,11 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>G3-18-4</name>
+    
+   
 
-    <properties>
-
-        <!-- Generic properties -->
-        <java.version>11</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- Web dependencies -->
-        <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
-        <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
-        <webjars-jquery.version>2.2.4</webjars-jquery.version>
-        <wro4j.version>1.8.0</wro4j.version>
-
-        <jacoco.version>0.8.5</jacoco.version>
-        <spring-format.version>0.0.19</spring-format.version>
-
-    </properties>
-
-<developers>
+	<developers>
       <developer>
     		    <id>dangalmar</id>
     		    <name>Daniel</name>
@@ -58,9 +42,33 @@
 		<name>Carlos</name>
 		<email>carzarrei@alum.us.es</email>
 		</developer>
+    <developer>
+    <id>pedlopruz</id>
+    <name>Pedro</name>
+    <email>pedlopruz@alum.us.es</email>
+    </developer>
     </developers>
-    
+
+    <properties>
+
+        <!-- Generic properties -->
+        <java.version>11</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- Web dependencies -->
+        <webjars-bootstrap.version>3.3.6</webjars-bootstrap.version>
+        <webjars-jquery-ui.version>1.11.4</webjars-jquery-ui.version>
+        <webjars-jquery.version>2.2.4</webjars-jquery.version>
+        <wro4j.version>1.8.0</wro4j.version>
+
+        <jacoco.version>0.8.5</jacoco.version>
+        <spring-format.version>0.0.19</spring-format.version>
+
+    </properties>
+
     <dependencies>
+
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
