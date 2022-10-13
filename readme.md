@@ -82,10 +82,12 @@ Como jugador quiero poder crear una partida y elegir un modo de juego (el foso, 
 
 ### Escenarios Positivos:
 * H1+E1- Creación exitosa
+
 Dado que estamos logueados en el sistema como jugador, cuando elijamos un modo de juego de los 3 posibles, entonces seremos enviados a una página con el código de la partida, el modo de juego y una sala donde aparecerán el resto de jugadores.
 
 ### Escenarios Negativos:
 * H1-E1- Número de jugadores inválido
+
 Dado que estamos logueados en el sistema como jugador, cuando marquemos un número de jugadores que no esté entre 2 y 4, entonces se lanzará un mensaje indicando que no se puede hacer una partida con con más de 4 o menos de 2 personas.
 
 # H2- Juego
@@ -93,11 +95,14 @@ Como jugador quiero poder acceder a una sala para poder jugar en base a las regl
 
 ## Escenarios Positivos:
 * H2+E1- Acceso a la partida
+
 Dado que estamos logueados en el sistema como jugador y ha introducido un código de partida correcto, cuando pulsamos el botón de unirse, entonces somos redirigidos a la sala deseada.
 
 ## Escenarios Negativos:
 * H2-E2 - Partida no encontrada
+
 Dado que estamos logueados en el sistema como jugador y ha introducido un código de partida incorrecto o inexistente, cuando pulsamos el botón de unirse, entonces somos notificados de que la sala que buscamos no existe.
 
 * H2-E3- Partida comenzada
+
 Dado que estamos logueados en el sistema como jugador y hemos introducido un código de partida ya empezada, cuando pulsamos el botón de unirse, entonces somos notificados de que la partida ya ha comenzado y no podremos jugar.
