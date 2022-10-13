@@ -90,15 +90,15 @@ Dado que estamos logueados en el sistema como jugador, cuando elijamos un modo d
 
 Dado que estamos logueados en el sistema como jugador, cuando marquemos un número de jugadores que no esté entre 2 y 4, entonces se lanzará un mensaje indicando que no se puede hacer una partida con con más de 4 o menos de 2 personas.
 
-# H2- Juego
+## H2- Juego
 Como jugador quiero poder acceder a una sala para poder jugar en base a las reglas del modo de juego.
 
-## Escenarios Positivos:
+### Escenarios Positivos:
 * **H2+E1- Acceso a la partida:**
 
 Dado que estamos logueados en el sistema como jugador y ha introducido un código de partida correcto, cuando pulsamos el botón de unirse, entonces somos redirigidos a la sala deseada.
 
-## Escenarios Negativos:
+### Escenarios Negativos:
 * **H2-E2 - Partida no encontrada:**
 
 Dado que estamos logueados en el sistema como jugador y ha introducido un código de partida incorrecto o inexistente, cuando pulsamos el botón de unirse, entonces somos notificados de que la sala que buscamos no existe.
@@ -106,3 +106,12 @@ Dado que estamos logueados en el sistema como jugador y ha introducido un códig
 * **H2-E3- Partida comenzada:**
 
 Dado que estamos logueados en el sistema como jugador y hemos introducido un código de partida ya empezada, cuando pulsamos el botón de unirse, entonces somos notificados de que la partida ya ha comenzado y no podremos jugar.
+
+## H3-Visualización partidas
+
+Como jugador quiero poder ver un listado de mis partidas creadas y jugadas, para así poder saber qué he hecho en la aplicación.
+
+### Escenarios Positivos:
+H3+E1-Información cargada y mostrada exitosamente:
+
+Dado que estamos logueados en el sistema como jugador, cuando accedemos al enlace de las partidas jugadas, entonces se muestra en la parte inferior un listado con las partidas creadas y otra con las partidas jugadas ordenadas de partidas más recientes a más antiguas.
