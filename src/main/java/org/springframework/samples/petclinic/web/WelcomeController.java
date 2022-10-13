@@ -55,7 +55,7 @@ public class WelcomeController {
 		people.add(carlos);
 		
 		model.put("people", people);
-		model.put("title", "petclinic");
+		model.put("title", "Dobble");
 		model.put("group", "l8-4");
 
 
