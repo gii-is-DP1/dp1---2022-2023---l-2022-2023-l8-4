@@ -2,15 +2,6 @@
 
 [Gameplay dobble](https://youtu.be/KzSEJYlkOZE)
 
-# Spring PetClinic Sample Application 
-
-This is a fork of https://github.com/spring-projects/spring-petclinic to be used for the DP1 course. The main changes that have been performed were:
-- Trimming several parts of the application to keep the example low
-- Reorganize some parts of the code according to best practices introduced in the course
-
-## Understanding the Spring Petclinic application with a few diagrams
-<a href="https://speakerdeck.com/michaelisvy/spring-petclinic-sample-application">See the presentation here</a>
-
 ## Running petclinic locally
 Petclinic is a [Spring Boot](https://spring.io/guides/gs/spring-boot) application built using [Maven](https://spring.io/guides/gs/maven/). You can build a jar file and run it from the command line:
 
@@ -32,33 +23,11 @@ Or you can run it from Maven directly using the Spring Boot Maven plugin. If you
 ./mvnw spring-boot:run
 ```
 
-## In case you find a bug/suggested improvement for Spring Petclinic
-Our issue tracker is available here: https://github.com/gii-is-DP1/spring-petclinic/issues
-
-
-## Database configuration
-
-In its default configuration, Petclinic uses an in-memory database (H2) which
-gets populated at startup with data. 
-
-## Working with Petclinic in your IDE
-
-### Prerequisites
-The following items should be installed in your system:
-* Java 8 or newer.
-* git command line tool (https://help.github.com/articles/set-up-git)
-* Your preferred IDE 
-  * Eclipse with the m2e plugin. Note: when m2e is available, there is an m2 icon in `Help -> About` dialog. If m2e is
-  not there, just follow the install process here: https://www.eclipse.org/m2e/
-  * [Spring Tools Suite](https://spring.io/tools) (STS)
-  * IntelliJ IDEA
-  * [VS Code](https://code.visualstudio.com)
-
 ### Steps:
 
 1) On the command line
 ```
-git clone https://github.com/gii-is-DP1/spring-petclinic.git
+git clone https://github.com/gii-is-DP1/dp1-2022-2023-l8-4.git
 ```
 2) Inside Eclipse or STS
 ```
@@ -91,20 +60,6 @@ Visit [http://localhost:8080](http://localhost:8080) in your browser.
 |Properties Files | [application.properties](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/resources) |
 |Caching | [CacheConfiguration](https://github.com/gii-is-DP1/spring-petclinic/blob/master/src/main/java/org/springframework/samples/petclinic/system/CacheConfiguration.java) |
 
-## Interesting Spring Petclinic branches and forks
-
-The Spring Petclinic master branch in the main [spring-projects](https://github.com/spring-projects/spring-petclinic)
-GitHub org is the "canonical" implementation, currently based on Spring Boot and Thymeleaf. There are
-[quite a few forks](https://spring-petclinic.github.io/docs/forks.html) in a special GitHub org
-[spring-petclinic](https://github.com/spring-petclinic). If you have a special interest in a different technology stack
-that could be used to implement the Pet Clinic then please join the community there.
-
-# Contributing
-
-The [issue tracker](https://github.com/gii-is-DP1/spring-petclinic/issues) is the preferred channel for bug reports, features requests and submitting pull requests.
-
-For pull requests, editor preferences are available in the [editor config](.editorconfig) for easy use in common text editors. Read more and download plugins at <https://editorconfig.org>. If you have not previously done so, please fill out and submit the [Contributor License Agreement](https://cla.pivotal.io/sign/spring).
-
 # License
 
 The Spring PetClinic sample application is released under version 2.0 of the [Apache License](https://www.apache.org/licenses/LICENSE-2.0).
@@ -119,3 +74,30 @@ The Spring PetClinic sample application is released under version 2.0 of the [Ap
 [spring-petclinic-graphql]: https://github.com/spring-petclinic/spring-petclinic-graphql
 [spring-petclinic-kotlin]: https://github.com/spring-petclinic/spring-petclinic-kotlin
 [spring-petclinic-rest]: https://github.com/spring-petclinic/spring-petclinic-rest
+
+# Historias de usuario
+
+## H1 - Crear partida
+Como jugador quiero poder crear una partida y elegir un modo de juego (el foso, patata caliente, la torre infernal), mostrando un código de juego que otros jugadores podrán usar para acceder a la partida, para poder jugar en una partida propia.
+
+### Escenarios Positivos:
+* H1+E1- Creación exitosa
+Dado que estamos logueados en el sistema como jugador, cuando elijamos un modo de juego de los 3 posibles, entonces seremos enviados a una página con el código de la partida, el modo de juego y una sala donde aparecerán el resto de jugadores.
+
+### Escenarios Negativos:
+* H1-E1- Número de jugadores inválido
+Dado que estamos logueados en el sistema como jugador, cuando marquemos un número de jugadores que no esté entre 2 y 4, entonces se lanzará un mensaje indicando que no se puede hacer una partida con con más de 4 o menos de 2 personas.
+
+# H2- Juego
+Como jugador quiero poder acceder a una sala para poder jugar en base a las reglas del modo de juego.
+
+## Escenarios Positivos:
+* H2+E1- Acceso a la partida
+Dado que estamos logueados en el sistema como jugador y ha introducido un código de partida correcto, cuando pulsamos el botón de unirse, entonces somos redirigidos a la sala deseada.
+
+## Escenarios Negativos:
+* H2-E2 - Partida no encontrada
+Dado que estamos logueados en el sistema como jugador y ha introducido un código de partida incorrecto o inexistente, cuando pulsamos el botón de unirse, entonces somos notificados de que la sala que buscamos no existe.
+
+* H2-E3- Partida comenzada
+Dado que estamos logueados en el sistema como jugador y hemos introducido un código de partida ya empezada, cuando pulsamos el botón de unirse, entonces somos notificados de que la partida ya ha comenzado y no podremos jugar.
