@@ -230,7 +230,7 @@ Dado que estamos autenticados en el sistema como administrador, cuando pulsamos 
 
 Dado que estamos autenticados en el sistema como administrador, cuando pulsamos para consultar información de un usuario que no está en el sistema, entonces el sistema debe mandar un mensaje de error al administrador.
 
-* **H9-E3-  Creación de un usuario sin información**
+* **H9-E3-  Creación de un usuario sin información:**
 
 Dado que estamos autenticados en el sistema como administrador y no hemos rellenado correctamente todos los campos del formulario de creación de usuario, cuando pulsamos para crear un usuario, entonces el sistema debe mandar un mensaje de error al administrador.
 
