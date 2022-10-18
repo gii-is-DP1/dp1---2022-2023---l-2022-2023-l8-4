@@ -1,28 +1,38 @@
 package org.springframework.samples.petclinic.usuario;
 
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.NamedEntity;
 import org.springframework.samples.petclinic.partida.Partida;
 
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
 @Entity
+@Table(name = "usuarios")
+@ToString
+@EqualsAndHashCode(callSuper=false)
 public class Usuario extends NamedEntity {
 
 	@Column(name = "contraseña")
@@ -31,18 +41,18 @@ public class Usuario extends NamedEntity {
 	
 	@Column(name = "fecha_registro")
 	@NotEmpty
-	@DateTimeFormat(pattern="yyyy/mm/dd'T'HH:mm:ss")
-	private LocalDateTime fecha_registro;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fecha_registro;
 	
 	@Column(name = "fecha_modificacion")
 	@NotEmpty
-	@DateTimeFormat(pattern="yyyy/mm/dd'T'HH:mm:ss")
-	private LocalDateTime fecha_modificacion;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date fecha_modificacion;
 	
 	@Column(name = "ultimo_inicio_sesion")
 	@NotEmpty
-	@DateTimeFormat(pattern="yyyy/mm/dd'T'HH:mm:ss")
-	private LocalDateTime ultimo_inicio_sesion;
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date ultimo_inicio_sesion;
 	
 	@Column(name = "nombre_usuario")
 	@NotEmpty
@@ -67,5 +77,16 @@ public class Usuario extends NamedEntity {
 	private String foto_perfil;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creador_id")
-	private Set<Partida> partidas;
+	private Collection<Partida> partidas_creadas;
+	
+	@ManyToMany(fetch = FetchType.EAGER,
+				cascade = {CascadeType.PERSIST,
+						CascadeType.MERGE,
+						CascadeType.DETACH,
+						CascadeType.REFRESH})
+	@JoinTable(name = "jugadores_partidas", 
+				joinColumns = @JoinColumn(name = "jugador_id"),
+				inverseJoinColumns = @JoinColumn(name = "partida_id"))
+	private Collection<Partida> partidas_jugadas;
+	
 }
