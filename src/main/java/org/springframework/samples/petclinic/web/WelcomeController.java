@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.samples.petclinic.model.Person;
+
+import org.springframework.samples.petclinic.model.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -15,43 +16,49 @@ public class WelcomeController {
 	  @GetMapping({"/","/welcome"})
 	  public String welcome(Map<String, Object> model) {
 		  
-		  List<Person> people = new ArrayList<Person>();
+		  List<Usuario> people = new ArrayList<Usuario>();
 		  
 		  
-		Person pgmarc = new Person();
-		Person carbersor= new Person();
-		Person carlos = new Person();
-		Person daniel = new Person();
-		Person pedro = new Person();
-		Person fernando = new Person();
+		Usuario pgmarc = new Usuario();
+		Usuario carbersor= new Usuario();
+		Usuario carlos = new Usuario();
+		Usuario daniel = new Usuario();
+		Usuario pedro = new Usuario();
+		Usuario fernando = new Usuario();
 
 		
-		pgmarc.setFirstName("Pedro");
-		pgmarc.setLastName("Gonzalez");
+		pgmarc.setName("Pedro");
+		pgmarc.setUsername("");
+		pgmarc.setEmail("");
 		people.add(pgmarc);
 		
-		carbersor.setFirstName("Carlos");
-		carbersor.setLastName("Bermejo");
+		carbersor.setName("Carlos");
+		carbersor.setUsername("");
+		pgmarc.setEmail("");
 		people.add(carbersor);
 
 		
-		fernando.setFirstName("Fernando Jose");
-		fernando.setLastName("Mateos");
+		fernando.setName("Fernando Jose");
+		fernando.setUsername("");
+		pgmarc.setEmail("");
 		people.add(fernando);
 
 		
-		daniel.setFirstName("Daniel");
-		daniel.setLastName("Gallardo");
+		daniel.setName("Daniel");
+		daniel.setUsername("");
+		pgmarc.setEmail("");
 		people.add(daniel);
 
 		
-		pedro.setFirstName("Pedro");
-		pedro.setLastName("Lopez");
+		pedro.setName("Pedro");
+		pedro.setUsername("Lopez");
+		pgmarc.setEmail("");
 		people.add(pedro);
 
 		
-		carlos.setFirstName("Carlos");
-		carlos.setLastName("Zarzuela");
+		carlos.setName("Carlos Zarzuela");
+		carlos.setUsername("");
+		pgmarc.setEmail("");
 		people.add(carlos);
 		
 		model.put("people", people);
