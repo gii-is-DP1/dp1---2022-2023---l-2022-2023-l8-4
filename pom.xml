@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>G3-18-4</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,14 +12,41 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>G3-18-4</name>
     
-    <developers>
-    	<developer>
-    		<id>dangalmar</id>
-    		<name>Daniel</name>
-    		<email>dangalmar@alum.us.es</email>
-    	</developer>	
+   
+
+	<developers>
+      <developer>
+    		    <id>dangalmar</id>
+    		    <name>Daniel</name>
+    		    <email>dangalmar@alum.us.es</email>
+    	</developer>
+      <developer>
+            <id>fermatgom</id>
+            <name>Fernando José Mateos Gómez</name>
+            <email>fermatgom@alum.us.es</email>
+        </developer>
+        <developer>
+			<id>pgmarc</id>
+			<name>Pedro González Marcos</name>
+			<email>pedgonmar2@alum.us.es</email>
+		</developer>
+		<developer>
+		<id>carbersor</id>
+		<name>Carlos</name>
+		<email>carbersor@alum.us.es</email>
+		</developer>
+		<developer>
+		<id>carzarrei</id>
+		<name>Carlos</name>
+		<email>carzarrei@alum.us.es</email>
+		</developer>
+    <developer>
+    <id>pedlopruz</id>
+    <name>Pedro</name>
+    <email>pedlopruz@alum.us.es</email>
+    </developer>
     </developers>
 
     <properties>
@@ -41,6 +68,7 @@
     </properties>
 
     <dependencies>
+
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
