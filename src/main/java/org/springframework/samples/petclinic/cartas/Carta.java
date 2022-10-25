@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.cards;
+package org.springframework.samples.petclinic.cartas;
 
 import lombok.Data;
 import lombok.Getter;
@@ -13,8 +13,8 @@ import javax.persistence.Table;
 @Entity
 @Getter
 @Setter
-@Table(name = "cards")
-public class Card extends BaseEntity {
+@Table(name = "cartas")
+public class Carta extends BaseEntity {
     @Column(name = "icons")
     private String icons;
 
