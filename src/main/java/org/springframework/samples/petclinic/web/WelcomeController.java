@@ -4,8 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-
-import org.springframework.samples.petclinic.model.Usuario;
+import org.springframework.samples.petclinic.model.Person;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -16,49 +15,43 @@ public class WelcomeController {
 	  @GetMapping({"/","/welcome"})
 	  public String welcome(Map<String, Object> model) {
 		  
-		  List<Usuario> people = new ArrayList<Usuario>();
+		  List<Person> people = new ArrayList<Person>();
 		  
 		  
-		Usuario pgmarc = new Usuario();
-		Usuario carbersor= new Usuario();
-		Usuario carlos = new Usuario();
-		Usuario daniel = new Usuario();
-		Usuario pedro = new Usuario();
-		Usuario fernando = new Usuario();
+		Person pgmarc = new Person();
+		Person carbersor= new Person();
+		Person carlos = new Person();
+		Person daniel = new Person();
+		Person pedro = new Person();
+		Person fernando = new Person();
 
 		
-		pgmarc.setName("Pedro");
-		pgmarc.setUsername("");
-		pgmarc.setEmail("");
+		pgmarc.setFirstName("Pedro");
+		pgmarc.setLastName("Gonzalez");
 		people.add(pgmarc);
 		
-		carbersor.setName("Carlos");
-		carbersor.setUsername("");
-		pgmarc.setEmail("");
+		carbersor.setFirstName("Carlos");
+		carbersor.setLastName("Bermejo");
 		people.add(carbersor);
 
 		
-		fernando.setName("Fernando Jose");
-		fernando.setUsername("");
-		pgmarc.setEmail("");
+		fernando.setFirstName("Fernando Jose");
+		fernando.setLastName("Mateos");
 		people.add(fernando);
 
 		
-		daniel.setName("Daniel");
-		daniel.setUsername("");
-		pgmarc.setEmail("");
+		daniel.setFirstName("Daniel");
+		daniel.setLastName("Gallardo");
 		people.add(daniel);
 
 		
-		pedro.setName("Pedro");
-		pedro.setUsername("Lopez");
-		pgmarc.setEmail("");
+		pedro.setFirstName("Pedro");
+		pedro.setLastName("Lopez");
 		people.add(pedro);
 
 		
-		carlos.setName("Carlos Zarzuela");
-		carlos.setUsername("");
-		pgmarc.setEmail("");
+		carlos.setFirstName("Carlos");
+		carlos.setLastName("Zarzuela");
 		people.add(carlos);
 		
 		model.put("people", people);
