@@ -16,6 +16,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.usuario.Usuario;
 
@@ -41,17 +42,17 @@ public class Partida extends BaseEntity {
 	@NotEmpty
 	private Modo modo;
 	
-	@ManyToOne
+	@ManyToOne(optional=false)
 	@JoinColumn(name = "creador_id")
 	private Usuario creador_id;
 	
-	@ManyToMany(fetch = FetchType.EAGER,
-			cascade = {CascadeType.PERSIST,
+	@ManyToMany
+	private Collection<Usuario> jugadores;
+	
+	@ManyToMany(cascade = {CascadeType.PERSIST,
 					CascadeType.MERGE,
 					CascadeType.DETACH,
 					CascadeType.REFRESH})
-	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
-			inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	private Collection<Partida> partidas_usuario;
+	private Collection<Carta> cartas;
 }
 

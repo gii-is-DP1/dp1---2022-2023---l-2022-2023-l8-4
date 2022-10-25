@@ -69,8 +69,8 @@ public class Usuario extends NamedEntity {
 	
 	@Column(name = "fecha_nacimiento")
 	@NotEmpty
-	@DateTimeFormat(pattern="yyyy/mm/dd")
-	private LocalDate fecha_nacimiento;
+	@Temporal(TemporalType.DATE)
+	private Date fecha_nacimiento;
 	
 	@Column(name = "foto_perfil")
 	@NotEmpty
@@ -80,13 +80,7 @@ public class Usuario extends NamedEntity {
 	private Collection<Partida> partidas_creadas;
 	
 	@ManyToMany(fetch = FetchType.EAGER,
-				cascade = {CascadeType.PERSIST,
-						CascadeType.MERGE,
-						CascadeType.DETACH,
-						CascadeType.REFRESH})
-	@JoinTable(name = "jugadores_partidas", 
-				joinColumns = @JoinColumn(name = "jugador_id"),
-				inverseJoinColumns = @JoinColumn(name = "partida_id"))
+				mappedBy="jugadores")
 	private Collection<Partida> partidas_jugadas;
 	
 }
