@@ -1,4 +1,4 @@
-# uninstall!/usr/bin/python3
+#!/usr/bin/python3
 
 sql_instruction = 'INSERT INTO cards (id, icons) VALUES '
 (file, id) = ("cartas.txt", 0)
