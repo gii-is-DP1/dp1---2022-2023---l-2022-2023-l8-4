@@ -42,39 +42,39 @@ public class Usuario extends NamedEntity {
 	@Column(name = "fecha_registro")
 	@NotEmpty
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fecha_registro;
+	private Date fechaRegistro;
 	
 	@Column(name = "fecha_modificacion")
 	@NotEmpty
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date fecha_modificacion;
+	private Date fechaModificacion;
 	
 	@Column(name = "ultimo_inicio_sesion")
 	@NotEmpty
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date ultimo_inicio_sesion;
+	private Date ultimoInicioSesion;
 	
 	@Column(name = "nombre_usuario")
 	@NotEmpty
-	private String nombre_usuario;
+	private String nombreUsuario;
 	
 	@Column(name = "email")
 	@NotEmpty
 	@Email
 	private String email;
 	
-	@Column(name = "administrador")
+	@Column(name = "es_administrador")
 	@NotEmpty
-	private Boolean administrador;
+	private Boolean esAdministrador;
 	
 	@Column(name = "fecha_nacimiento")
 	@NotEmpty
 	@Temporal(TemporalType.DATE)
-	private Date fecha_nacimiento;
+	private Date fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
 	@NotEmpty
-	private String foto_perfil;
+	private String fotoPerfil;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creador_id")
 	private Collection<Partida> partidas_creadas;
