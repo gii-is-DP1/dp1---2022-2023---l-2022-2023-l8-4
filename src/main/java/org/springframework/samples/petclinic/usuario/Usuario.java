@@ -63,16 +63,16 @@ public class Usuario extends NamedEntity {
 	@Email
 	private String email;
 	
-	@Column(name = "esAdministrador")
+	@Column(name = "es_administrador")
 	@NotEmpty
 	private Boolean esAdministrador;
 	
-	@Column(name = "fechaNacimiento")
+	@Column(name = "fecha_nacimiento")
 	@NotEmpty
 	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
 	
-	@Column(name = "fotoPerfil")
+	@Column(name = "foto_perfil")
 	@NotEmpty
 	private String fotoPerfil;
 	
