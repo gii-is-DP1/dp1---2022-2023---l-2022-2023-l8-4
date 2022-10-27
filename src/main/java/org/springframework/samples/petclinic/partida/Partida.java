@@ -44,7 +44,7 @@ public class Partida extends BaseEntity {
 	
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "creador_id")
-	private Usuario creador_id;
+	private Usuario creadorId;
 	
 	@ManyToMany
 	private Collection<Usuario> jugadores;
