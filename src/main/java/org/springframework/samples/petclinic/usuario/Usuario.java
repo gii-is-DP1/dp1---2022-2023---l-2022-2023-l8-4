@@ -76,7 +76,7 @@ public class Usuario extends NamedEntity {
 	@NotEmpty
 	private String fotoPerfil;
 	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creador_id")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creadorId")
 	private Collection<Partida> partidas_creadas;
 	
 	@ManyToMany(fetch = FetchType.EAGER,
