@@ -6,15 +6,12 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -34,12 +31,10 @@ import lombok.ToString;
 public class Partida extends BaseEntity {
 
 	@Column(name = "fecha")
-	@NotEmpty
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 	
 	@Column(name = "modo")
-	@NotEmpty
 	private Modo modo;
 	
 	@ManyToOne(optional=false)

@@ -154,3 +154,15 @@ INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOB
 (54, 'ORCA PEZ PAVOREAL AVISPA CISNE FLAMENCO PANDA UNICORNIO'),
 (55, 'CANGREJO MARIPOSA FLAMENCO BALLENA RENO AGUILA CABALLO CIGUEÑA'),
 (56, 'CARACOL AGUILA PERRO AVISPA PANDA TIGRE SINSAJO LEON');
+
+
+INSERT INTO Usuarios(id,name,contraseña,email,es_administrador,
+fecha_modificacion,fecha_nacimiento,fecha_registro,foto_perfil,nombre_usuario,ultimo_inicio_sesion) VALUES
+(1,'Pedro','1234','pedro@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'LORO','pgmarc', CURRENT_TIMESTAMP),
+(2,'Carlos','5678','carlos@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'CABALLO','carzarrei', CURRENT_TIMESTAMP),
+(3,'Fernando','abcd','fernando@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'JIRAFA','moffinguer', CURRENT_TIMESTAMP),
+(4,'Daniel','efgh','daniel@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'TORTUGA','dangalmar', CURRENT_TIMESTAMP),
+(5,'Pedro Lopez','ijkl','pedroruz@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'CONEJO','pedlopruz', CURRENT_TIMESTAMP);
+
+
+INSERT INTO Partidas(id,fecha,modo,creador_id) VALUES (1,CURRENT_DATE,0,1);
