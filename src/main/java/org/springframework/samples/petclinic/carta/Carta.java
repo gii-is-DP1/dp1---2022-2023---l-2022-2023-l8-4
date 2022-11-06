@@ -10,12 +10,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-@Entity
 @Getter
 @Setter
-@Table(name = "cartas")
+@Entity
+@Table ( name = "cartas" )
 public class Carta extends BaseEntity {
-    @Column(name = "icons")
+
+    @Column ( name = "icons" )
     private String icons;
 
 }
