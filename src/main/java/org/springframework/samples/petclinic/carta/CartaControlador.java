@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/cartas")
 public class CartaControlador {
+	/*
 	@Autowired
 	private CartaServicio cartaServicio;
 	
@@ -29,5 +30,5 @@ public class CartaControlador {
 		mav.addObject(this.cartaServicio.findOwnerById(cartaId));
 		return mav;
 	}
-	
+	*/
 }
