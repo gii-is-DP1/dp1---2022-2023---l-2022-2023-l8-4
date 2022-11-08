@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.usuario;
 
-import java.time.LocalDate;
+import java.time.LocalDate; 
 import java.util.Collection;
 import java.util.Date;
 
@@ -73,8 +73,8 @@ public class Usuario extends NamedEntity {
 	private Date fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
-	@NotEmpty
-	private String fotoPerfil;
+
+	private String foto_perfil;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creadorId")
 	private Collection<Partida> partidas_creadas;
