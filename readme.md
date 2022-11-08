@@ -266,7 +266,7 @@ Como jugador quiero que el sistema, al acabar la partida, en cualquier modo de j
 
 ### Escenarios Positivos:
 
-* **H12+E1- Ver ganador:**´
+* **H12+E1- Ver ganador:**
 
 Dado que estamos autenticados en el sistema como jugador, cuando termina una partida, entonces podemos ver quién es el ganador.
 
