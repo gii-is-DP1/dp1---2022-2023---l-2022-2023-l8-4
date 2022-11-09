@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PartidaRepositorio extends CrudRepository<Partida, Integer> {
+	
 	List<Partida> findAll();
-	Optional<Partida> findById(Integer id);
+	Optional<Partida> findById(int id);
 }

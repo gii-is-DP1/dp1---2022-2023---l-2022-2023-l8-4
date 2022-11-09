@@ -33,6 +33,11 @@ public class UsuarioService {
 		return usuarioRepositorio.findAllAdministradores();
 	}
 	
+	@Transactional(readOnly=true)
+	public Usuario getUsuarioPorId(int id) {
+		return this.usuarioRepositorio.findById(id).orElse(null);
+	}
+	
 	@Transactional
 	public void saveUsuario(Usuario usuario) throws DataAccessException {
 		usuarioRepositorio.save(usuario);

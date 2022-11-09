@@ -30,7 +30,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=false)
 public class Usuario extends NamedEntity {
 
-	@Column(name = "contraseña", nullable = false)
+	@Column(name = "contrasena", nullable = false)
 	@NotEmpty
 	private String contraseña;
 	
@@ -66,10 +66,9 @@ public class Usuario extends NamedEntity {
 	@NotEmpty
 	private String fotoPerfil;
 	
-	@OneToMany(mappedBy = "creadorId")
+	@OneToMany(mappedBy = "creadorPartida")
 	private Collection<Partida> partidasCreadas;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="jugadores")
-	private Collection<Partida> partidasJugadas;
-	
+	private Collection<Partida> partidasJugadas;	
 }
