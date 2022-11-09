@@ -68,13 +68,11 @@ public class Usuario extends NamedEntity {
 	private Boolean esAdministrador;
 	
 	@Column(name = "fecha_nacimiento")
-	@NotEmpty
 	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
-	@NotEmpty
-	private String fotoPerfil;
+	private String foto_perfil;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creadorId")
 	private Collection<Partida> partidas_creadas;
