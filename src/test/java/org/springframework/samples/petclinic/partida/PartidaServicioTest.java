@@ -37,7 +37,7 @@ class PartidaServicioTest {
 		// El id de la partida depende de los insert de partida en data.sql
 		int partidaId = 2;
 		Partida partida = new Partida();
-		partida.setCreadorPartida(usuario);
+		partida.setCreadorId(usuario);
 		partida.setFecha(new Date());
 		partida.setModo(Modo.EL_FOSO);
 		
@@ -50,6 +50,6 @@ class PartidaServicioTest {
 		
 		Partida actual = this.partidaServicio.getPartidaPorId(partidaId);
 		assertEquals(partida.getId(), actual.getId(), "No es la misma partida");
-		assertEquals(usuario.getNombreUsuario(), actual.getCreadorPartida().getNombreUsuario(), "Los nombres de usuario no coinciden");
+		assertEquals(usuario.getNombreUsuario(), actual.getCreadorId().getNombreUsuario(), "Los nombres de usuario no coinciden");
 	}
 }

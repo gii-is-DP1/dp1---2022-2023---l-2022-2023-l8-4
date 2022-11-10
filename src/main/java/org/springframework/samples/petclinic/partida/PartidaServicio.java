@@ -35,12 +35,12 @@ public class PartidaServicio {
 	
 	@Transactional(rollbackFor = Exception.class)
 	public void savePartida(Partida partida) throws DataAccessException, Exception {
-		Optional<Usuario> usuario = this.usuarioRepositorio.findById(partida.getCreadorPartida().getId());
+		Optional<Usuario> usuario = this.usuarioRepositorio.findById(partida.getCreadorId().getId());
 		if (usuario.isEmpty()) {
 			throw new Exception("Usuario no encontrado");
 		}
 		
-		if (usuario.get().isEsAdministrador()) {
+		if (usuario.get().getAdministrador()) {
 			throw new Exception("Un administrador no puede crear partidas");
 		}
 		
