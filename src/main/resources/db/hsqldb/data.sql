@@ -97,14 +97,18 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04',
 
 
 --Admin
-INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador) VALUES (1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
+INSERT INTO usuarios(id,name,contrasena,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador) VALUES 
+(1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
 (2, 'Fernando', '123', '2022-01-01','2022-01-01', '2022-01-01', 'moffon', 'fermatgom@alum.us.es', TRUE),
 (3, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'zarzu', 'carzarrei@alum.us.es', TRUE),
 (4, 'Dani', '123', '2022-01-01','2022-01-01', '2022-01-01', 'danigal', 'dangalmar@alum.us.es', TRUE),
 (5, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'salsero', 'pedgonmar2@alum.us.es', TRUE),
 (6, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'ruz', 'pedlopruz@alum.us.es', TRUE);
 --Jugadores
-INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) VALUES (7, 'Fausto', '123', '2022-01-01','2022-01-01', '2022-10-01', 'megagamer', 'fausto@gmail.com', FALSE, '2001-01-01', ''),
+INSERT INTO usuarios(id,name,contrasena,
+fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) 
+VALUES 
+(7, 'Fausto', '123', '2022-01-01','2022-01-01', '2022-10-01', 'megagamer', 'fausto@gmail.com', FALSE, '2001-01-01', ''),
 (8, 'Rocio', '123', '2022-02-02','2022-02-03', '2022-10-01', 'rukisro', 'rukisro@gmail.com', FALSE, '1992-01-01', ''),
 (9, 'Sergio', 'paloma123', '2022-02-02','2022-02-03', '2022-10-01', 'darkPalomoLord', 'sergio@gmail.com', FALSE, '1975-01-01', ''),
 (10, 'Rocio', 'islacanelaexiste', '2022-02-02','2022-02-02', '2022-10-01', 'rocioalbe', 'rocioalberca@gmail.com', FALSE, '2002-01-01', ''),
@@ -116,12 +120,14 @@ INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultim
 (16, 'Gabbro', 'AQuietShade', '2022-02-10','2022-01-01', '2022-11-01', 'hearthian1', 'gaventures@gmail.com', FALSE, '2019-01-01', ''),
 (17, 'Alberto', 'HIJODELSOL', '2022-02-01','2022-01-01', '2022-11-01', 'misterjagger', 'jagger@gmail.com', FALSE, '1996-01-01', '');
 -- Partidas
-INSERT INTO partidas(id,fecha,modo,creador_id) VALUES (1, '2022-11-04', 0, 13),
+INSERT INTO partidas(id,fecha,modo,creador_id) VALUES 
+(1, '2022-11-04', 0, 13),
 (2, '2022-11-04', 0, 13),
 (3, '2022-11-06', 1, 14),
 (4, '2022-11-09', 0, 17),
 (5, '2022-11-10', 2, 7);
-INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES (1,14),
+INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES 
+(1,14),
 (2,14),
 (3,13),
 (3,17),
@@ -132,10 +138,6 @@ INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES (1,14),
 (5,8),
 (5,9),
 (5,10);
-
-
-
-
 
 
 -- Creating deck of cards
@@ -196,15 +198,3 @@ INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOB
 (54, 'ORCA PEZ PAVOREAL AVISPA CISNE FLAMENCO PANDA UNICORNIO'),
 (55, 'CANGREJO MARIPOSA FLAMENCO BALLENA RENO AGUILA CABALLO CIGUEÑA'),
 (56, 'CARACOL AGUILA PERRO AVISPA PANDA TIGRE SINSAJO LEON');
-
-
-INSERT INTO Usuarios(id,name,contrasena,email,es_administrador,
-fecha_modificacion,fecha_nacimiento,fecha_registro,foto_perfil,nombre_usuario,ultimo_inicio_sesion) VALUES
-(1,'Pedro','1234','pedro@mail.com',false,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'LORO','pgmarc', CURRENT_TIMESTAMP),
-(2,'Carlos','5678','carlos@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'CABALLO','carzarrei', CURRENT_TIMESTAMP),
-(3,'Fernando','abcd','fernando@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'JIRAFA','moffinguer', CURRENT_TIMESTAMP),
-(4,'Daniel','efgh','daniel@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'TORTUGA','dangalmar', CURRENT_TIMESTAMP),
-(5,'Pedro Lopez','ijkl','pedroruz@mail.com',true,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP,'CONEJO','pedlopruz', CURRENT_TIMESTAMP);
-
-
-INSERT INTO Partidas(id,fecha,modo,jugador_creador_id) VALUES (1,CURRENT_DATE,0,1);

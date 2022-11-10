@@ -11,10 +11,10 @@ public interface UsuarioRepository extends CrudRepository<Usuario,Integer> {
 	
 	public Collection<Usuario> findAll();
 
-	@Query("SELECT usuario FROM Usuario usuario WHERE usuario.esAdministrador=0")
+	@Query("SELECT usuario FROM Usuario usuario WHERE usuario.administrador=0")
 	public Collection<Usuario> findAllJugadores();
 	
-	@Query("SELECT usuario FROM Usuario usuario WHERE usuario.esAdministrador=1")
+	@Query("SELECT usuario FROM Usuario usuario WHERE usuario.administrador=1")
 	public Collection<Usuario> findAllAdministradores();
 	
 	Usuario save(Usuario usuario);

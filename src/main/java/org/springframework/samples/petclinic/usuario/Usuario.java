@@ -56,7 +56,6 @@ public class Usuario extends NamedEntity {
 	private String email;
 	
 	@Column(name = "administrador")
-	@NotEmpty
 	private Boolean administrador;
 	
 	@Column(name = "fecha_nacimiento")
@@ -66,7 +65,7 @@ public class Usuario extends NamedEntity {
 	@Column(name = "foto_perfil")
 	private String foto_perfil;
 	
-	@OneToMany(mappedBy = "creadorPartida")
+	@OneToMany(mappedBy = "creadorId")
 	private Collection<Partida> partidasCreadas;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="jugadores")

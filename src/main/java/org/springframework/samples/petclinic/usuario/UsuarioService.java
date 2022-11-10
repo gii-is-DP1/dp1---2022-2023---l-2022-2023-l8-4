@@ -19,17 +19,17 @@ public class UsuarioService {
 	}
 	
 	@Transactional(readOnly=true)
-	public Collection<Usuario> getAllUsuarios(){
+	public Collection<Usuario> getAllUsuarios() {
 		return usuarioRepositorio.findAll();
 	}
 	
 	@Transactional(readOnly=true)
-	public Collection<Usuario> getAllJugadores(){
+	public Collection<Usuario> getAllJugadores() {
 		return usuarioRepositorio.findAllJugadores();
 	}
 	
 	@Transactional(readOnly=true)
-	public Collection<Usuario> getAllAdministradores(){
+	public Collection<Usuario> getAllAdministradores() {
 		return usuarioRepositorio.findAllAdministradores();
 	}
 	
