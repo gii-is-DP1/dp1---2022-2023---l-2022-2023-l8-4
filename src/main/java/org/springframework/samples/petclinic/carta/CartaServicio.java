@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.carta;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

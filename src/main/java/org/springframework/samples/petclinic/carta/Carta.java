@@ -1,9 +1,7 @@
 package org.springframework.samples.petclinic.carta;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 import org.springframework.samples.petclinic.model.BaseEntity;
 
 import javax.persistence.Column;
