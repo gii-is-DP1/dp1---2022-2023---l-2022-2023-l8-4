@@ -32,8 +32,6 @@ import lombok.ToString;
 @Setter
 @Entity
 @Table(name = "usuarios")
-@ToString
-@EqualsAndHashCode(callSuper=false)
 public class Usuario extends NamedEntity {
 
 	@Column(name = "contraseña")

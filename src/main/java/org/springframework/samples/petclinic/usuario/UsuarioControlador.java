@@ -47,20 +47,20 @@ public class UsuarioControlador {
 	}
 	
 	@GetMapping("/delete/{id}")
-    public ModelAndView eliminarUsuariosPorId(@PathVariable("id") Long id) {
+    public ModelAndView eliminarUsuariosPorId(@PathVariable("id") Integer id) {
         usuarioServicio.deleteUsuario(id);
         return mostralTodosLosUsuarios();
     }
 	
 	@GetMapping("/edit/{id}")
-    public ModelAndView editRoom(@PathVariable("id") Long id) {
+    public ModelAndView editRoom(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(USUARIO_EDICION);
         result.addObject("usuario", usuarioServicio.mostrarUsuariosPorId(id));
         return result;
     }
 	
     @PostMapping("/edit/{id}")
-    public ModelAndView editRoom(@PathVariable("id") Long id, @Valid Usuario user,BindingResult br) {        
+    public ModelAndView editRoom(@PathVariable("id") Integer id, @Valid Usuario usuario2,BindingResult br) {        
         ModelAndView result=null;
         if(br.hasErrors()) {
             result = new ModelAndView(USUARIO_EDICION);
@@ -68,8 +68,8 @@ public class UsuarioControlador {
         }else {
             Usuario usuario = usuarioServicio.mostrarUsuariosPorId(id);
             if(usuario !=null) {
-                BeanUtils.copyProperties(usuario, user,"id");
-                usuarioServicio.saveUsuario(user);
+                BeanUtils.copyProperties(usuario, usuario2,"id");
+                usuarioServicio.saveUsuario(usuario2);
                 result = mostralTodosLosUsuarios();
                 result.addObject("message", "Usuario creado satisfactoriamente");
                 result = new ModelAndView("Bienvenido");

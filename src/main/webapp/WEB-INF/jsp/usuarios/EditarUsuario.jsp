@@ -8,7 +8,7 @@
     <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#birthDate").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#birthDate").datepicker({dateFormat: 'yyyy/mm/dd'});
             });
         </script>
     </jsp:attribute>
@@ -16,7 +16,7 @@
         <h2>
             Usuarios
         </h2>
-        <form:form modelAttribute="usuario"
+        <form:form modelAttribute="usuarios"
                    class="form-horizontal">
             <input type="hidden" name="id" value="${usuario.id}"/>
             <div class="form-group has-feedback">
@@ -27,7 +27,7 @@
                 <petclinic:inputField label="Usuario ultimoInicioSesion" name="ultimoInicioSesion"/>
                 <petclinic:inputField label="Usuario nombreUsuario" name="nombreUsuario"/>
                 <petclinic:inputField label="Usuario email" name="email"/>
-                <petclinic:checkboxField label="Secure room?" name="secure"/>
+                <petclinic:checkboxField label="Administrador" name="administrador"/>
                 <petclinic:inputField label="Usuario fechaNacimiento" name="fechaNacimiento"/>
                 <petclinic:inputField label="Usuario fotoPerfil" name="fotoPerfil"/>
             </div>

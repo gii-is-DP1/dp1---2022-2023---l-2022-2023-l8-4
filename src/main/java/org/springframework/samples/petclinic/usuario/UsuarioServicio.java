@@ -34,7 +34,7 @@ public class UsuarioServicio {
 	}
 	
 	@Transactional(readOnly = true)
-	public Usuario mostrarUsuariosPorId(Long id) {
+	public Usuario mostrarUsuariosPorId(Integer id) {
 		Optional<Usuario> result= usuarioRepositorio.findById(id);
         return result.isPresent()?result.get():null;
 		
@@ -46,7 +46,7 @@ public class UsuarioServicio {
 	}
 	
 	@Transactional
-	public void deleteUsuario(Long id) throws DataAccessException {
+	public void deleteUsuario(Integer id) throws DataAccessException {
 		usuarioRepositorio.deleteById(id);
 	}
 }

@@ -24,45 +24,45 @@
         </thead>
         <tbody>
         
-        <c:forEach items="${usuarios}" var="usuarios">
+        <c:forEach items="${usuarios}" var="usuario">
             <tr>
                 <td>
-                    <c:out value="${usuarios.name}"/>
+                    <c:out value="${usuario.name}"/>
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.contraseña} "/>                                        
+                      <c:out value="${usuario.contraseña} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.fechaRegistro} "/>                                        
+                      <c:out value="${usuario.fechaRegistro} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.fechaModificacion} "/>                                        
+                      <c:out value="${usuario.fechaModificacion} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.ultimoInicioSesion} "/>                                        
+                      <c:out value="${usuario.ultimoInicioSesion} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.nombreUsuario} "/>                                        
+                      <c:out value="${usuario.nombreUsuario} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.email} "/>                                        
+                      <c:out value="${usuario.email} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.administrador} "/>                                        
+                      <c:out value="${usuario.administrador} "/>                                        
                 </td>
                 <td>                    
-                      <c:out value="${usuarios.fechaNacimiento} "/>                                        
+                      <c:out value="${usuario.fechaNacimiento} "/>                                        
                 </td>
                 <td>                    
-                    <c:if test="${achievement.fotoPerfil == ''}">none</c:if>
-                    <c:if test="${achievement.fotoPerfil != ''}">
-                        <img src="resources/images/${usuarios.fotoPerfil}" width="100px"  /> 
+                    <c:if test="${usuario.fotoPerfil == ''}">none</c:if>
+                    <c:if test="${usuario.fotoPerfil != ''}">
+                        <img src="resources/images/${usuario.fotoPerfil}" width="100px"  /> 
                     </c:if>
                 </td>
                 <td>
 				<a href="/usuarios/edit/${usuario.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 				&nbsp;
-				<a href="/usuarios/delete/${usuario}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<a href="/usuarios/delete/${usuario.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
             </tr>
         </c:forEach>
         </tbody>
