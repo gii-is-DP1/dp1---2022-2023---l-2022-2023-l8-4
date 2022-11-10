@@ -1,3 +1,4 @@
+
 package org.springframework.samples.petclinic.usuario;
 
 import java.time.LocalDate;
@@ -63,17 +64,15 @@ public class Usuario extends NamedEntity {
 	@Email
 	private String email;
 	
-	@Column(name = "es_administrador")
+	@Column(name = "administrador")
 	@NotEmpty
-	private Boolean esAdministrador;
+	private Boolean administrador;
 	
-	@Column(name = "fecha_nacimiento")
-	@NotEmpty
+	@Column(name = "fechaNacimiento")
 	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
-	@NotEmpty
 	private String fotoPerfil;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "creador_id")

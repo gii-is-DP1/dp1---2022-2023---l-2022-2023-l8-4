@@ -45,6 +45,20 @@
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
 				</petclinic:menuItem>
+				
+				<petclinic:menuItem active="${name eq 'usuarios'}" url="/usuarios"
+					title="Usuarios" dropdown="${true}">										
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<c:url value="/usuarios/" />">Listado de Usuarios</a>
+							</li>
+							<li class="divider"></li>
+							<li>								
+								<a href="<c:url value="/usuarios/" />">Mi usuarios <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+
+							</li>
+						</ul>					
+				</petclinic:menuItem>
 
 			</ul>
 

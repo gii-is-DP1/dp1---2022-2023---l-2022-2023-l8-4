@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -43,10 +42,14 @@ public class Partida extends BaseEntity {
 	private Modo modo;
 	
 	@ManyToOne(optional=false)
+	@NotEmpty
 	@JoinColumn(name = "creador_id")
-	private Usuario creadorId;
+	private Usuario creador_id;
 	
 	@ManyToMany
+	@NotEmpty
+	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
+	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private Collection<Usuario> jugadores;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,
@@ -55,4 +58,3 @@ public class Partida extends BaseEntity {
 					CascadeType.REFRESH})
 	private Collection<Carta> cartas;
 }
-
