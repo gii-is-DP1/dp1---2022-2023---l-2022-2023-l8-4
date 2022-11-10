@@ -6,7 +6,6 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -34,16 +33,13 @@ import lombok.ToString;
 public class Partida extends BaseEntity {
 
 	@Column(name = "fecha")
-	@NotEmpty
 	@Temporal(TemporalType.DATE)
 	private Date fecha;
 	
 	@Column(name = "modo")
-	@NotEmpty
 	private Modo modo;
 	
 	@ManyToOne(optional=false)
-	@NotEmpty
 	@JoinColumn(name = "creador_id")
 	private Usuario creadorId;
 	
