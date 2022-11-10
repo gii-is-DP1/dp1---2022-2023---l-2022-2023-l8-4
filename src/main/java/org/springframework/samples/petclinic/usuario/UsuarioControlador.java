@@ -55,7 +55,7 @@ public class UsuarioControlador {
 	@GetMapping("/edit/{id}")
     public ModelAndView editRoom(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(USUARIO_EDICION);
-        result.addObject("usuario", usuarioServicio.mostrarUsuariosPorId(id));
+        result.addObject("usuarios", usuarioServicio.mostrarUsuariosPorId(id));
         return result;
     }
 	

@@ -8,7 +8,9 @@
     <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#birthDate").datepicker({dateFormat: 'yyyy/mm/dd'});
+                $("#fechaRegistro").datepicker({dateFormat: 'yy/mm/dd   '});
+                $("#fechaModificacion").datepicker({dateFormat: 'yy/mm/dd   '});
+                $("#ultimoInicioSesion").datepicker({dateFormat: 'yy/mm/dd   '});
             });
         </script>
     </jsp:attribute>
@@ -35,10 +37,10 @@
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${usuario['create']}">
-                            <button class="btn btn-default" type="submit">Add Usuario</button>
+                            <button class="btn btn-default" type="submit">Update Usuario</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update Usuario</button>
+                            <button class="btn btn-default" type="submit">Add Usuario</button>
                         </c:otherwise>
                     </c:choose>
             	</div>
