@@ -17,8 +17,8 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.petclinic.carta.Carta;
+import org.springframework.samples.petclinic.jugador.Jugador;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.usuario.Usuario;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,16 +42,11 @@ public class Partida extends BaseEntity {
 	@NotEmpty
 	private Modo modo;
 	
-	@ManyToOne(optional=false)
-	@NotEmpty
-	@JoinColumn(name = "creador_id")
-	private Usuario creadorId;
-	
 	@ManyToMany
 	@NotEmpty
 	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
 	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	private Collection<Usuario> jugadores;
+	private Collection<Jugador> jugadores;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,
 					CascadeType.MERGE,
