@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.usuario;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -69,6 +71,7 @@ public class UsuarioControlador {
             Usuario usuario = usuarioServicio.mostrarUsuariosPorId(id);
             if(usuario !=null) {
                 BeanUtils.copyProperties(usuario, usuario2,"id");
+                
                 usuarioServicio.saveUsuario(usuario2);
                 result = mostralTodosLosUsuarios();
                 result.addObject("message", "Usuario creado satisfactoriamente");
@@ -89,7 +92,7 @@ public class UsuarioControlador {
     public ModelAndView createUsuario() {
         ModelAndView result = new ModelAndView(USUARIO_EDICION);
         Usuario usuario = new Usuario();
-        result.addObject("usuarios", usuario);
+        result.addObject("usuario", usuario);
         return result;
         
     }
@@ -102,6 +105,10 @@ public class UsuarioControlador {
             result = new ModelAndView(USUARIO_EDICION);
             result.addAllObjects(br.getModel());
         }else {
+        	usuario.setFechaRegistro(LocalDate.now());
+        	usuario.setFechaModificacion(LocalDate.now());
+        	usuario.setUltimoInicioSesion(LocalDate.now());
+        	
             usuarioServicio.saveUsuario(usuario);
             result = mostralTodosLosUsuarios();
             result.addObject("message", "Usuario creado satisfactoriamente");

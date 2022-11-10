@@ -96,14 +96,14 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
 --Admin
-INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador) VALUES (1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
+INSERT INTO usuarios(id,name,contrasena,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador) VALUES (1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
 (2, 'Fernando', '123', '2022-01-01','2022-01-01', '2022-01-01', 'moffon', 'fermatgom@alum.us.es', TRUE),
 (3, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'zarzu', 'carzarrei@alum.us.es', TRUE),
 (4, 'Dani', '123', '2022-01-01','2022-01-01', '2022-01-01', 'danigal', 'dangalmar@alum.us.es', TRUE),
 (5, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'salsero', 'pedgonmar2@alum.us.es', TRUE),
 (6, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'ruz', 'pedlopruz@alum.us.es', TRUE);
 --Jugadores
-INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) VALUES (7, 'Fausto', '123', '2022-01-01','2022-01-01', '2022-10-01', 'megagamer', 'fausto@gmail.com', FALSE, '2001-01-01', ''),
+INSERT INTO usuarios(id,name,contrasena,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) VALUES (7, 'Fausto', '123', '2022-01-01','2022-01-01', '2022-10-01', 'megagamer', 'fausto@gmail.com', FALSE, '2001-01-01', ''),
 (8, 'Rocio', '123', '2022-02-02','2022-02-03', '2022-10-01', 'rukisro', 'rukisro@gmail.com', FALSE, '1992-01-01', ''),
 (9, 'Sergio', 'paloma123', '2022-02-02','2022-02-03', '2022-10-01', 'darkPalomoLord', 'sergio@gmail.com', FALSE, '1975-01-01', ''),
 (10, 'Rocio', 'islacanelaexiste', '2022-02-02','2022-02-02', '2022-10-01', 'rocioalbe', 'rocioalberca@gmail.com', FALSE, '2002-01-01', ''),

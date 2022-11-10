@@ -30,7 +30,7 @@
                     <c:out value="${usuario.name}"/>
                 </td>
                 <td>                    
-                      <c:out value="${usuario.contraseña} "/>                                        
+                      <c:out value="${usuario.contrasena} "/>                                        
                 </td>
                 <td>                    
                       <c:out value="${usuario.fechaRegistro} "/>                                        

@@ -18,6 +18,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.NamedEntity;
@@ -34,24 +35,24 @@ import lombok.ToString;
 @Table(name = "usuarios")
 public class Usuario extends NamedEntity {
 
-	@Column(name = "contraseña")
+	@Column(name = "contrasena")
 	@NotEmpty
-	private String contraseña;
+	private String contrasena;
 	
 	@Column(name = "fecha_registro")
-	@NotEmpty
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaRegistro;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fechaRegistro;
 	
 	@Column(name = "fecha_modificacion")
-	@NotEmpty
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date fechaModificacion;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fechaModificacion;
 	
 	@Column(name = "ultimo_inicio_sesion")
-	@NotEmpty
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date ultimoInicioSesion;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate ultimoInicioSesion;
 	
 	@Column(name = "nombre_usuario")
 	@NotEmpty
@@ -63,12 +64,12 @@ public class Usuario extends NamedEntity {
 	private String email;
 	
 	@Column(name = "administrador")
-	@NotEmpty
+	@NotNull
 	private Boolean administrador;
 	
 	@Column(name = "fechaNacimiento")
-	@Temporal(TemporalType.DATE)
-	private Date fechaNacimiento;
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	private LocalDate fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
 	private String fotoPerfil;
