@@ -52,7 +52,4 @@ class PartidaServicioTest {
 		assertEquals(partida.getId(), actual.getId(), "No es la misma partida");
 		assertEquals(usuario.getNombreUsuario(), actual.getCreadorPartida().getNombreUsuario(), "Los nombres de usuario no coinciden");
 	}
-	
-	
-
 }

@@ -33,7 +33,7 @@ public class PartidaServicio {
 		return this.partidaRepositorio.findById(id).orElse(null);
 	}
 	
-	@Transactional
+	@Transactional(rollbackFor = Exception.class)
 	public void savePartida(Partida partida) throws DataAccessException, Exception {
 		Optional<Usuario> usuario = this.usuarioRepositorio.findById(partida.getCreadorPartida().getId());
 		if (usuario.isEmpty()) {
