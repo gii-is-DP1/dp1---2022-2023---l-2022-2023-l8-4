@@ -97,7 +97,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04',
 
 
 --Admin
-INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador) VALUES (1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
+INSERT INTO usuarios(id,name,contraseña,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,es_administrador) VALUES (1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
 (2, 'Fernando', '123', '2022-01-01','2022-01-01', '2022-01-01', 'moffon', 'fermatgom@alum.us.es', TRUE),
 (3, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'zarzu', 'carzarrei@alum.us.es', TRUE),
 (4, 'Dani', '123', '2022-01-01','2022-01-01', '2022-01-01', 'danigal', 'dangalmar@alum.us.es', TRUE),
