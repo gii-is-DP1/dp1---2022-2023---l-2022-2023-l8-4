@@ -55,16 +55,16 @@ public class Usuario extends NamedEntity {
 	@Email
 	private String email;
 	
-	@Column(name = "es_administrador", nullable = false)
-	private boolean esAdministrador;
+	@Column(name = "administrador")
+	@NotEmpty
+	private Boolean administrador;
 	
 	@Column(name = "fecha_nacimiento")
 	@Temporal(TemporalType.DATE)
 	private Date fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
-	@NotEmpty
-	private String fotoPerfil;
+	private String foto_perfil;
 	
 	@OneToMany(mappedBy = "creadorPartida")
 	private Collection<Partida> partidasCreadas;

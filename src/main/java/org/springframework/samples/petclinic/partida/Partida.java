@@ -38,10 +38,14 @@ public class Partida extends BaseEntity {
 	private Modo modo;
 	
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "jugador_creador_id")
-	private Usuario creadorPartida;
+	@NotEmpty
+	@JoinColumn(name = "creador_id")
+	private Usuario creadorId;
 	
 	@ManyToMany
+	@NotEmpty
+	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
+	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private Collection<Usuario> jugadores;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,
