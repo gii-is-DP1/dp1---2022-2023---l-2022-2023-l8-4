@@ -18,8 +18,8 @@ public class PartidaServicio {
 	}
 	
 	@Transactional(readOnly = true)
-	public List<Partida> getPartidas() throws DataAccessException {
-		return this.partidaRepositorio.findAll();
+	public List<Partida> getPartidasPorFechaDesc() throws DataAccessException {
+		return this.partidaRepositorio.findPartidasByOrderByFechaDesc();
 	}
 	
 	@Transactional(readOnly = true)

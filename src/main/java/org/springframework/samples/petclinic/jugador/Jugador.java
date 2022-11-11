@@ -65,10 +65,6 @@ public class Jugador extends BaseEntity {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@ManyToMany(fetch = FetchType.EAGER,
-				mappedBy="jugadores")
-	private Collection<Partida> partidas_jugadas;
-	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="jugadores")
 	private Collection<Partida> partidasJugadas;	
 }

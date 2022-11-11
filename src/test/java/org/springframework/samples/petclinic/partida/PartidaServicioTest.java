@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.partida;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
@@ -40,9 +41,9 @@ public class PartidaServicioTest {
 		Optional<Partida> partidaEsperada = Optional.of(partida);
 		
 		Optional<Partida> partidaObtenida = this.partidaRepositorio.findById(partidaId);
-		assertEquals(partidaEsperada.get().getId(), partidaObtenida.get().getId(), "La partida no coincide");
-		assertEquals(partidaEsperada.get().getFecha(), partidaObtenida.get().getFecha(), "La partida no coincide");
-		assertEquals(partidaEsperada.get().getModo(), partidaObtenida.get().getModo(), "La partida no coincide");
+		assertEquals(partidaEsperada.get().getId(), partidaObtenida.get().getId(), "El id de la partida no coincide");
+		assertEquals(partidaEsperada.get().getFecha(), partidaObtenida.get().getFecha(), "La fecha de la partida no coincide");
+		assertEquals(partidaEsperada.get().getModo(), partidaObtenida.get().getModo(), "El modo partida no coincide");
 
 	}
 	
@@ -70,5 +71,11 @@ public class PartidaServicioTest {
 		Partida partidaObtenida = this.partidaRepositorio.findById(partidaId).get();
 		assertEquals(partidaEsperada, partidaObtenida);	
 	}
-
+	
+	@Test
+	void debeBuscarPartidasOrderDescendente() {
+	
+		List<Partida> partidas = this.partidaRepositorio.findPartidasByOrderByFechaDesc();
+		assertTrue(true);
+	}
 }

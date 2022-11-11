@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PartidaRepositorio extends CrudRepository<Partida, Integer> {
 	
-	List<Partida> findAll();
+	List<Partida> findPartidasByOrderByFechaDesc();
 	Optional<Partida> findById(int id);
 }

@@ -36,6 +36,7 @@ public class Partida extends BaseEntity {
 	private LocalDate fecha;
 	
 	@Column(name = "modo")
+	@NotNull
 	private Modo modo;
 	
 	@ManyToMany
