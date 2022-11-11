@@ -2,24 +2,21 @@ package org.springframework.samples.petclinic.jugador;
 
 import java.time.LocalDate; 
 import java.util.Collection;
-import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.model.NamedEntity;
 import org.springframework.samples.petclinic.partida.Partida;
 import org.springframework.samples.petclinic.user.User;
 

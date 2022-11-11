@@ -1,7 +1,5 @@
 package org.springframework.samples.petclinic.jugador;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 import javax.validation.Valid;
 

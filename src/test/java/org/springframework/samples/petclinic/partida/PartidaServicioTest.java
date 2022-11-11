@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.partida;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -12,7 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.samples.petclinic.usuario.Usuario;
+import org.springframework.samples.petclinic.jugador.Jugador;
 
 @DataJpaTest
 public class PartidaServicioTest {
@@ -20,18 +19,15 @@ public class PartidaServicioTest {
 	@Autowired
 	private PartidaRepositorio partidaRepositorio;
 	
-	private Collection<Usuario> jugadores;
+	private Collection<Jugador> jugadores;
 	
 	@BeforeEach
 	void setup() {
-		Usuario usuario1 = new Usuario();
-		usuario1.setId(7);
-		Usuario usuario2 = new Usuario();
-		usuario2.setId(8);
-		Usuario usuario3 = new Usuario();
-		usuario3.setId(9);
+		Jugador player1 = new Jugador();
+		Jugador player2 = new Jugador();
+		Jugador player3 = new Jugador();
 		
-		this.jugadores = List.of(usuario1, usuario2, usuario3);
+		this.jugadores = List.of(player1, player2, player3);
 	}
 	
 	@Test
@@ -40,7 +36,7 @@ public class PartidaServicioTest {
 		Partida partida = new Partida();
 		partida.setId(partidaId);
 		partida.setModo(Modo.ESTANDAR);
-		partida.setFecha(Date.valueOf(LocalDate.of(2022, 11, 4)));
+		partida.setFecha(LocalDate.of(2022, 11, 4));
 		Optional<Partida> partidaEsperada = Optional.of(partida);
 		
 		Optional<Partida> partidaObtenida = this.partidaRepositorio.findById(partidaId);
@@ -63,9 +59,9 @@ public class PartidaServicioTest {
 		Partida partidaEsperada = new Partida();
 		int partidaId = 6;
 		partidaEsperada.setId(partidaId);
-		partidaEsperada.setFecha(Date.valueOf(LocalDate.now()));
+		partidaEsperada.setFecha(LocalDate.now());
 		partidaEsperada.setModo(Modo.EL_FOSO);
-		partidaEsperada.setJugadores(jugadores);
+		partidaEsperada.setJugadores(this.jugadores);
 		this.partidaRepositorio.save(partidaEsperada);
 		assertEquals(partidaEsperada, this.partidaRepositorio.findById(partidaId));	
 	}

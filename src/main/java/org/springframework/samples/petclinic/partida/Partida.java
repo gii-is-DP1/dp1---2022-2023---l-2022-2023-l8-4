@@ -1,9 +1,8 @@
 package org.springframework.samples.petclinic.partida;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Collection;
 
-import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,10 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.carta.Carta;
 import org.springframework.samples.petclinic.jugador.Jugador;
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -33,9 +31,10 @@ import lombok.ToString;
 public class Partida extends BaseEntity {
 
 	@Column(name = "fecha")
-	//TODO Cambiar tipo de dato fecha stack overflow
-	@Basic
-	private Date fecha;
+	@NotNull
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate fecha;
+	
 	@Column(name = "modo")
 	private Modo modo;
 	
