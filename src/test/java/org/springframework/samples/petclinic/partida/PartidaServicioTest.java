@@ -1,81 +1,45 @@
 package org.springframework.samples.petclinic.partida;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.jugador.Jugador;
+import org.springframework.stereotype.Service;
 
-@DataJpaTest
+
+@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class PartidaServicioTest {
 	
+
 	@Autowired
-	private PartidaRepositorio partidaRepositorio;
+	private PartidaServicio partidaServicio;
 	
-	private Collection<Jugador> jugadores;
-	
-	@BeforeEach
-	void setup() {
-		Jugador player1 = new Jugador();
-		Jugador player2 = new Jugador();
-		Jugador player3 = new Jugador();
-		
-		this.jugadores = List.of(player1, player2, player3);
-	}
 	
 	@Test
-	void debeBuscarPartidaConIdCorrecto() {
-		int partidaId = 1;
-		Partida partida = new Partida();
-		partida.setId(partidaId);
-		partida.setModo(Modo.ESTANDAR);
-		partida.setFecha(LocalDate.of(2022, 11, 4));
-		Optional<Partida> partidaEsperada = Optional.of(partida);
-		
-		Optional<Partida> partidaObtenida = this.partidaRepositorio.findById(partidaId);
-		assertEquals(partidaEsperada.get().getId(), partidaObtenida.get().getId(), "El id de la partida no coincide");
-		assertEquals(partidaEsperada.get().getFecha(), partidaObtenida.get().getFecha(), "La fecha de la partida no coincide");
-		assertEquals(partidaEsperada.get().getModo(), partidaObtenida.get().getModo(), "El modo partida no coincide");
+	public void debeBuscarJugadoresPartida(){
+		try {
+			Collection<Jugador> jugadores = this.partidaServicio.getJugadoresPartida(1);
+			List<Jugador> jugadoresPartida = new ArrayList<Jugador>(jugadores);
+			String[] usernameJugadores = {"pgmarc","carbersor"};
 
-	}
-	
-	@Test
-	void noDebeEncontrarPartida() {
-		int partidaId = Integer.MIN_VALUE;
-		Optional<Partida> partidaEsperada = Optional.empty();
-		
-		Optional<Partida> partidaObtenida = this.partidaRepositorio.findById(partidaId);
-		
-		assertEquals(partidaEsperada, partidaObtenida, "El metodo no debe encontrar ninguna partida con ese id");
-	}
-
-	@Test
-	void debeCrearPartida() {
-		
-		Partida partidaEsperada = new Partida();
-		int partidaId = 6;
-		partidaEsperada.setId(partidaId);
-		partidaEsperada.setFecha(LocalDate.now());
-		partidaEsperada.setModo(Modo.EL_FOSO);
-		partidaEsperada.setJugadores(this.jugadores);
-		this.partidaRepositorio.save(partidaEsperada);
-		
-		Partida partidaObtenida = this.partidaRepositorio.findById(partidaId).get();
-		assertEquals(partidaEsperada, partidaObtenida);	
-	}
-	
-	@Test
-	void debeBuscarPartidasOrderDescendente() {
-	
-		List<Partida> partidas = this.partidaRepositorio.findPartidasByOrderByFechaDesc();
-		assertTrue(true);
-	}
+			
+			int numeroJugadoresEsperados = 2;
+			
+			assertEquals(numeroJugadoresEsperados, jugadoresPartida.size());
+			
+			for (int i = 0; i < jugadoresPartida.size(); i++) {
+				assertEquals(usernameJugadores[i], jugadoresPartida.get(i).getUser().getUsername());
+			}
+		} catch (Exception e) {
+			fail();
+		}
+	}	
 }

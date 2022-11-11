@@ -40,6 +40,7 @@ public class Partida extends BaseEntity {
 	private Modo modo;
 	
 	@ManyToMany
+	@ToString.Exclude
 	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
 	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private Collection<Jugador> jugadores;
