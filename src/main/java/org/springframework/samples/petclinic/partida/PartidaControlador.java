@@ -31,14 +31,14 @@ public class PartidaControlador {
 		this.partidaServicio = partidaServicio;
 	}
 	
-	@GetMapping(value = "/new")
+	@GetMapping(value = "/create")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Partida partida = new Partida();
 		model.put("partida", partida);
 		return VISTA_PARTIDA_FORMULARIO_CREACION;
 	}
 
-	@PostMapping(value = "/new")
+	@PostMapping(value = "/create")
 	public String procesarForlulario(@Valid Partida partida, BindingResult result) throws DataAccessException, Exception {
 		if (result.hasErrors()) {
 			return VISTA_PARTIDA_FORMULARIO_CREACION;
