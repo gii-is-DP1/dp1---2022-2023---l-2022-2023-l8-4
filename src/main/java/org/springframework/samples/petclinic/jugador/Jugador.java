@@ -4,12 +4,9 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -75,4 +72,6 @@ public class Jugador extends BaseEntity {
 				mappedBy="jugadores")
 	private Collection<Partida> partidas_jugadas;
 	
+	@ManyToMany(fetch = FetchType.EAGER, mappedBy="jugadores")
+	private Collection<Partida> partidasJugadas;	
 }

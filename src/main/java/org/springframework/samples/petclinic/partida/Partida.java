@@ -1,16 +1,15 @@
 package org.springframework.samples.petclinic.partida;
 
+import java.sql.Date;
 import java.util.Collection;
-import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -34,16 +33,13 @@ import lombok.ToString;
 public class Partida extends BaseEntity {
 
 	@Column(name = "fecha")
-	@NotEmpty
-	@Temporal(TemporalType.DATE)
+	//TODO Cambiar tipo de dato fecha stack overflow
+	@Basic
 	private Date fecha;
-	
 	@Column(name = "modo")
-	@NotEmpty
 	private Modo modo;
 	
 	@ManyToMany
-	@NotEmpty
 	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
 	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
 	private Collection<Jugador> jugadores;

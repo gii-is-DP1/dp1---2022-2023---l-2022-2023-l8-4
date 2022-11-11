@@ -126,11 +126,6 @@ INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES
 (5,3),
 (5,1);
 
-
-
-
-
-
 -- Creating deck of cards
 INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
 (1, 'CANGURO ORCA PEREZOSO TORTUGA CARACOL GALLINA CANGREJO PINGUINO'),
