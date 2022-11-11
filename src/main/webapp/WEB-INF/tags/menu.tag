@@ -59,6 +59,19 @@
 							</li>
 						</ul>					
 				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
+					title="Achievements" dropdown="${true}">										
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<c:url value="/statistics/achievements/" />">Achievements listing</a>
+							</li>
+							<li class="divider"></li>
+							<li>								
+								<a href="<c:url value="/statistics/achievements/" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+
+							</li>
+						</ul>					
+				</petclinic:menuItem>
 
 			</ul>
 

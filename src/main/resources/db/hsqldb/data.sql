@@ -132,6 +132,10 @@ INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES (1,14),
 (5,9),
 (5,10);
 
+INSERT INTO achievement(id,name,description,threshold,badge_image) 
+                VALUES (1,'Viciado','Si juegas <THRESHOLD> partidas o mas, consideramos que ya estás enganchado.',10.0,'https://bit.ly/certifiedGamer'),
+                        (2,'Triunfador','Si ganas <THRESHOLD> partidas o mas, es que eres todo un triunfador.',20.0,'https://bit.ly/proGamer');
+
 -- Creating deck of cards
 INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
 (1, 'CANGURO ORCA PEREZOSO TORTUGA CARACOL GALLINA CANGREJO PINGUINO'),
