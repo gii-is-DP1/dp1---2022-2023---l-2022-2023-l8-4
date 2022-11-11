@@ -40,7 +40,10 @@ public class PartidaServicioTest {
 		Optional<Partida> partidaEsperada = Optional.of(partida);
 		
 		Optional<Partida> partidaObtenida = this.partidaRepositorio.findById(partidaId);
-		assertEquals(partidaEsperada, partidaObtenida, "La partida no coincide");
+		assertEquals(partidaEsperada.get().getId(), partidaObtenida.get().getId(), "La partida no coincide");
+		assertEquals(partidaEsperada.get().getFecha(), partidaObtenida.get().getFecha(), "La partida no coincide");
+		assertEquals(partidaEsperada.get().getModo(), partidaObtenida.get().getModo(), "La partida no coincide");
+
 	}
 	
 	@Test
@@ -63,7 +66,9 @@ public class PartidaServicioTest {
 		partidaEsperada.setModo(Modo.EL_FOSO);
 		partidaEsperada.setJugadores(this.jugadores);
 		this.partidaRepositorio.save(partidaEsperada);
-		assertEquals(partidaEsperada, this.partidaRepositorio.findById(partidaId));	
+		
+		Partida partidaObtenida = this.partidaRepositorio.findById(partidaId).get();
+		assertEquals(partidaEsperada, partidaObtenida);	
 	}
 
 }
