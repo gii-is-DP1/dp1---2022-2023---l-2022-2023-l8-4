@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.partida;
+package org.springframework.samples.petclinic.game;
 
 import java.util.Collection;
 import java.util.Date;
@@ -16,9 +16,9 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.petclinic.carta.Carta;
-import org.springframework.samples.petclinic.jugador.Jugador;
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.player.Player;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,30 +28,30 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(name = "partidas")
+@Table(name = "games")
 @ToString
 @EqualsAndHashCode(callSuper=false)
-public class Partida extends BaseEntity {
+public class Game extends BaseEntity {
 
-	@Column(name = "fecha")
+	@Column(name = "date")
 	@NotEmpty
 	@Temporal(TemporalType.DATE)
-	private Date fecha;
+	private Date date;
 	
-	@Column(name = "modo")
+	@Column(name = "game_mode")
 	@NotEmpty
-	private Modo modo;
+	private GameMode gameMode;
 	
 	@ManyToMany
 	@NotEmpty
-	@JoinTable(name = "jugadores_partidas", joinColumns = @JoinColumn(name = "partida_id"),
-	inverseJoinColumns = @JoinColumn(name = "jugador_id"))
-	private Collection<Jugador> jugadores;
+	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "game_id"),
+	inverseJoinColumns = @JoinColumn(name = "player_id"))
+	private Collection<Player> players;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,
 					CascadeType.MERGE,
 					CascadeType.DETACH,
 					CascadeType.REFRESH})
-	private Collection<Carta> cartas;
+	private Collection<Card> cards;
 }
 

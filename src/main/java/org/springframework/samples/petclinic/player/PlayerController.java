@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.jugador;
+package org.springframework.samples.petclinic.player;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -16,56 +16,56 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/jugadores")
-public class JugadorControlador {
+@RequestMapping("/players")
+public class PlayerController {
 	
-	private JugadorServicio jugadorServicio;
-	public static final String jugador_LISTADO = "jugadores/jugadorListado";
-    public static final String jugador_EDICION = "jugadores/editarJugador";
+	private PlayerService playerService;
+	public static final String player_listing = "players/playerList";
+    public static final String player_editing = "players/editPlayer";
 	
 	@Autowired
-	public JugadorControlador(JugadorServicio jugadorServicio) {
-		this.jugadorServicio = jugadorServicio;
+	public PlayerController(PlayerService playerService) {
+		this.playerService = playerService;
 	}
 	
 	@GetMapping("")
-    public ModelAndView mostrarTodosLosjugadores() {
-        ModelAndView result = new ModelAndView(jugador_LISTADO);
-        result.addObject("jugadores", jugadorServicio.getAllJugadores());
+    public ModelAndView showAllPlayers() {
+        ModelAndView result = new ModelAndView(player_listing);
+        result.addObject("players", playerService.getAllPlayers());
         return result;
 	}
 	
 	@GetMapping("/delete/{id}")
-    public ModelAndView eliminarjugadoresPorId(@PathVariable("id") Integer id) {
-        jugadorServicio.deleteJugador(id);
-        return mostrarTodosLosjugadores();
+    public ModelAndView deletePlayersById(@PathVariable("id") Integer id) {
+		playerService.deletePlayer(id);
+        return showAllPlayers();
     }
 	
 	@GetMapping("/edit/{id}")
     public ModelAndView editJugador(@PathVariable("id") Integer id) {
-        ModelAndView result = new ModelAndView(jugador_EDICION);
-        result.addObject("jugadores", jugadorServicio.mostrarJugadoresPorId(id));
+        ModelAndView result = new ModelAndView(player_editing);
+        result.addObject("jugadores", playerService.showPlayersById(id));
         return result;
     }
 	
     @PostMapping("/edit/{id}")
-    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Jugador jugador2,BindingResult br) {        
+    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player jugador2,BindingResult br) {        
         ModelAndView result=null;
         if(br.hasErrors()) {
-            result = new ModelAndView(jugador_EDICION);
+            result = new ModelAndView(player_editing);
             result.addAllObjects(br.getModel());
         }else {
-            Jugador jugador = jugadorServicio.mostrarJugadoresPorId(id);
+            Player jugador = playerService.showPlayersById(id);
             if(jugador !=null) {
                 BeanUtils.copyProperties(jugador, jugador2,"id");
                 
-                jugadorServicio.saveJugador(jugador2);
-                result = mostrarTodosLosjugadores();
+                playerService.savePlayer(jugador2);
+                result = showAllPlayers();
                 result.addObject("message", "Jugador editado satisfactoriamente");
                 result = new ModelAndView("Bienvenido");
                
             }else {
-                result = mostrarTodosLosjugadores();
+                result = showAllPlayers();
                 result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
             }
            
@@ -77,8 +77,8 @@ public class JugadorControlador {
     
     @GetMapping("/create")
     public ModelAndView createJugador() {
-        ModelAndView result = new ModelAndView(jugador_EDICION);
-        Jugador jugador = new Jugador();
+        ModelAndView result = new ModelAndView(player_editing);
+        Player jugador = new Player();
         result.addObject("jugador", jugador);
         return result;
         
@@ -86,14 +86,14 @@ public class JugadorControlador {
     
     
     @PostMapping("/create")
-    public ModelAndView saveNewJugador(@Valid Jugador jugador,BindingResult br) {
+    public ModelAndView saveNewJugador(@Valid Player player,BindingResult br) {
         ModelAndView result=null;
         if(br.hasErrors()) {
-            result = new ModelAndView(jugador_EDICION);
+            result = new ModelAndView(player_editing);
             result.addAllObjects(br.getModel());
         }else {
-            jugadorServicio.saveJugador(jugador);
-            result = mostrarTodosLosjugadores();
+            playerService.savePlayer(player);
+            result = showAllPlayers();
             result.addObject("message", "Jugador creado satisfactoriamente");
             result = new ModelAndView("Bienvenido");
             

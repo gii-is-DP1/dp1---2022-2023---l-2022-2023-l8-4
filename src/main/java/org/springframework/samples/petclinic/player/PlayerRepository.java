@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.jugador;
+package org.springframework.samples.petclinic.player;
 
 import java.util.Collection;
 
@@ -7,9 +7,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface JugadorRepositorio extends CrudRepository<Jugador,Integer> {
+public interface PlayerRepository extends CrudRepository<Player,Integer> {
 	
-	public Collection<Jugador> findAll();
+	public Collection<Player> findAll();
 
-	Jugador save(Jugador usuario);
+	Player save(Player usuario);
 }

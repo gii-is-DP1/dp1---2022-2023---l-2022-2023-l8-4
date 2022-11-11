@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.carta;
+package org.springframework.samples.petclinic.card;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -7,19 +7,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CartaServicio {
+public class CardService {
 
-    private CartaRepositorio cr;
+    private CardRepository cr;
 
     @Autowired
-    public CartaServicio( CartaRepositorio cr)
+    public CardService( CardRepository cr)
     {
         this.cr = cr;
     }
 
-    public List<Carta> getBaraja()
+    public List<Card> getDeck()
     {
-        return cr.getCartas();
+        return cr.getCards();
     }
 
 }

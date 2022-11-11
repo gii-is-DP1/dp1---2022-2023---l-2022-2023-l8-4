@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="jugadores">
+<petclinic:layout pageName="players">
     <jsp:attribute name="customScript">
         <script>
             $(function () {
@@ -14,32 +14,33 @@
     </jsp:attribute>
     <jsp:body>
         <h2>
-            <c:if test="${jugador['new']}">Nuevo </c:if> Jugador
+            <c:if test="${jugador['new']}">New </c:if> Player
         </h2>
-        <form:form modelAttribute="jugador"
+        <form:form modelAttribute="player"
                    class="form-horizontal">
-            <input type="hidden" name="id" value="${jugador.id}"/>
+            <input type="hidden" name="id" value="${player.id}"/>
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Username" name="user.username"/>
                 <petclinic:inputField label="Contraseña" name="user.password"/>
                 <petclinic:inputField label="email" name="email"/>
-                <petclinic:inputField label="fechaNacimiento" name="fechaNacimiento"/>
-                <petclinic:inputField label="fotoPerfil" name="fotoPerfil"/>
+                <petclinic:inputField label="birthDate" name="birthDate
+                "/>
+                <petclinic:inputField label="profilePicture" name="profilePicture"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
-                        <c:when test="${jugador['new']}">
-                            <button class="btn btn-default" type="submit">Add Jugador</button>
+                        <c:when test="${player['new']}">
+                            <button class="btn btn-default" type="submit">Add Player</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update Jugador</button>
+                            <button class="btn btn-default" type="submit">Update Player</button>
                         </c:otherwise>
                     </c:choose>
             	</div>
             </div>
         </form:form>
-        <c:if test="${!jugador['new']}">
+        <c:if test="${!player['new']}">
         </c:if>
     </jsp:body>
 </petclinic:layout>
