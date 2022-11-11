@@ -15,11 +15,16 @@
  */
 package org.springframework.samples.petclinic.user;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.jugador.Jugador;
+import org.springframework.samples.petclinic.jugador.JugadorServicio;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
 import org.springframework.stereotype.Controller;
@@ -28,6 +33,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * @author Juergen Hoeller
@@ -38,13 +44,16 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/createOwnerForm";
+	private static final String VIEWS_OWNER_CREATE_FORM = "users/crearJugador";
 
-	private final OwnerService ownerService;
+	private final JugadorServicio jugadorServicio;
+
+	private final UserService userService;
 
 	@Autowired
-	public UserController(OwnerService clinicService) {
-		this.ownerService = clinicService;
+	public UserController(JugadorServicio clinicService, UserService userService) {
+		this.jugadorServicio = clinicService;
+		this.userService = userService;
 	}
 
 	@InitBinder
@@ -52,21 +61,38 @@ public class UserController {
 		dataBinder.setDisallowedFields("id");
 	}
 
+	@GetMapping(value = { "/admin/all" })
+	public String showUserList(Map<String, Object> model) {
+		Collection<User> users = new ArrayList<User>();
+		users.addAll(this.userService.getAllAdmins());
+		model.put("users", users);
+		return "users/userList";
+	}
+	
+	@GetMapping(value = { "/users.xml"})
+	public @ResponseBody Collection<User> showResourcesUserList() {
+		// Here we are returning an object of type 'Vets' rather than a collection of Vet
+		// objects
+		// so it is simpler for JSon/Object mapping
+		Collection<User> users = new ArrayList<User>();
+		users.addAll(this.userService.getAllAdmins());
+		return users;
+	}
+
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Owner owner = new Owner();
-		model.put("owner", owner);
+		Jugador jugador = new Jugador();
+		model.put("jugador", jugador);
 		return VIEWS_OWNER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Owner owner, BindingResult result) {
+	public String processCreationForm(@Valid Jugador jugador, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_FORM;
-		}
-		else {
-			//creating owner, user, and authority
-			this.ownerService.saveOwner(owner);
+		} else {
+			// creating owner, user, and authority
+			this.jugadorServicio.saveJugador(jugador);
 			return "redirect:/";
 		}
 	}

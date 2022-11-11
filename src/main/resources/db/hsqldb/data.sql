@@ -10,19 +10,19 @@ INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
 
 
 INSERT INTO users(username,password,enabled) VALUES ('pgmarc','p4gmarc', TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (4,'pgmarc','owner');
+INSERT INTO authorities(id,username,authority) VALUES (4,'pgmarc','admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('carbersor','123', TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (5,'carbersor','owner');
+INSERT INTO authorities(id,username,authority) VALUES (5,'carbersor','admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('fermatgom','admin1234', TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (6,'fermatgom','owner');
+INSERT INTO authorities(id,username,authority) VALUES (6,'fermatgom','admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('pedlopruz','pedlopruz2002', TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (7,'pedlopruz','owner');
+INSERT INTO authorities(id,username,authority) VALUES (7,'pedlopruz','admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('carzarrei','chocolate', TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'carzarrei','owner');
+INSERT INTO authorities(id,username,authority) VALUES (8,'carzarrei','admin');
 
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
@@ -64,7 +64,7 @@ INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Wa
 INSERT INTO owners VALUES (11, 'Pedro', 'Gonzalez', 'C. Gomez de la Lama', 'Camas', '684000708', 'pgmarc');
 INSERT INTO owners VALUES (12, 'Carlos', 'Bermejo', 'C. Juan de Mariana', 'Sevilla', '638026321', 'carbersor');
 INSERT INTO owners VALUES (13, 'Fernando José', 'Mateos Gómez', 'C. España', 'Sevilla', '618587795', 'fermatgom');
-INSERT INTO owners VALUES (14, 'Pedro', 'Lopez Ruz', 'C. Las Prietas', 'Montilla', '693776919', 'owner1');
+INSERT INTO owners VALUES (14, 'Pedro', 'Lopez Ruz', 'C. Las Prietas', 'Montilla', '693776919', 'pedlopruz');
 INSERT INTO owners VALUES (15, 'Carlos', 'Zarzuela Reina', 'C. Condesa', 'Sevilla', '601060413', 'carzarrei');
 
 
@@ -96,48 +96,35 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2022-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04', 'spayed');
 
 
---Admin
-INSERT INTO usuarios(id,name,contrasena,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador) VALUES (1, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'carlinho', 'carbersor@alum.us.es', TRUE),
-(2, 'Fernando', '123', '2022-01-01','2022-01-01', '2022-01-01', 'moffon', 'fermatgom@alum.us.es', TRUE),
-(3, 'Carlos', '123', '2022-01-01','2022-01-01', '2022-01-01', 'zarzu', 'carzarrei@alum.us.es', TRUE),
-(4, 'Dani', '123', '2022-01-01','2022-01-01', '2022-01-01', 'danigal', 'dangalmar@alum.us.es', TRUE),
-(5, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'salsero', 'pedgonmar2@alum.us.es', TRUE),
-(6, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'ruz', 'pedlopruz@alum.us.es', TRUE);
 --Jugadores
-INSERT INTO usuarios(id,name,contrasena,
-fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) 
-VALUES 
-(7, 'Fausto', '123', '2022-01-01','2022-01-01', '2022-10-01', 'megagamer', 'fausto@gmail.com', FALSE, '2001-01-01', ''),
-(8, 'Rocio', '123', '2022-02-02','2022-02-03', '2022-10-01', 'rukisro', 'rukisro@gmail.com', FALSE, '1992-01-01', ''),
-(9, 'Sergio', 'paloma123', '2022-02-02','2022-02-03', '2022-10-01', 'darkPalomoLord', 'sergio@gmail.com', FALSE, '1975-01-01', ''),
-(10, 'Rocio', 'islacanelaexiste', '2022-02-02','2022-02-02', '2022-10-01', 'rocioalbe', 'rocioalberca@gmail.com', FALSE, '2002-01-01', ''),
-(11, 'Vicky', 'dfsfg2', '2022-04-01','2022-01-01', '2022-10-01', 'gamer3', 'vic@gmail.com', FALSE, '2000-01-01', ''),
-(12, 'Mateo', 'fsdh', '2022-03-01','2022-01-01', '2022-11-01', 'mateoro', 'mat@gmail.com', FALSE, '2001-01-01', ''),
-(13, 'Alba', 'olaola', '2022-02-01','2022-01-01', '2022-11-01', 'Astra', 'astraestrellada@gmail.com', FALSE, '2002-01-01', ''),
-(14, 'Pablo', 'guayamba', '2022-05-01','2022-01-01', '2022-11-01', 'gananzoide', 'pablopablo@gmail.com', FALSE, '2004-01-01', ''),
-(15, 'Manuel', 'bhgvfv', '2022-03-07','2022-01-01', '2022-11-01', 'soymartinez', 'manruiz@gmail.com', FALSE, '2002-01-01', ''),
-(16, 'Gabbro', 'AQuietShade', '2022-02-10','2022-01-01', '2022-11-01', 'hearthian1', 'gaventures@gmail.com', FALSE, '2019-01-01', ''),
-(17, 'Alberto', 'HIJODELSOL', '2022-02-01','2022-01-01', '2022-11-01', 'misterjagger', 'jagger@gmail.com', FALSE, '1996-01-01', '');
--- Partidas
-INSERT INTO partidas(id,fecha,modo,creador_id) VALUES 
-(1, '2022-11-04', 0, 13),
-(2, '2022-11-04', 0, 13),
-(3, '2022-11-06', 1, 14),
-(4, '2022-11-09', 0, 17),
-(5, '2022-11-10', 2, 7);
-INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES 
-(1,14),
-(2,14),
-(3,13),
-(3,17),
-(3,15),
-(3,12),
-(4,15),
-(4,16),
-(5,8),
-(5,9),
-(5,10);
+INSERT INTO jugadores(id,username,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,email,fecha_nacimiento,foto_perfil) VALUES 
+(1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', ''),
+(2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', ''),
+(3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', ''),
+(4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', ''),
+(5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
 
+-- Partidas
+INSERT INTO partidas(id,fecha,modo) VALUES 
+(1, '2022-11-04', 0),
+(2, '2022-11-04', 0),
+(3, '2022-11-06', 1),
+(4, '2022-11-09', 0),
+(5, '2022-11-10', 2);
+INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES 
+(1,1),
+(1,2),
+(2,2),
+(2,3),
+(3,3),
+(3,2),
+(3,1),
+(3,5),
+(4,4),
+(4,2),
+(5,5),
+(5,3),
+(5,1);
 
 -- Creating deck of cards
 INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
