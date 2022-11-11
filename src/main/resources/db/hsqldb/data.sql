@@ -104,10 +104,10 @@ INSERT INTO usuarios(id,name,contrasena,fecha_registro,fecha_modificacion,ultimo
 (4, 'Dani', '123', '2022-01-01','2022-01-01', '2022-01-01', 'danigal', 'dangalmar@alum.us.es', TRUE),
 (5, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'salsero', 'pedgonmar2@alum.us.es', TRUE),
 (6, 'Pedro', '123', '2022-01-01','2022-01-01', '2022-01-01', 'ruz', 'pedlopruz@alum.us.es', TRUE);
+
 --Jugadores
-INSERT INTO usuarios(id,name,contrasena,
-fecha_registro,fecha_modificacion,ultimo_inicio_sesion,nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) 
-VALUES 
+INSERT INTO usuarios(id,name,contrasena,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,
+nombre_usuario,email,administrador,fecha_nacimiento,foto_perfil) VALUES 
 (7, 'Fausto', '123', '2022-01-01','2022-01-01', '2022-10-01', 'megagamer', 'fausto@gmail.com', FALSE, '2001-01-01', ''),
 (8, 'Rocio', '123', '2022-02-02','2022-02-03', '2022-10-01', 'rukisro', 'rukisro@gmail.com', FALSE, '1992-01-01', ''),
 (9, 'Sergio', 'paloma123', '2022-02-02','2022-02-03', '2022-10-01', 'darkPalomoLord', 'sergio@gmail.com', FALSE, '1975-01-01', ''),
@@ -120,12 +120,12 @@ VALUES
 (16, 'Gabbro', 'AQuietShade', '2022-02-10','2022-01-01', '2022-11-01', 'hearthian1', 'gaventures@gmail.com', FALSE, '2019-01-01', ''),
 (17, 'Alberto', 'HIJODELSOL', '2022-02-01','2022-01-01', '2022-11-01', 'misterjagger', 'jagger@gmail.com', FALSE, '1996-01-01', '');
 -- Partidas
-INSERT INTO partidas(id,fecha,modo,creador_id) VALUES 
-(1, '2022-11-04', 0, 13),
-(2, '2022-11-04', 0, 13),
-(3, '2022-11-06', 1, 14),
-(4, '2022-11-09', 0, 17),
-(5, '2022-11-10', 2, 7);
+INSERT INTO partidas(id,fecha,modo) VALUES 
+(1, '2022-11-04', 0),
+(2, '2022-11-04', 0),
+(3, '2022-11-06', 1),
+(4, '2022-11-09', 0),
+(5, '2022-11-10', 2);
 INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES 
 (1,14),
 (2,14),
@@ -138,7 +138,6 @@ INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES
 (5,8),
 (5,9),
 (5,10);
-
 
 -- Creating deck of cards
 INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),

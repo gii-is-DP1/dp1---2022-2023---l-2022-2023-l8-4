@@ -7,7 +7,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -63,10 +62,7 @@ public class Usuario extends NamedEntity {
 	private Date fechaNacimiento;
 	
 	@Column(name = "foto_perfil")
-	private String foto_perfil;
-	
-	@OneToMany(mappedBy = "creadorId")
-	private Collection<Partida> partidasCreadas;
+	private String fotoPerfil;
 	
 	@ManyToMany(fetch = FetchType.EAGER, mappedBy="jugadores")
 	private Collection<Partida> partidasJugadas;	

@@ -38,6 +38,11 @@ public class UsuarioService {
 		return this.usuarioRepositorio.findById(id).orElse(null);
 	}
 	
+	@Transactional(readOnly=true)
+	public boolean existeUsuarioPorId(int id) {
+		return this.usuarioRepositorio.existsById(id);
+	}
+	
 	@Transactional
 	public void saveUsuario(Usuario usuario) throws DataAccessException {
 		usuarioRepositorio.save(usuario);
