@@ -6,11 +6,11 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<dobble:layout pageName="owners">
+<dobble:layout pageName="games">
 
-	<h2>Partida</h2>
+	<h2>Game</h2>
 
-    <td><b><c:out value="${partida.id}"/></b></td>
+    <td><b><c:out value="${game.id}"/></b></td>
 	
 	
 </dobble:layout>

@@ -6,14 +6,23 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<dobble:layout pageName="owners">
+<dobble:layout pageName="games">
 
-	<h2>Nueva partida</h2>
+	<h2>New game</h2>
 	
-	<form:form modelAttribute="partida" class="form-horizontal" id="add-match-form">
+	<form:form modelAttribute="game" class="form-horizontal" id="add-match-form">
+		<input type="hidden" name="id" value="${game.id}">
 		<div class="form-group has-feedback">
-			<dobble:inputField label="Número jugadores" name=""/>
+			<div class="control-group">
+        		<dobble:selectField label="Game mode" name="gameMode" size = "3" names = "${gameModes}"/>
+        	</div>
 		</div>
+		
+		<div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-default" type="submit">CREATE GAME</button>
+            </div>
+        </div>
     </form:form>
 	
 </dobble:layout>

@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,64 +26,69 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameController;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = PartidaControlador.class,
+@WebMvcTest(controllers = GameController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
-public class PartidaControladorMockedTest {
+public class GameControllerTest {
 	
 	@MockBean
-	private PartidaServicio partidaServicio;
+	private GameService gameService;
 	
 	@Autowired
 	private MockMvc mockMvc;
 	
-	private Integer partidaId = 1;
+	private Integer gameId = 1;
 	
 	@BeforeEach
 	private void setup() {
-		Partida partida=new Partida();
-        partida.setId(partidaId);
-        //Mockito.when(partidaServicio.savePartida(any(Partida.class))).thenReturn(null);
-        Mockito.when(partidaServicio.getPartidaPorId(partidaId)).thenReturn(partida);
-        List<Partida> partidas=new ArrayList<Partida>();
-        partidas.add(partida);
-        Mockito.when(partidaServicio.getPartidas()).thenReturn(partidas);
+		Game game=new Game();
+        game.setId(gameId);
+        Mockito.when(gameService.getGameById(gameId)).thenReturn(game);
+        List<Game> games=new ArrayList<Game>();
+        games.add(game);
+        Mockito.when(gameService.getGames()).thenReturn(games);
 	}
 	
 	@Test
 	void test() throws Exception {
-		debeMostrarPartida();
-		debeMostrarListaPartidas();
-		debeIniciarFormularioPartida();		
+		shouldShowGame();
+		shouldShowGameList();
+		shouldCreateGame();		
 	}
 	
 	
-	void debeMostrarPartida() throws Exception{
-		mockMvc.perform(get("/partidas/"+partidaId))
+	void shouldShowGame() throws Exception{
+		mockMvc.perform(get("/games/"+gameId))
 		.andExpect(status().isOk())
-		.andExpect(view().name("partidas/detallesPartida"))
-		.andExpect(model().attributeExists("partida"))
-		.andExpect(model().attribute("partida", partidaServicio.getPartidaPorId(partidaId)));
+		.andExpect(view().name("games/gameDetails"))
+		.andExpect(model().attributeExists("game"))
+		.andExpect(model().attribute("game", gameService.getGameById(gameId)));
 	}
 	
-	void debeMostrarListaPartidas() throws Exception{
-		mockMvc.perform(get("/partidas/"))
+	void shouldShowGameList() throws Exception{
+		mockMvc.perform(get("/games/"))
 		.andExpect(status().isOk())
-		.andExpect(view().name("partidas/listaPartidas"))
-		.andExpect(model().attributeExists("partidas"))
-		.andExpect(model().attribute("partidas", partidaServicio.getPartidas()));
+		.andExpect(view().name("games/listGames"))
+		.andExpect(model().attributeExists("games"))
+		.andExpect(model().attribute("games", gameService.getGames()));
 	}
 	
-	void debeIniciarFormularioPartida() throws Exception{
-		mockMvc.perform(get("/partidas/create"))
+	void shouldCreateGame() throws Exception{
+		mockMvc.perform(post("/games/create")
+				.with(csrf())
+				.param("date", "2022-11-04")
+				.param("game_mode", "0"))
 		.andExpect(status().isOk())
-		.andExpect(view().name("partidas/crearPartida"))
-        .andExpect(model().attributeExists("partida"));
+		.andExpect(view().name("games/createGame"))
+        .andExpect(model().attributeExists("game"));
 	}
 	
 	
