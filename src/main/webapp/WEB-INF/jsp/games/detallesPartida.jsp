@@ -2,15 +2,28 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<dobble:layout pageName="owners">
+<petclinic:layout pageName="games">
+    <h2>Game <c:out value="${game.id}"/></h2>
 
-	<h2>Partida</h2>
-
-    <td><b><c:out value="${partida.id}"/></b></td>
-	
-	
-</dobble:layout>
+    <table id="gameDetailsTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Game</th>
+            <th>Players</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${game.players}" var="player">
+            <tr>
+            	<td>
+                </td>
+                <td>
+                    <c:out value="${player.user.username}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+</petclinic:layout>
