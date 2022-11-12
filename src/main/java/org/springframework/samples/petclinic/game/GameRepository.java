@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository extends CrudRepository<Game, Integer> {
 	
 	List<Game> findAll();
+	List<Game> findGamesByOrderByDateDesc();
 	Optional<Game> findById(int id);
 }
