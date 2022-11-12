@@ -17,16 +17,14 @@
             Usuarios
         </h2>
         <form:form modelAttribute="usuario">
-                   
-            <input type="hidden" name="id" value="${usuario.id}"/>
+
             <div class="form-group has-feedback">
-                <petclinic:inputField label="Usuario name" name="name"/>
-                <petclinic:inputField label="Usuario contraseña" name="contrasena"/>
-                <petclinic:inputField label="Usuario nombreUsuario" name="nombreUsuario"/>
-                <petclinic:inputField label="Usuario email" name="email"/>
+                <petclinic:inputField label="Nombre" name="name"/>
+                <petclinic:inputField label="Nick" name="nombreUsuario"/>
+                <petclinic:inputField label="Email" name="email"/>
                 <petclinic:checkboxField label="Administrador" name="administrador"/>
-                <petclinic:inputField label="Usuario fechaNacimiento" name="fechaNacimiento"/>
-                <petclinic:inputField label="Usuario fotoPerfil" name="fotoPerfil"/>
+                <petclinic:inputField label="Foto de perfil" name="fotoPerfil"/>
+                <petclinic:inputField label="Vieja ContraseÃ±a" name="contrasena"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
