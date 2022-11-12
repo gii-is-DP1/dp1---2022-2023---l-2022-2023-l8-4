@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.partida;
+package org.springframework.samples.petclinic.game;
 
 import java.util.Collection;
 import java.util.List;
@@ -10,22 +10,25 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class PartidaServicio {
+public class GameService {
 
-	private final PartidaRepositorio partidaRepositorio;
+	private final GameRepository partidaRepositorio;
 		
 	@Autowired
-	public PartidaServicio(PartidaRepositorio pr) {
+	public GameService(GameRepository pr) {
 		this.partidaRepositorio = pr;
 	}
 	
 	@Transactional(readOnly = true)
 	public List<Partida> getPartidasPorFechaDesc() throws DataAccessException {
 		return this.partidaRepositorio.findPartidasByOrderByFechaDesc();
+		
+	public List<Game> getGames() throws DataAccessException {
+		return this.partidaRepositorio.findAll();
 	}
 	
 	@Transactional(readOnly = true)
-	public Partida getPartidaPorId(int id) throws DataAccessException {
+	public Game getGameById(int id) throws DataAccessException {
 		return this.partidaRepositorio.findById(id).orElse(null);
 	}
 	
@@ -41,12 +44,12 @@ public class PartidaServicio {
 	}
 	
 	@Transactional
-	public void savePartida(Partida partida) throws DataAccessException { 
+	public void saveGame(Game partida) throws DataAccessException {
 		this.partidaRepositorio.save(partida);
 	}
 	
 	@Transactional
-	public void deletePartida(int id) throws DataAccessException {
+	public void deleteGame(int id) throws DataAccessException {
 		this.partidaRepositorio.deleteById(id);
 	}	
 }

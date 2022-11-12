@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.jugador;
+package org.springframework.samples.petclinic.player;
 
 import java.time.LocalDate; 
 import java.util.Collection;
@@ -16,8 +16,9 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.partida.Partida;
+import org.springframework.samples.petclinic.model.NamedEntity;
 import org.springframework.samples.petclinic.user.User;
 
 import lombok.EqualsAndHashCode;
@@ -28,43 +29,46 @@ import lombok.ToString;
 @Getter
 @Setter
 @Entity
-@Table(name = "jugadores")
+@Table(name = "players")
 @ToString
 @EqualsAndHashCode(callSuper=false)
-public class Jugador extends BaseEntity {
+public class Player extends BaseEntity {
 
-	@Column(name = "fecha_registro")
+	@Column(name = "register_date")
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate fechaRegistro;
+	private LocalDate registerDate;
 	
-	@Column(name = "fecha_modificacion")
+	@Column(name = "modification_date")
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate fechaModificacion;
+	private LocalDate modificationDate;
 	
-	@Column(name = "ultimo_inicio_sesion")
+	@Column(name = "last_login")
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate ultimoInicioSesion;
+	private LocalDate lastLogin;
 	
 	@Column(name = "email")
 	@NotEmpty
 	@Email
 	private String email;
 	
-	@Column(name = "fecha_nacimiento")
+	@Column(name = "birth_date")
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
-	private LocalDate fechaNacimiento;
+	private LocalDate birthDate;
 	
-	@Column(name = "foto_perfil")
-	private String fotoPerfil;
+	@Column(name = "profile_picture")
+	private String profilePicture;
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	@ManyToMany(fetch = FetchType.EAGER, mappedBy="jugadores")
-	private Collection<Partida> partidasJugadas;	
+	@ManyToMany(fetch = FetchType.EAGER,
+				mappedBy="players")
+	private Collection<Game> playedGames;
+	
+
 }
