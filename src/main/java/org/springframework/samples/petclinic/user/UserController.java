@@ -15,9 +15,8 @@
  */
 package org.springframework.samples.petclinic.user;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.validation.Valid;

@@ -105,12 +105,15 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
 
 -- Partidas
+
 INSERT INTO games(id,date,game_mode) VALUES 
+
 (1, '2022-11-04', 0),
 (2, '2022-11-04', 0),
 (3, '2022-11-06', 1),
 (4, '2022-11-09', 0),
 (5, '2022-11-10', 2);
+
 INSERT INTO players_games(game_id,player_id) VALUES 
 (1,1),
 (1,2),
@@ -125,11 +128,6 @@ INSERT INTO players_games(game_id,player_id) VALUES
 (5,5),
 (5,3),
 (5,1);
-
-
-
-
-
 
 -- Creating deck of cards
 INSERT INTO cards (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),

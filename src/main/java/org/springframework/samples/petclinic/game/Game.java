@@ -1,20 +1,20 @@
 package org.springframework.samples.petclinic.game;
 
+import java.time.LocalDate; 
 import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -36,7 +36,7 @@ public class Game extends BaseEntity {
 	@Column(name = "date")
 	@NotEmpty
 	@Temporal(TemporalType.DATE)
-	private Date date;
+	private LocalDate date;
 	
 	@Column(name = "game_mode")
 	@NotEmpty
