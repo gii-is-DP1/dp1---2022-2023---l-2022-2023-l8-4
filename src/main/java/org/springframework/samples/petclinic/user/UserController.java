@@ -15,18 +15,17 @@
  */
 package org.springframework.samples.petclinic.user;
 
-import java.util.ArrayList;
+import java.util.ArrayList; 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.jugador.Jugador;
-import org.springframework.samples.petclinic.jugador.JugadorServicio;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -44,15 +43,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 public class UserController {
 
-	private static final String VIEWS_OWNER_CREATE_FORM = "users/crearJugador";
+	private static final String VIEWS_OWNER_CREATE_FORM = "users/createPlayer";
 
-	private final JugadorServicio jugadorServicio;
+	private final PlayerService playerService;
 
 	private final UserService userService;
 
 	@Autowired
-	public UserController(JugadorServicio clinicService, UserService userService) {
-		this.jugadorServicio = clinicService;
+	public UserController(PlayerService clinicService, UserService userService) {
+		this.playerService = clinicService;
 		this.userService = userService;
 	}
 
@@ -81,18 +80,18 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
-		Jugador jugador = new Jugador();
-		model.put("jugador", jugador);
+		Player player = new Player();
+		model.put("player", player);
 		return VIEWS_OWNER_CREATE_FORM;
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Jugador jugador, BindingResult result) {
+	public String processCreationForm(@Valid Player player, BindingResult result) {
 		if (result.hasErrors()) {
 			return VIEWS_OWNER_CREATE_FORM;
 		} else {
 			// creating owner, user, and authority
-			this.jugadorServicio.saveJugador(jugador);
+			this.playerService.savePlayer(player);
 			return "redirect:/";
 		}
 	}

@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.carta;
+package org.springframework.samples.petclinic.card;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,9 +8,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 @Controller
-@RequestMapping("/cartas")
-public class CartaControlador {
-
+@RequestMapping("/cards")
+public class CardController {
+	/*
+	@Autowired
 	private CartaServicio cartaServicio;
 	
 	@Autowired

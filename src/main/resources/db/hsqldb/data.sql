@@ -96,22 +96,25 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2022-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04', 'spayed');
 
 
---Jugadores
-INSERT INTO jugadores(id,username,fecha_registro,fecha_modificacion,ultimo_inicio_sesion,email,fecha_nacimiento,foto_perfil) VALUES 
+--Players
+INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
 (1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', ''),
 (2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', ''),
 (3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', ''),
 (4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', ''),
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
 
--- Partidas
-INSERT INTO partidas(id,fecha,modo) VALUES 
+--Games
+
+INSERT INTO games(id,date,game_mode) VALUES 
+
 (1, '2022-11-04', 0),
 (2, '2022-11-04', 0),
 (3, '2022-11-06', 1),
 (4, '2022-11-09', 0),
 (5, '2022-11-10', 2);
-INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES 
+
+INSERT INTO players_games(game_id,player_id) VALUES 
 (1,1),
 (1,2),
 (2,2),
@@ -127,7 +130,7 @@ INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES
 (5,1);
 
 -- Creating deck of cards
-INSERT INTO cartas (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
+INSERT INTO cards (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
 (1, 'CANGURO ORCA PEREZOSO TORTUGA CARACOL GALLINA CANGREJO PINGUINO'),
 (2, 'MARIQUITA RENO CARACOL COCODRILO CONEJO PAVOREAL DELFIN BUHO'),
 (3, 'GORRINO PEZ ALPACA RENO CANGURO VACA PERRO PAJARO'),
