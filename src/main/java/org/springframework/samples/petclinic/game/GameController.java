@@ -5,11 +5,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +29,12 @@ public class GameController {
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST = "games/listGames";
 	private GameService gameService;
+	private CardService cardService;
 	
 	@Autowired
-	public GameController(GameService partidaServicio) {
-		this.gameService = partidaServicio;
+	public GameController(GameService gameService, CardService cardService) {
+		this.gameService = gameService;
+		this.cardService = cardService;
 	}
 	
 	@GetMapping(value = "/create")
@@ -49,6 +53,8 @@ public class GameController {
 		}
 		else {
 			game.setDate(LocalDate.now());
+			game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
+			game.setCards(cardService.getDeck());
 			this.gameService.saveGame(game);
 			return "redirect:/games/" + game.getId();
 		}

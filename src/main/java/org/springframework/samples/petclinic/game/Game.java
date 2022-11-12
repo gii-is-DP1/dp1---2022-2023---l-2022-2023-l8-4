@@ -10,6 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.card.Card;
@@ -34,7 +35,12 @@ public class Game extends BaseEntity {
 	private LocalDate date;
 	
 	@Column(name = "game_mode")
+	@NotNull
 	private GameMode gameMode;
+	
+	@Column(name = "game_code",
+			unique = true)
+	private Integer gameCode;
 	
 	@ManyToMany
 	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "game_id"),
