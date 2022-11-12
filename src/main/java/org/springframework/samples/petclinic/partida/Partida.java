@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.partida;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,6 +37,9 @@ public class Partida extends BaseEntity {
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate fecha;
+	
+	@Column(name = "estado")
+	private Estado estado;
 	
 	@Column(name = "modo")
 	@NotNull

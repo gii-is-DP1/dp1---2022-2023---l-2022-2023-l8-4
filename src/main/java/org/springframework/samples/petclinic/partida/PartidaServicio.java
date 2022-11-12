@@ -41,7 +41,7 @@ public class PartidaServicio {
 	}
 	
 	@Transactional
-	public void savePartida(Partida partida) throws DataAccessException {
+	public void savePartida(Partida partida) throws DataAccessException { 
 		this.partidaRepositorio.save(partida);
 	}
 	

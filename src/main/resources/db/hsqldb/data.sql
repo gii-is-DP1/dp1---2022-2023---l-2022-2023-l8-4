@@ -105,12 +105,12 @@ INSERT INTO jugadores(id,username,fecha_registro,fecha_modificacion,ultimo_inici
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
 
 -- Partidas
-INSERT INTO partidas(id,fecha,modo) VALUES 
-(1, '2022-11-04', 0),
-(2, '2022-11-04', 0),
-(3, '2022-11-06', 1),
-(4, '2022-11-09', 0),
-(5, '2022-11-10', 2);
+INSERT INTO partidas(id,fecha,modo,estado) VALUES 
+(1, '2022-11-04', 0,0),
+(2, '2022-11-04', 0,1),
+(3, '2022-11-06', 1,2),
+(4, '2022-11-09', 0,0),
+(5, '2022-11-10', 2,1);
 INSERT INTO jugadores_partidas(partida_id,jugador_id) VALUES 
 (1,1),
 (1,2),
