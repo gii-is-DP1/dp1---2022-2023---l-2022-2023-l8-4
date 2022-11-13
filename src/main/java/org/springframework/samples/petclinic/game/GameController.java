@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.game;
 
 import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -25,7 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 	
-	private static final String WELCOME = "welcome";
+	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST = "games/listGames";
 	private GameService gameService;
@@ -40,6 +39,8 @@ public class GameController {
 	@GetMapping(value = "/create")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
+		game.setGameState(GameState.INITIATED);
+		game.setDate(LocalDate.now());
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
 		model.put("gameModes", gameModes);
@@ -51,19 +52,18 @@ public class GameController {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
-		else {
-			game.setDate(LocalDate.now());
-			game.setGameState(GameState.INITIATED);
-			game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
-			game.setCards(cardService.getDeck());
-			this.gameService.saveGame(game);
-			return "redirect:/games/" + game.getId();
-		}
+		
+		game.setDate(LocalDate.now());
+		game.setGameState(GameState.INITIATED);
+		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
+		game.setCards(cardService.getDeck());
+		this.gameService.saveGame(game);
+		return "redirect:/games/" + game.getId();
 	}
 	
 	@GetMapping("/{gameId}")
 	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
-		ModelAndView mav = new ModelAndView("games/gameDetails");
+		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject(this.gameService.getGameById(gameId));
 		return mav;
 	}

@@ -30,20 +30,19 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=false)
 public class Game extends BaseEntity {
 
-	@Column(name = "date")
+	@Column(name = "date", nullable = false)
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
-	@Column(name = "game_mode")
+	@Column(name = "game_mode", nullable = false)
 	@NotNull
 	private GameMode gameMode;
 	
-	@Column(name = "game_state")
+	@Column(name = "game_state", nullable = false)
 	@NotNull
 	private GameState gameState;
 	
-	@Column(name = "game_code",
-			unique = true)
+	@Column(name = "game_code", unique = true, nullable = false)
 	private Integer gameCode;
 	
 	@ManyToMany
