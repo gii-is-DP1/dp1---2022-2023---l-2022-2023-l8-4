@@ -38,6 +38,10 @@ public class Game extends BaseEntity {
 	@NotNull
 	private GameMode gameMode;
 	
+	@Column(name = "game_state")
+	@NotNull
+	private GameState gameState;
+	
 	@Column(name = "game_code",
 			unique = true)
 	private Integer gameCode;

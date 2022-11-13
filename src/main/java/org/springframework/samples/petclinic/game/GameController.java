@@ -53,6 +53,7 @@ public class GameController {
 		}
 		else {
 			game.setDate(LocalDate.now());
+			game.setGameState(GameState.INITIATED);
 			game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 			game.setCards(cardService.getDeck());
 			this.gameService.saveGame(game);
