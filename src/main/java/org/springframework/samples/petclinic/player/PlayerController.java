@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,12 +20,15 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlayerController {
 
 	private PlayerService playerService;
+    private GameService gameService;
 	public static final String PLAYER_LISTING = "players/playerList";
+    public static final String PLAYER_DATA = "players/dataPlayer";
     public static final String PLAYER_CREATING_OR_EDITING = "players/createOrUpdatePlayer";
 
 	@Autowired
-	public PlayerController(PlayerService playerService) {
+	public PlayerController(PlayerService playerService, GameService gameService ) {
 		this.playerService = playerService;
+        this.gameService = gameService;
 	}
 
     @GetMapping("")
@@ -82,6 +86,13 @@ public class PlayerController {
         }
             playerService.savePlayer(player);
         return PLAYER_LISTING;
+    }
+
+    @GetMapping("/data/{id}")
+    public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model ) {;
+        model.put( "player", this.playerService.showPlayersById( id ) );
+        model.put( "games", this.gameService.gamesByPlayers( id ) );
+        return PLAYER_DATA;
     }
 
 }

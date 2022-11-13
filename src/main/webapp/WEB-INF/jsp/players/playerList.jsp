@@ -10,6 +10,7 @@
     <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
+            <th>Statistics</th>
             <th>Username</th>
             <th>Password</th>
             <th>Register_Date</th>
@@ -25,6 +26,9 @@
         
         <c:forEach items="${players}" var="player">
             <tr>
+                <td>
+                    <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
                 <td>
                     <c:out value="${player.user.username}"/>
                 </td>
