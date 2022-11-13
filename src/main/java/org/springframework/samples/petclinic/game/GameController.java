@@ -68,9 +68,17 @@ public class GameController {
 		return mav;
 	}
 	
-	@GetMapping(value = "/")
-	public String listarPartidas(Game game, BindingResult result, Map<String, Object> model) {
-		List<Game> games = gameService.getGames();
+	@GetMapping(value = "/finalized")
+	public String listarPartidasAcabadas(Map<String, Object> model) {
+		Collection<Game> games = gameService.getGamesFinalized();
+		model.put("games", games);
+		return VIEW_GAME_LIST;
+		
+	}
+	
+	@GetMapping(value = "/inProgress")
+	public String listarPartidasEnProgreso(Map<String, Object> model) {
+		Collection<Game> games = gameService.getGamesInProgress();
 		model.put("games", games);
 		return VIEW_GAME_LIST;
 		

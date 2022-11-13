@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,18 +19,28 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlayerController {
 	
 	private PlayerService playerService;
+	private GameService gameService;
 	public static final String player_listing = "players/playerList";
     public static final String player_editing = "players/editPlayer";
+    public static final String game_listing = "games/listGames";
 	
 	@Autowired
-	public PlayerController(PlayerService playerService) {
+	public PlayerController(PlayerService playerService, GameService gameService) {
 		this.playerService = playerService;
+		this.gameService = gameService;
 	}
 	
-	@GetMapping("")
+	@GetMapping
     public ModelAndView showAllPlayers() {
         ModelAndView result = new ModelAndView(player_listing);
         result.addObject("players", playerService.getAllPlayers());
+        return result;
+	}
+	
+	@GetMapping("/{id}/games")
+    public ModelAndView showAllPlayerGames(@PathVariable("id") Integer id) {
+        ModelAndView result = new ModelAndView(game_listing);
+        result.addObject("games", gameService.getGamesByPlayerId(id));
         return result;
 	}
 	

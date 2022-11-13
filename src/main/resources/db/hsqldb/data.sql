@@ -24,6 +24,9 @@ INSERT INTO authorities(id,username,authority) VALUES (7,'pedlopruz','admin');
 INSERT INTO users(username,password,enabled) VALUES ('carzarrei','chocolate', TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (8,'carzarrei','admin');
 
+INSERT INTO users(username,password,enabled) VALUES ('dangalmar','kaka', TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (9,'dangalmar','admin');
+
 
 INSERT INTO vets(id, first_name,last_name) VALUES (1, 'James', 'Carter');
 INSERT INTO vets(id, first_name,last_name) VALUES (2, 'Helen', 'Leary');
@@ -108,9 +111,9 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 
 INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
 
-(1, '2022-11-04', 0, 2, 10),
-(2, '2022-11-04', 0, 2, 11),
-(3, '2022-11-06', 1, 2, 12),
+(1, '2022-11-04', 0, 1, 10),
+(2, '2022-11-04', 0, 0, 11),
+(3, '2022-11-06', 1, 1, 12),
 (4, '2022-11-09', 0, 2, 13),
 (5, '2022-11-10', 2, 2, 14);
 

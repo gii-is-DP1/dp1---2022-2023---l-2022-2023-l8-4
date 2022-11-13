@@ -9,7 +9,35 @@
 <dobble:layout pageName="games">
 
 	<h2>Games</h2>
-
+	
+	<table id="playersTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Game Mode</th>
+            <th>Game Code</th>
+            <th>Players</th>
+        </tr>
+        </thead>
+        <tbody>
+        
+        <c:forEach items="${games}" var="game">
+            <tr>
+                <td>
+                    <c:out value="${game.date}"/>
+                </td>
+                <td>                    
+                      <c:out value="${game.gameMode} "/>                                        
+                </td>
+                <td>                    
+                      <c:out value="${game.gameCode} "/>                                        
+                </td>
+                <td>                    
+                     <c:forEach items="${game.players}" var="player">
+                     	<c:out value="${player.user.username}"></c:out><br/>
+                     </c:forEach>                                        
+                </td>
+             </c:forEach>
 	
 	
 </dobble:layout>
