@@ -106,13 +106,13 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 
 --Games
 
-INSERT INTO games(id,date,game_mode) VALUES 
+INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
 
-(1, '2022-11-04', 0),
-(2, '2022-11-04', 0),
-(3, '2022-11-06', 1),
-(4, '2022-11-09', 0),
-(5, '2022-11-10', 2);
+(1, '2022-11-04', 0, 2, 10),
+(2, '2022-11-04', 0, 2, 11),
+(3, '2022-11-06', 1, 2, 12),
+(4, '2022-11-09', 0, 2, 13),
+(5, '2022-11-10', 2, 2, 14);
 
 INSERT INTO players_games(game_id,player_id) VALUES 
 (1,1),

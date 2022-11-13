@@ -1,13 +1,17 @@
 package org.springframework.samples.petclinic.game;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,47 +25,54 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 	
-	private static final String GAME_CREATION_FORM = "games/createGame";
-	private static final String GAME_DETAILS = "games/detallesPartida";
-	private static final String GAME_LISTING = "games/listaPartidas";
-	private final GameService gameService;
+	private static final String WELCOME = "welcome";
+	private static final String VIEW_CREATION_FORM = "games/createGame";
+	private static final String VIEW_GAME_LIST = "games/listGames";
+	private GameService gameService;
+	private CardService cardService;
 	
 	@Autowired
-	public GameController(GameService gameService) {
+	public GameController(GameService gameService, CardService cardService) {
 		this.gameService = gameService;
+		this.cardService = cardService;
 	}
 	
 	@GetMapping(value = "/create")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
-		game.setDate(LocalDate.now());
+		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
-		return GAME_CREATION_FORM;
+		model.put("gameModes", gameModes);
+		return VIEW_CREATION_FORM;
 	}
 
 	@PostMapping(value = "/create")
 	public String procesarForlulario(@Valid Game game, BindingResult result) throws DataAccessException, Exception {
 		if (result.hasErrors()) {
-			return GAME_CREATION_FORM;
+			return VIEW_CREATION_FORM;
 		}
-		
-		this.gameService.saveGame(game);
-		return "redirect:/games/" + game.getId();
-
+		else {
+			game.setDate(LocalDate.now());
+			game.setGameState(GameState.INITIATED);
+			game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
+			game.setCards(cardService.getDeck());
+			this.gameService.saveGame(game);
+			return "redirect:/games/" + game.getId();
+		}
 	}
 	
 	@GetMapping("/{gameId}")
-	public ModelAndView mostrarPartida(@PathVariable("gameId") int partidaId) {
-		ModelAndView mav = new ModelAndView(GAME_DETAILS);
-		mav.addObject("game", this.gameService.getGameById(partidaId));
+	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
+		ModelAndView mav = new ModelAndView("games/gameDetails");
+		mav.addObject(this.gameService.getGameById(gameId));
 		return mav;
 	}
 	
-	@GetMapping
-	public String listarPartidas(Game partida, BindingResult result, Map<String, Object> model) {
-		List<Game> partidas = gameService.getGames();
-		model.put("games", partidas);
-		return GAME_LISTING;
+	@GetMapping(value = "/")
+	public String listarPartidas(Game game, BindingResult result, Map<String, Object> model) {
+		List<Game> games = gameService.getGames();
+		model.put("games", games);
+		return VIEW_GAME_LIST;
 		
 	}
 	

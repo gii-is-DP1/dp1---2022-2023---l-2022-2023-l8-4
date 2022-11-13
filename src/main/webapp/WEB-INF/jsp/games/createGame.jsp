@@ -4,30 +4,23 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="games">
-    <jsp:attribute name="customScript">
-        <script>
-            $(function () {
-                $("#date").datepicker({dateFormat: 'yy/mm/dd'});
-            });
-        </script>
-    </jsp:attribute>
-    <jsp:body>
-        <h2>
-            <c:if test="${game['new']}">New </c:if> Game
-        </h2>
-        <form:form modelAttribute="game" class="form-horizontal">
-            <input type="hidden" name="id" value="${game.id}"/>
-            <div class="form-group has-feedback">
-                <petclinic:inputField label="Game mode" name="gameMode"/>
-                <petclinic:inputField label="Game date" name="date"/>
-                <petclinic:inputField label="Players" name="players"/>  
+<dobble:layout pageName="games">
+
+	<h2>New game</h2>
+	
+	<form:form modelAttribute="game" class="form-horizontal" id="add-match-form">
+		<input type="hidden" name="id" value="${game.id}">
+		<div class="form-group has-feedback">
+			<div class="control-group">
+        		<dobble:selectField label="Game mode" name="gameMode" size = "3" names = "${gameModes}"/>
+        	</div>
+		</div>
+		
+		<div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-default" type="submit">CREATE GAME</button>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                	<button class="btn btn-default" type="submit">Add Game</button>
-            	</div>
-            </div>
-        </form:form>
-    </jsp:body>
-</petclinic:layout>
+        </div>
+    </form:form>
+	
+</dobble:layout>
