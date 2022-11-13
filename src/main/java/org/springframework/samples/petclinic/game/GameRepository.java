@@ -15,6 +15,6 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 	List<Game> findAll();
 	Optional<Game> findById(int id);
 
-    @Query( "SELECT g FROM Game g WHERE g.creatorId = :id" )
+    @Query( "SELECT g FROM Game g WHERE g.creatorId.id = :id" )
     List<Game> getGamesByPlayers(@Param("id") int playerId);
 }
