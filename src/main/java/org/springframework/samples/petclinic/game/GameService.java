@@ -15,8 +15,8 @@ public class GameService {
 	private final GameRepository gameRepository;
 		
 	@Autowired
-	public GameService(GameRepository pr) {
-		this.gameRepository = pr;
+	public GameService(GameRepository gameRepository) {
+		this.gameRepository = gameRepository;
 	}
 	
 	@Transactional(readOnly = true)
@@ -44,12 +44,6 @@ public class GameService {
 	public Collection<Game> getGamesByPlayerId(int id) throws DataAccessException {
 		return this.gameRepository.findGamesByPlayerId(id);
 	}
-	
-	
-	@Transactional(readOnly = true)
-	public List<Game> getGamesByDateDesc() throws DataAccessException {
-		return this.gameRepository.findGamesByOrderByDateDesc();
-	}	
 	
 	@Transactional(readOnly = true)
 	public Game getGameById(int id) throws DataAccessException {

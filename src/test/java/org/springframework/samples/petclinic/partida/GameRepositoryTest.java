@@ -14,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.game.GameState;
 import org.springframework.samples.petclinic.player.Player;
 
 
@@ -40,14 +41,18 @@ public class GameRepositoryTest {
 		int gameId = 1;
 		Game game = new Game();
 		game.setId(gameId);
-		game.setGameMode(GameMode.ESTANDAR);;
+		game.setGameMode(GameMode.ESTANDAR);
 		game.setDate(LocalDate.of(2022, 11, 4));
+		game.setGameState(GameState.IN_PROGRESS);
+		game.setGameCode(10);
 		Optional<Game> expectedGame = Optional.of(game);
 		
 		Optional<Game> actualGame = this.gameRepository.findById(gameId);
-		assertEquals(expectedGame.get().getId(), actualGame.get().getId(), "El id de la partida no coincide");
-		assertEquals(expectedGame.get().getDate(), actualGame.get().getDate(), "La fecha de la partida no coincide");
-		assertEquals(expectedGame.get().getGameMode(), actualGame.get().getGameMode(), "El modo partida no coincide");
+		assertEquals(expectedGame.get().getId(), actualGame.get().getId(), "The game id does not match");
+		assertEquals(expectedGame.get().getDate(), actualGame.get().getDate(), "The game date does not match");
+		assertEquals(expectedGame.get().getGameMode(), actualGame.get().getGameMode(), "Game mode does not match");
+		assertEquals(expectedGame.get().getGameState(), actualGame.get().getGameState(), "The state of the game does not match");
+		assertEquals(expectedGame.get().getGameCode(), actualGame.get().getGameCode(), "The game code does not match");
 
 	}
 	
@@ -66,13 +71,22 @@ public class GameRepositoryTest {
 		
 		Game expectedGame = new Game();
 		int gameId = 6;
+		LocalDate gameDate = LocalDate.now();
+		GameMode gameMode = GameMode.EL_FOSO;
+		int gameCode = 15;
 		expectedGame.setId(gameId);
 		expectedGame.setDate(LocalDate.now());
 		expectedGame.setGameMode(GameMode.EL_FOSO);
+		expectedGame.setGameState(GameState.INITIATED);
+		expectedGame.setGameCode(15);
 		expectedGame.setPlayers(this.players);
 		this.gameRepository.save(expectedGame);
 		
 		Game actualGame = this.gameRepository.findById(gameId).get();
-		assertEquals(expectedGame, actualGame);	
+		assertEquals(gameId, actualGame.getId());
+		assertEquals(gameDate, actualGame.getDate());	
+		assertEquals(gameMode, actualGame.getGameMode());	
+		assertEquals(gameCode, actualGame.getGameCode());	
+		assertEquals(this.players, actualGame.getPlayers());	
 	}
 }
