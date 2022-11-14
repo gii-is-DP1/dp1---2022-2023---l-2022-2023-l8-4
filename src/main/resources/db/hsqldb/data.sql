@@ -96,7 +96,7 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2022-01-03',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04', 'spayed');
 
 
---Jugadores
+--Players
 INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
 (1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', ''),
 (2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', ''),
@@ -104,15 +104,15 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 (4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', ''),
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
 
--- Partidas
+--Games
 
-INSERT INTO games(id,date,game_mode) VALUES 
+INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
 
-(1, '2022-11-04', 0),
-(2, '2022-11-04', 0),
-(3, '2022-11-06', 1),
-(4, '2022-11-09', 0),
-(5, '2022-11-10', 2);
+(1, '2022-11-04', 0, 2, 10),
+(2, '2022-11-04', 0, 2, 11),
+(3, '2022-11-06', 1, 2, 12),
+(4, '2022-11-09', 0, 2, 13),
+(5, '2022-11-10', 2, 2, 14);
 
 INSERT INTO players_games(game_id,player_id) VALUES 
 (1,1),
