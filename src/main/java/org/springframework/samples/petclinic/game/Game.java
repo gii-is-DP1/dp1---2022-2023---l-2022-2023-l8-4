@@ -56,4 +56,3 @@ public class Game extends BaseEntity {
 					CascadeType.REFRESH})
 	private Collection<Card> cards;
 }
-

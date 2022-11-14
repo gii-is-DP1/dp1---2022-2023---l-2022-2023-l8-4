@@ -7,29 +7,36 @@
 <petclinic:layout pageName="games">
     <h2>Games</h2>
 
-    <table id="gamesTable" class="table table-striped">
+    <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Game</th>
             <th>Date</th>
             <th>Game Mode</th>
+            <th>Game Code</th>
+            <th>Players</th>
         </tr>
         </thead>
         <tbody>
+       
         <c:forEach items="${games}" var="game">
             <tr>
                 <td>
-                    <c:out value="${game.id}"/>
-                </td>
-                <td>
                     <c:out value="${game.date}"/>
                 </td>
-                <td>
-                    <c:out value="${game.gameMode}"/>
+                <td>                    
+                      <c:out value="${game.gameMode} "/>                                        
                 </td>
-            </tr>
-        </c:forEach>
+                <td>                    
+                      <c:out value="${game.gameCode} "/>                                        
+                </td>
+                <td>                    
+                     <c:forEach items="${game.players}" var="player">
+                     	<c:out value="${player.user.username}"></c:out><br/>
+                     </c:forEach>                                        
+                </td>
+             </c:forEach>
         </tbody>
     </table>
-    <a class="btn btn-default" href="/games/create">Create new game</a>
+    
+
 </petclinic:layout>

@@ -94,7 +94,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2022-01-01',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2022-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2022-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04', 'spayed');
-
+--Logros
+INSERT INTO achievement(id,name,description,threshold,percentage,trophy,acquire_date,badge_image) VALUES
+(1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,90.0,3,'2022-01-01','https://bit.ly/certifiedGamer'),
+(2,'Talentoso','Si ganas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un talentoso.',20.0,70.0,2,'2022-01-01','https://bit.ly/proGamer'),
+(3,'Maestro','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un maestro.',10.0,70.0,1,'2022-01-15','https://bit.ly/proGamer'),
+(4,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'2022-01-10','logo.png');
 
 --Players
 INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
@@ -105,15 +110,14 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
 
 --Games
-
 INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
 
-(1, '2022-11-04', 0, 2, 10),
-(2, '2022-11-04', 0, 2, 11),
-(3, '2022-11-06', 1, 2, 12),
+(1, '2022-11-04', 0, 1, 10),
+(2, '2022-11-04', 0, 0, 11),
+(3, '2022-11-06', 1, 1, 12),
 (4, '2022-11-09', 0, 2, 13),
 (5, '2022-11-10', 2, 2, 14);
-
+--Player games
 INSERT INTO players_games(game_id,player_id) VALUES 
 (1,1),
 (1,2),
@@ -128,9 +132,9 @@ INSERT INTO players_games(game_id,player_id) VALUES
 (5,5),
 (5,3),
 (5,1);
-
 -- Creating deck of cards
-INSERT INTO cards (id, icons) VALUES (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
+INSERT INTO cards (id, icons) VALUES
+(0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
 (1, 'CANGURO ORCA PEREZOSO TORTUGA CARACOL GALLINA CANGREJO PINGUINO'),
 (2, 'MARIQUITA RENO CARACOL COCODRILO CONEJO PAVOREAL DELFIN BUHO'),
 (3, 'GORRINO PEZ ALPACA RENO CANGURO VACA PERRO PAJARO'),

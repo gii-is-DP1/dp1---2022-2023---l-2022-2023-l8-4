@@ -10,30 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/cards")
 public class CardController {
-	/*
-	@Autowired
-	private CartaServicio cartaServicio;
-	
-	@Autowired
-	public CartaControlador(CartaServicio cartaServicio) {
-		this.cartaServicio = cartaServicio;
-	}
-	
+	private CardService cardService;
+
 	@GetMapping
-	public ModelAndView listadoCartas(){		
-		ModelAndView result=new ModelAndView("ListaDeCartas");		
-		result.addObject("cartas", cartaServicio.getBaraja());
+	public ModelAndView cardsList(){
+		ModelAndView result=new ModelAndView("ListOfCards");
+		result.addObject("cards", cardService.getDeck());
 		return result;
 	}
-	
-	
-	//----------puede que necesitemos encontrar las cartas por ID------------
-	
-	/*
-	@GetMapping("/cartas/{cartaId}")
-	public ModelAndView mostrarCarta(@PathVariable("cartaId") int cartaId) {
-		ModelAndView mav = new ModelAndView("cartas/cartaDetalles");
-		mav.addObject(this.cartaServicio.findOwnerById(cartaId));
+
+	@GetMapping("/cards/{cardId}")
+	public ModelAndView mostrarCarta(@PathVariable("cardId") int cardId) {
+		ModelAndView mav = new ModelAndView("cards/cardDetails");
+		mav.addObject(this.cardService.findCardById( cardId ) );
 		return mav;
-	}*/
+	}
+
 }

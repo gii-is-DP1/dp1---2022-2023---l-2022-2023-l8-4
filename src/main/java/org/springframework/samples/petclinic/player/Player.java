@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.player;
 
-import java.time.LocalDate; 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -29,45 +29,42 @@ import lombok.ToString;
 @Setter
 @Entity
 @Table(name = "players")
-@ToString
-@EqualsAndHashCode(callSuper=false)
 public class Player extends BaseEntity {
 
 	@Column(name = "register_date")
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate registerDate;
-	
+
 	@Column(name = "modification_date")
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate modificationDate;
-	
+
 	@Column(name = "last_login")
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate lastLogin;
-	
+
 	@Column(name = "email")
 	@NotEmpty
 	@Email
 	private String email;
-	
+
 	@Column(name = "birth_date")
 	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate birthDate;
-	
+
 	@Column(name = "profile_picture")
 	private String profilePicture;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	
+
 	@ManyToMany(fetch = FetchType.EAGER,
 				mappedBy="players")
 	private Collection<Game> playedGames;
 	
+	
+
 
 }
