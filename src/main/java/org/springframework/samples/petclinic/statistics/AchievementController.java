@@ -36,13 +36,13 @@ public class AchievementController {
     }
 
     
-    @GetMapping("{id}/delete")
+    @GetMapping("/{id}/delete")
     public ModelAndView deleteAchievement(@PathVariable("id") Integer id){
         service.deleteAchievementById(id);        
         return showAchievements();
     }
 
-    @GetMapping("{id}/edit")
+    @GetMapping("/{id}/edit")
     public ModelAndView editAchievement(@PathVariable("id") Integer id){
         Achievement achievement=service.getById(id);        
         ModelAndView result=new ModelAndView(ACHIEVEMENTS_FORM);
@@ -51,7 +51,7 @@ public class AchievementController {
     }
  
     @Transactional
-    @PostMapping("{id}/edit")
+    @PostMapping("/{id}/edit")
     public ModelAndView saveAchievement(@PathVariable("id") Integer id, @Valid Achievement achievement, BindingResult br){
     	ModelAndView result=null;
         if(br.hasErrors()) {

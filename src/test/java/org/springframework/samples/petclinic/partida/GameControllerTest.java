@@ -79,17 +79,17 @@ public class GameControllerTest {
 	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 
 	void shouldShowGameList() throws Exception {
-		mockMvc.perform(get("/games/"))
+		mockMvc.perform(get("/games/finalized"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/listGames"))
 		.andExpect(model().attributeExists("games"))
-		.andExpect(model().attribute("games", gameService.getGames()));
+		.andExpect(model().attribute("games", gameService.getGamesFinalized()));
 	}
 	
 	@Test
 	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 	void shouldCreateGame() throws Exception {
-		mockMvc.perform(post("/games/create")
+		mockMvc.perform(post("/games/new")
 				.with(csrf())
 				.param("date", "2022-11-04")
 				.param("gameState", "0")

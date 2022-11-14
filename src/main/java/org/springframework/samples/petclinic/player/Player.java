@@ -23,12 +23,12 @@ import org.springframework.samples.petclinic.user.User;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "players")
+@EqualsAndHashCode(callSuper = false)
 public class Player extends BaseEntity {
 
 	@Column(name = "register_date")
@@ -64,7 +64,4 @@ public class Player extends BaseEntity {
 				mappedBy="players")
 	private Collection<Game> playedGames;
 	
-	
-
-
 }

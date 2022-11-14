@@ -43,7 +43,7 @@ public class GameRepositoryTest {
 		game.setId(gameId);
 		game.setGameMode(GameMode.ESTANDAR);
 		game.setDate(LocalDate.of(2022, 11, 4));
-		game.setGameState(GameState.FINALIZED);
+		game.setGameState(GameState.IN_PROGRESS);
 		game.setGameCode(10);
 		Optional<Game> expectedGame = Optional.of(game);
 		
@@ -71,6 +71,9 @@ public class GameRepositoryTest {
 		
 		Game expectedGame = new Game();
 		int gameId = 6;
+		LocalDate gameDate = LocalDate.now();
+		GameMode gameMode = GameMode.EL_FOSO;
+		int gameCode = 15;
 		expectedGame.setId(gameId);
 		expectedGame.setDate(LocalDate.now());
 		expectedGame.setGameMode(GameMode.EL_FOSO);
@@ -80,6 +83,10 @@ public class GameRepositoryTest {
 		this.gameRepository.save(expectedGame);
 		
 		Game actualGame = this.gameRepository.findById(gameId).get();
-		assertEquals(expectedGame, actualGame);	
+		assertEquals(gameId, actualGame.getId());
+		assertEquals(gameDate, actualGame.getDate());	
+		assertEquals(gameMode, actualGame.getGameMode());	
+		assertEquals(gameCode, actualGame.getGameCode());	
+		assertEquals(this.players, actualGame.getPlayers());	
 	}
 }
