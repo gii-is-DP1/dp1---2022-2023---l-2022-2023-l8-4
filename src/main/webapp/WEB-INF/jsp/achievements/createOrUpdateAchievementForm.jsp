@@ -2,13 +2,13 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="achievements">
+<dobble:layout pageName="achievements">
     <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#birthDate").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#acquireDate").datepicker({dateFormat: 'yy/mm/dd'});
             });
         </script>
     </jsp:attribute>
@@ -20,10 +20,13 @@
                    class="form-horizontal">
             <input type="hidden" name="id" value="${achievement.id}"/>
             <div class="form-group has-feedback">                
-                <petclinic:inputField label="Name" name="name"/>
-                <petclinic:inputField label="Description" name="description"/>
-                <petclinic:inputField label="Badge" name="badgeImage"/>
-                <petclinic:inputField label="Threshold" name="threshold"/>
+                <dobble:inputField label="Name" name="name"/>
+                <dobble:inputField label="Description" name="description"/>
+                <dobble:inputField label="Badge" name="badgeImage"/>
+                <dobble:inputField label="Threshold" name="threshold"/>
+                <dobble:inputField label="Percentage" name="percentage"/>
+                <dobble:inputField label="Achievement Trophy" name="trophy"/>
+        
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -39,4 +42,4 @@
             </div>
         </form:form>       
     </jsp:body>
-</petclinic:layout>
+</dobble:layout>

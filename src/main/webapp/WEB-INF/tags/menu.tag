@@ -43,11 +43,24 @@
 					title="Achievements" dropdown="${true}">										
 						<ul class="dropdown-menu">
 							<li>
-								<a href="<c:url value="/statistics/achievements/" />">Achievements listing</a>
+								<a href="<c:url value="/statistics/achievements" />">Achievements listing</a>
 							</li>
 							<li class="divider"></li>
 							<li>								
-								<a href="<c:url value="/statistics/achievements/" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+								<a href="<c:url value="/statistics/achievements" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+
+							</li>
+						</ul>					
+				</petclinic:menuItem>
+				<petclinic:menuItem active="${name eq 'games'}" url="/games"
+					title="Games" dropdown="${true}">										
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<c:url value="/games/finalized" />">Finalized Games</a>
+							</li>
+							<li class="divider"></li>
+							<li>								
+								<a href="<c:url value="/games/inProgress" />">In Progress Games <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
 
 							</li>
 						</ul>					

@@ -1,5 +1,8 @@
 package org.springframework.samples.petclinic.statistics;
 
+
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +28,7 @@ public class AchievementController {
 		this.service = service;
 	}
 
-    @GetMapping("/")
+    @GetMapping
     public ModelAndView showAchievements(){
         ModelAndView result=new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
         result.addObject("achievements", service.getAchievements());
@@ -49,18 +52,31 @@ public class AchievementController {
  
     @Transactional
     @PostMapping("{id}/edit")
-    public ModelAndView saveAchievement(@PathVariable("id") Integer id,Achievement achievement){
-
-        Achievement achievementToBeUpdated=service.getById(id);
-        BeanUtils.copyProperties(achievement,achievementToBeUpdated,"id");
-        service.save(achievementToBeUpdated);
-        ModelAndView result=showAchievements();
-        result.addObject("message", "The achievement was updated successfully");
-        return result;        
+    public ModelAndView saveAchievement(@PathVariable("id") Integer id, @Valid Achievement achievement, BindingResult br){
+    	ModelAndView result=null;
+        if(br.hasErrors()) {
+            result = new ModelAndView(ACHIEVEMENTS_FORM);
+            result.addAllObjects(br.getModel());
+        }else {
+        	Achievement achievementToBeUpdated=service.getById(id);
+        	if(achievementToBeUpdated!=null) {
+        		BeanUtils.copyProperties(achievement,achievementToBeUpdated,"id");
+                service.save(achievement);
+                result =showAchievements();
+                result.addObject("message", "The achievement was updated successfully");
+        	}else {
+        		result = showAchievements();
+                result.addObject("message", "Logro con id "+id+" no ha sido editado correctamente");
+            }
+            
+           
+        }
+		return result;
+              
     }
 
-    @Transactional(readOnly = true)
-    @GetMapping("new")
+    
+    @GetMapping("/new")
     public ModelAndView createAchievement(){
         Achievement achievement=new Achievement();
         ModelAndView result=new ModelAndView(ACHIEVEMENTS_FORM);
@@ -68,14 +84,21 @@ public class AchievementController {
         return result;
     }
 
-    @Transactional
-    @PostMapping("new")
-    public ModelAndView saveNewAchievement(Achievement achievement, BindingResult br){
-        service.save(achievement);
-        ModelAndView result=showAchievements();
-        result.addObject("message", "The achievement was created successfully");
+    @PostMapping("/new")
+    public ModelAndView saveNewAchievement(@Valid Achievement achievement, BindingResult br){
+    	ModelAndView result=null;
+        if(br.hasErrors()) {
+            result = new ModelAndView(ACHIEVEMENTS_FORM);
+            result.addAllObjects(br.getModel());
+        }else {
+        	 service.save(achievement);
+            result = showAchievements();
+            result.addObject("message", "Jugador creado satisfactoriamente");
+            
+        }
         return result;
     }
+        
 
 
 }

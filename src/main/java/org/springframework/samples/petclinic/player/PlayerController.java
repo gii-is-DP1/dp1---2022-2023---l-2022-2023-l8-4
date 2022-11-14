@@ -7,7 +7,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,81 +17,95 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/players")
 public class PlayerController {
-
+	
 	private PlayerService playerService;
-    private GameService gameService;
-	public static final String PLAYER_LISTING = "players/playerList";
-    public static final String PLAYER_DATA = "players/dataPlayer";
-    public static final String PLAYER_CREATING_OR_EDITING = "players/createOrUpdatePlayer";
-
+	private GameService gameService;
+	public static final String player_listing = "players/playerList";
+    public static final String player_editing = "players/createOrUpdatePlayer";
+    public static final String game_listing = "games/listGames";
+	
 	@Autowired
-	public PlayerController(PlayerService playerService, GameService gameService ) {
+	public PlayerController(PlayerService playerService, GameService gameService) {
 		this.playerService = playerService;
-        this.gameService = gameService;
+		this.gameService = gameService;
 	}
-
-    @GetMapping("")
+	
+	@GetMapping
     public ModelAndView showAllPlayers() {
-        ModelAndView result = new ModelAndView(PLAYER_LISTING);
+        ModelAndView result = new ModelAndView(player_listing);
         result.addObject("players", playerService.getAllPlayers());
         return result;
 	}
-
+	
+	@GetMapping("/{id}/games")
+    public ModelAndView showAllPlayerGames(@PathVariable("id") Integer id) {
+        ModelAndView result = new ModelAndView(game_listing);
+        result.addObject("games", gameService.getGamesByPlayerId(id));
+        return result;
+	}
+	
 	@GetMapping("/delete/{id}")
     public ModelAndView deletePlayersById(@PathVariable("id") Integer id) {
-        playerService.deletePlayer(id);
+		playerService.deletePlayer(id);
         return showAllPlayers();
     }
-
-
+	
 	@GetMapping("/edit/{id}")
-    public String editPlayer(@PathVariable("id") Integer id, ModelMap model) {
-        model.put("player", playerService.showPlayersById( id ) );
-        return PLAYER_CREATING_OR_EDITING;
+    public ModelAndView editJugador(@PathVariable("id") Integer id) {
+        ModelAndView result = new ModelAndView(player_editing);
+        result.addObject("player", playerService.showPlayersById(id));
+        return result;
     }
-
+	
     @PostMapping("/edit/{id}")
-    public String editPlayer(@PathVariable("id") Integer id, @Valid Player player, BindingResult br, ModelMap model) {
-        if( br.hasErrors() ) {
-            model.put( "player", player );
-            return PLAYER_CREATING_OR_EDITING;
+    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player jugador2,BindingResult br) {        
+        ModelAndView result=null;
+        if(br.hasErrors()) {
+            result = new ModelAndView(player_editing);
+            result.addAllObjects(br.getModel());
         }else {
-            Player uPlayer = playerService.showPlayersById( id );
-            if ( uPlayer == null )
-            {
-                return PLAYER_CREATING_OR_EDITING;
+            Player jugador = playerService.showPlayersById(id);
+            if(jugador !=null) {
+                BeanUtils.copyProperties(jugador2, jugador,"id");
+                playerService.savePlayer(jugador2);
+                result = showAllPlayers();
+                result.addObject("message", "Jugador editado satisfactoriamente");
+                
+               
+            }else {
+                result = showAllPlayers();
+                result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
             }
-            BeanUtils.copyProperties(uPlayer, player);
-            playerService.savePlayer( uPlayer );
-            return PLAYER_LISTING;
-
+           
+            
         }
-
+        return result;
+        
     }
-
-    @GetMapping("/create")
-    public String createJugador( ModelMap model )
-    {
-        model.put( "player", new Player() );
-        return PLAYER_CREATING_OR_EDITING;
+    
+    @GetMapping("/new")
+    public ModelAndView createJugador() {
+        ModelAndView result = new ModelAndView(player_editing);
+        Player jugador = new Player();
+        result.addObject("player", jugador);
+        return result;
+        
     }
-
-
-    @PostMapping("/create")
-    public String saveNewJugador(@Valid Player player,BindingResult br, ModelMap model)
-    {
-        if( br.hasErrors() ) {
-            return PLAYER_CREATING_OR_EDITING;
-        }
+    
+    
+    @PostMapping("/new")
+    public ModelAndView saveNewJugador(@Valid Player player, BindingResult br) {
+        ModelAndView result=null;
+        if(br.hasErrors()) {
+            result = new ModelAndView(player_editing);
+            result.addAllObjects(br.getModel());
+        }else {
             playerService.savePlayer(player);
-        return PLAYER_LISTING;
-    }
-
-    @GetMapping("/data/{id}")
-    public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model ) {;
-        model.put( "player", this.playerService.showPlayersById( id ) );
-        model.put( "games", this.gameService.gamesByPlayers( id ) );
-        return PLAYER_DATA;
+            result = showAllPlayers();
+            result.addObject("message", "Jugador creado satisfactoriamente");
+            
+        }
+        return result;
     }
 
 }

@@ -33,17 +33,14 @@ import lombok.ToString;
 public class Player extends BaseEntity {
 
 	@Column(name = "register_date")
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate registerDate;
 
 	@Column(name = "modification_date")
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate modificationDate;
 
 	@Column(name = "last_login")
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate lastLogin;
 
@@ -54,7 +51,7 @@ public class Player extends BaseEntity {
 
 	@Column(name = "birth_date")
 	@NotNull
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate birthDate;
 
 	@Column(name = "profile_picture")
@@ -67,6 +64,8 @@ public class Player extends BaseEntity {
 	@ManyToMany(fetch = FetchType.EAGER,
 				mappedBy="players")
 	private Collection<Game> playedGames;
+	
+	
 
 
 }

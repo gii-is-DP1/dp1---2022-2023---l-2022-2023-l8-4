@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="achievements">
+<dobble:layout pageName="achievements">
     <h2>Achievements</h2>
 
     <table id="achievementsTable" class="table table-striped">
@@ -12,8 +12,10 @@
         <tr>
             <th>Name</th>
             <th>Description</th>
+            <th>Percentage</th>
+            <th>Trophy</th>
+            <th>Acquire Date</th>
             <th>BadgeImage</th>
-            <th>Threshold</th>
         </tr>
         </thead>
         <tbody>
@@ -25,6 +27,16 @@
                 <td>                    
                       <c:out value="${achievement.actualDescription} "/>                                        
                 </td>
+                
+                <td>       
+                    <c:out value="${achievement.percentage} "/>
+                </td>
+                <td>       
+                    <c:out value="${achievement.trophy} "/>
+                </td>
+                <td>       
+                    <c:out value="${achievement.acquireDate} "/>
+                </td>
                 <td>                    
                     <c:if test="${achievement.badgeImage == ''}">none</c:if>
                     <c:if test="${achievement.badgeImage != ''}">
@@ -35,9 +47,6 @@
 				<a href="/statistics/achievements/${achievement.id}/edit" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 				&nbsp;
 				<a href="/statistics/achievements/${achievement.id}/delete"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
-                <td>       
-                    <c:out value="${achievement.threshold} "/>
-                </td>
 
 
             </tr>
@@ -46,4 +55,4 @@
     </table>
     <a class="btn btn-default" href="/statistics/achievements/new">Create new achievement</a>
 
-</petclinic:layout>
+</dobble:layout>

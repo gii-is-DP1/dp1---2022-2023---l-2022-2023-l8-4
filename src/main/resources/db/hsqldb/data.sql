@@ -94,10 +94,12 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2022-01-01',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2022-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2022-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2022-01-04', 'spayed');
-
-INSERT INTO achievement(id,name,description,threshold,badge_image)
-                VALUES (1,'Viciado','Si juegas <THRESHOLD> partidas o mas, consideramos que ya estás enganchado.',10.0,'https://bit.ly/certifiedGamer'),
-                        (2,'Triunfador','Si ganas <THRESHOLD> partidas o mas, es que eres todo un triunfador.',20.0,'https://bit.ly/proGamer');
+--Logros
+INSERT INTO achievement(id,name,description,threshold,percentage,trophy,acquire_date,badge_image) VALUES
+(1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,90.0,3,'2022-01-01','https://bit.ly/certifiedGamer'),
+(2,'Talentoso','Si ganas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un talentoso.',20.0,70.0,2,'2022-01-01','https://bit.ly/proGamer'),
+(3,'Maestro','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un maestro.',10.0,70.0,1,'2022-01-15','https://bit.ly/proGamer'),
+(4,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'2022-01-10','logo.png');
 
 --Jugadores
 INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
@@ -106,7 +108,29 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 (3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', ''),
 (4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', ''),
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
+--Games
+INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
 
+(1, '2022-11-04', 0, 1, 10),
+(2, '2022-11-04', 0, 0, 11),
+(3, '2022-11-06', 1, 1, 12),
+(4, '2022-11-09', 0, 2, 13),
+(5, '2022-11-10', 2, 2, 14);
+--Player games
+INSERT INTO players_games(game_id,player_id) VALUES 
+(1,1),
+(1,2),
+(2,2),
+(2,3),
+(3,3),
+(3,2),
+(3,1),
+(3,5),
+(4,4),
+(4,2),
+(5,5),
+(5,3),
+(5,1);
 -- Creating deck of cards
 INSERT INTO cards (id, icons) VALUES
 (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),

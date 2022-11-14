@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.statistics;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ public class AchievementService {
     }
     @Transactional
     public void save(Achievement achievement){
+    	achievement.setAcquireDate(LocalDate.now());
         repo.save(achievement);
     }
 }
