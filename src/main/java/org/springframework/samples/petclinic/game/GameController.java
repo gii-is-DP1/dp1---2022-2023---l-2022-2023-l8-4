@@ -37,7 +37,7 @@ public class GameController {
 		this.cardService = cardService;
 	}
 	
-	@GetMapping(value = "/create")
+	@GetMapping(value = "/new")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
@@ -46,7 +46,7 @@ public class GameController {
 		return VIEW_CREATION_FORM;
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/new")
 	public String procesarForlulario(@Valid Game game, BindingResult result) throws DataAccessException, Exception {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
@@ -68,9 +68,17 @@ public class GameController {
 		return mav;
 	}
 	
-	@GetMapping(value = "/")
-	public String listarPartidas(Game game, BindingResult result, Map<String, Object> model) {
-		List<Game> games = gameService.getGames();
+	@GetMapping(value = "/finalized")
+	public String listarPartidasAcabadas(Map<String, Object> model) {
+		Collection<Game> games = gameService.getGamesFinalized();
+		model.put("games", games);
+		return VIEW_GAME_LIST;
+		
+	}
+	
+	@GetMapping(value = "/inProgress")
+	public String listarPartidasEnProgreso(Map<String, Object> model) {
+		Collection<Game> games = gameService.getGamesInProgress();
 		model.put("games", games);
 		return VIEW_GAME_LIST;
 		

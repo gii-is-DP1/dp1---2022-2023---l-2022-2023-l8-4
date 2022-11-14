@@ -31,6 +31,27 @@ public class GameService {
 	}	
 	
 	@Transactional(readOnly = true)
+	public Collection<Game> getGamesInProgress() throws DataAccessException {
+		return this.gameRepository.findGamesStateInProgress();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Game> getGamesFinalized() throws DataAccessException {
+		return this.gameRepository.findGamesStateFinalized();
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Game> getGamesByPlayerId(int id) throws DataAccessException {
+		return this.gameRepository.findGamesByPlayerId(id);
+	}
+	
+	
+	@Transactional(readOnly = true)
+	public List<Game> getGamesByDateDesc() throws DataAccessException {
+		return this.gameRepository.findGamesByOrderByDateDesc();
+	}	
+	
+	@Transactional(readOnly = true)
 	public Game getGameById(int id) throws DataAccessException {
 		return this.gameRepository.findById(id).orElse(null);
 	}
