@@ -24,6 +24,12 @@ public class GameService {
 		return this.gameRepository.findAll();
 	}
 	
+	
+	@Transactional(readOnly = true)
+	public List<Game> getGamesByDateDesc() throws DataAccessException {
+		return this.gameRepository.findGamesByOrderByDateDesc();
+	}	
+	
 	@Transactional(readOnly = true)
 	public Collection<Game> getGamesInProgress() throws DataAccessException {
 		return this.gameRepository.findGamesStateInProgress();

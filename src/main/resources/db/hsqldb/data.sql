@@ -101,13 +101,14 @@ INSERT INTO achievement(id,name,description,threshold,percentage,trophy,acquire_
 (3,'Maestro','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un maestro.',10.0,70.0,1,'2022-01-15','https://bit.ly/proGamer'),
 (4,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'2022-01-10','logo.png');
 
---Jugadores
+--Players
 INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
 (1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', ''),
 (2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', ''),
 (3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', ''),
 (4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', ''),
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
+
 --Games
 INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
 
