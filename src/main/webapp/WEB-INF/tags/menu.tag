@@ -39,7 +39,7 @@
 					<span>Veterinarians</span>
 				</petclinic:menuItem>
 				
-				<petclinic:menuItem active="${name eq 'games'}" url="/games" title="games">
+				<petclinic:menuItem active="${name eq 'games'}" url="/games/" title="games">
 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 					<span>Games</span>
 				</petclinic:menuItem>

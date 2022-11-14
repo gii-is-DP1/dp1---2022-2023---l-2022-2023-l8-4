@@ -64,7 +64,7 @@ public class GameController {
 	@GetMapping("/{gameId}")
 	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
-		mav.addObject(this.gameService.getGameById(gameId));
+		mav.addObject("game", this.gameService.getGameById(gameId));
 		return mav;
 	}
 	

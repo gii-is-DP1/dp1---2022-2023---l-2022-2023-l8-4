@@ -93,7 +93,7 @@ public class GameControllerTest {
 				.with(csrf())
 				.param("date", "2022-11-04")
 				.param("gameState", "0")
-				.param("gameMode", "0")
+				.param("gameMode", "el foso")
 				.param("gameCode", "10"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/createGame"))
