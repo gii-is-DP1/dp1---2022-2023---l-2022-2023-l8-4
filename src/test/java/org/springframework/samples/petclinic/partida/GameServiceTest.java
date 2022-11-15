@@ -24,7 +24,6 @@ public class GameServiceTest {
 	@Autowired
 	private GameService gameService;
 	
-	
 	@Test
 	public void shouldGetPlayersFromGame(){
 		try {
