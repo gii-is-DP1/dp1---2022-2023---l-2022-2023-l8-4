@@ -15,8 +15,8 @@ public class GameService {
 	private final GameRepository gameRepository;
 		
 	@Autowired
-	public GameService(GameRepository pr) {
-		this.gameRepository = pr;
+	public GameService(GameRepository gameRepository) {
+		this.gameRepository = gameRepository;
 	}
 	
 	@Transactional(readOnly = true)

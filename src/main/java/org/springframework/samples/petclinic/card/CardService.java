@@ -21,5 +21,6 @@ public class CardService {
         return cr.getCards();
     }
 
+    public Card findCardById(int cardId) { return cr.getCardById( cardId); }
 }
 

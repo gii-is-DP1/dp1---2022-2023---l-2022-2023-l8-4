@@ -10,6 +10,8 @@
     <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
+            <th>Statistics</th>
+            <th>Games</th>
             <th>Username</th>
             <th>Password</th>
             <th>Register_Date</th>
@@ -18,17 +20,24 @@
             <th>Email</th>
             <th>BirthDate</th>
             <th>Profile_Picture</th>
+            <th>Action</th>
         </tr>
         </thead>
         <tbody>
-        
-        <c:forEach items="${player}" var="player">
+       
+        <c:forEach items="${players}" var="player">
             <tr>
+                <td>
+                    <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
+                <td>
+                    <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
                 <td>
                     <c:out value="${player.user.username}"/>
                 </td>
                 <td>                    
-                      <c:out value="${player.user.password} "/>                                        
+                      <c:out value="${player.user.username} "/>
                 </td>
                 <td>                    
                       <c:out value="${player.registerDate} "/>                                        
@@ -46,8 +55,8 @@
                       <c:out value="${player.birthDate} "/>                                        
                 </td>
                 <td>                    
-                    <c:if test="${jugador.profilePicture == ''}">none</c:if>
-                    <c:if test="${jugador.profilePicture != ''}">
+                    <c:if test="${player.profilePicture == ''}">none</c:if>
+                    <c:if test="${player.profilePicture != ''}">
                         <img src="resources/images/${player.profilePicture}" width="100px"  /> 
                     </c:if>
                 </td>
@@ -59,6 +68,6 @@
         </c:forEach>
         </tbody>
     </table>
-    <a class="btn btn-default" href="/players/create">Create new player</a>
+    <a class="btn btn-default" href="/players/new">Create new player</a>
 
 </petclinic:layout>

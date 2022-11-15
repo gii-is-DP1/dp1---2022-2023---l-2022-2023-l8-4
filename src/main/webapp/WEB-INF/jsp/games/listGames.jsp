@@ -2,15 +2,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<dobble:layout pageName="games">
+<petclinic:layout pageName="games">
+    <h2>Games</h2>
 
-	<h2>Games</h2>
-	
-	<table id="playersTable" class="table table-striped">
+    <table id="playersTable" class="table table-striped">
         <thead>
         <tr>
             <th>Date</th>
@@ -20,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        
+       
         <c:forEach items="${games}" var="game">
             <tr>
                 <td>
@@ -38,6 +35,8 @@
                      </c:forEach>                                        
                 </td>
              </c:forEach>
-	
-	
-</dobble:layout>
+        </tbody>
+    </table>
+    
+
+</petclinic:layout>

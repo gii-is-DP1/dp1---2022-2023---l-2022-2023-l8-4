@@ -25,7 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 	
-	private static final String WELCOME = "welcome";
+	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST = "games/listGames";
 	private GameService gameService;
@@ -37,34 +37,35 @@ public class GameController {
 		this.cardService = cardService;
 	}
 	
-	@GetMapping(value = "/create")
+	@GetMapping(value = "/new")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
+		game.setGameState(GameState.INITIATED);
+		game.setDate(LocalDate.now());
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
 		model.put("gameModes", gameModes);
 		return VIEW_CREATION_FORM;
 	}
 
-	@PostMapping(value = "/create")
+	@PostMapping(value = "/new")
 	public String procesarForlulario(@Valid Game game, BindingResult result) throws DataAccessException, Exception {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
-		else {
-			game.setDate(LocalDate.now());
-			game.setGameState(GameState.INITIATED);
-			game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
-			game.setCards(cardService.getDeck());
-			this.gameService.saveGame(game);
-			return "redirect:/games/" + game.getId();
-		}
+		
+		game.setDate(LocalDate.now());
+		game.setGameState(GameState.INITIATED);
+		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
+		game.setCards(cardService.getDeck());
+		this.gameService.saveGame(game);
+		return "redirect:/games/" + game.getId();
 	}
 	
 	@GetMapping("/{gameId}")
 	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
-		ModelAndView mav = new ModelAndView("games/gameDetails");
-		mav.addObject(this.gameService.getGameById(gameId));
+		ModelAndView mav = new ModelAndView(GAME_DETAILS);
+		mav.addObject("game", this.gameService.getGameById(gameId));
 		return mav;
 	}
 	
