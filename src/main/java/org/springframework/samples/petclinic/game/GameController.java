@@ -41,6 +41,7 @@ public class GameController {
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
 		game.setGameState(GameState.INITIATED);
+		game.setGameMode(GameMode.ESTANDAR);
 		game.setDate(LocalDate.now());
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
