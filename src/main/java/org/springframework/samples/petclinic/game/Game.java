@@ -2,7 +2,6 @@ package org.springframework.samples.petclinic.game;
 
 import java.time.LocalDate; 
 import java.util.Collection;
-import java.util.Date;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,9 +10,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,17 +30,23 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper=false)
 public class Game extends BaseEntity {
 
-	@Column(name = "date")
-	@NotEmpty
+	@Column(name = "date", nullable = false)
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
-	@Column(name = "game_mode")
-	@NotEmpty
+	@Column(name = "game_mode", nullable = false)
+	@NotNull
 	private GameMode gameMode;
 	
+	@Column(name = "game_state", nullable = false)
+	@NotNull
+	private GameState gameState;
+	
+	@Column(name = "game_code", unique = true, nullable = false)
+	private Integer gameCode;
+	
 	@ManyToMany
-	@NotEmpty
 	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "game_id"),
 	inverseJoinColumns = @JoinColumn(name = "player_id"))
 	private Collection<Player> players;
@@ -55,4 +57,3 @@ public class Game extends BaseEntity {
 					CascadeType.REFRESH})
 	private Collection<Card> cards;
 }
-

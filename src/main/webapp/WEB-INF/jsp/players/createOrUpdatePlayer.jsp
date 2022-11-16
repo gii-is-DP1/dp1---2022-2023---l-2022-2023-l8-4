@@ -2,9 +2,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="players">
+<dobble:layout pageName="players">
     <jsp:attribute name="customScript">
         <script>
             $(function () {
@@ -19,12 +19,13 @@
         <form:form modelAttribute="player"
                    class="form-horizontal">
             <input type="hidden" name="id" value="${player.id}"/>
-            <div class="form-group has-feedback">
-                <petclinic:inputField label="Username" name="user.username"/>
-                <petclinic:inputField label="Password" name="user.password"/>
-                <petclinic:inputField label="email" name="email"/>
-                <petclinic:inputField label="BirthDate" name="irthDate"/>
-                <petclinic:inputField label="ProfilePicture" name="profilePicture"/>
+            <div class="form-group has-feedback">                
+                <dobble:inputField label="Username" name="user.username"/>
+                <dobble:inputField label="Password" name="user.password"/>
+                <dobble:inputField label="Email" name="email"/>
+                <dobble:inputField label="BirthDate" name="birthDate"/>
+                <dobble:inputField label="Profile Picture" name="profilePicture"/>
+        
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -36,10 +37,8 @@
                             <button class="btn btn-default" type="submit">Update Player</button>
                         </c:otherwise>
                     </c:choose>
-            	</div>
+                </div>
             </div>
-        </form:form>
-        <c:if test="${!player['new']}">
-        </c:if>
+        </form:form>       
     </jsp:body>
-</petclinic:layout>
+</dobble:layout>

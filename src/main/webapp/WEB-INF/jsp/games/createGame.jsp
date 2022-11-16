@@ -1,19 +1,28 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<dobble:layout pageName="owners">
-
-	<h2>Nueva partida</h2>
-	
-	<form:form modelAttribute="partida" class="form-horizontal" id="add-match-form">
-		<div class="form-group has-feedback">
-			<dobble:inputField label="Número jugadores" name=""/>
-		</div>
-    </form:form>
-	
+<dobble:layout pageName="games">
+    <jsp:body>
+        <h2>
+            <c:if test="${game['new']}">New </c:if> Game
+        </h2>
+        <form:form modelAttribute="game"
+                   class="form-horizontal">
+            <input type="hidden" name="id" value="${game.id}"/>
+            <input type="hidden" name="date" value="${game.date}"/>
+            <input type="hidden" name="gameState" value="${game.gameState}"/>
+            <div class="form-group has-feedback">                
+                <dobble:selectField label="Game mode" name="gameMode" size = "3" names = "${gameModes}"/>
+                <input type="hidden" name="gameMode" value="${game.gameMode}"/>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    	<button class="btn btn-default" type="submit">Create Game</button>
+                </div>
+            </div>
+        </form:form>       
+    </jsp:body>
 </dobble:layout>
