@@ -31,6 +31,7 @@ import lombok.ToString;
 public class Game extends BaseEntity {
 
 	@Column(name = "date", nullable = false)
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
