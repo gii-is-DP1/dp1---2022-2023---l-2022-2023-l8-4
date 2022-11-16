@@ -8,7 +8,7 @@
     <jsp:attribute name="customScript">
         <script>
             $(function () {
-                $("#birthDate").datepicker({dateFormat: 'yy/mm/dd'});
+                $("#birthDate").datepicker({dateFormat: 'yyyy/mm/dd'});
             });
         </script>
     </jsp:attribute>
@@ -23,8 +23,7 @@
                 <petclinic:inputField label="Username" name="user.username"/>
                 <petclinic:inputField label="Contraseña" name="user.password"/>
                 <petclinic:inputField label="email" name="email"/>
-                <petclinic:inputField label="birthDate" name="birthDate
-                "/>
+                <petclinic:inputField label="birthDate" name="birthDate"/>
                 <petclinic:inputField label="profilePicture" name="profilePicture"/>
             </div>
             <div class="form-group">
