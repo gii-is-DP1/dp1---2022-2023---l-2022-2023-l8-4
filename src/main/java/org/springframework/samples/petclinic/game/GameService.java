@@ -31,13 +31,13 @@ public class GameService {
 	}	
 	
 	@Transactional(readOnly = true)
-	public Collection<Game> getGamesInProgress() throws DataAccessException {
-		return this.gameRepository.findGamesStateInProgress();
+	public List<Game> getGamesInProgress() throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.IN_PROGRESS);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Game> getGamesFinalized() throws DataAccessException {
-		return this.gameRepository.findGamesStateFinalized();
+	public List<Game> getGamesFinalized() throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
 	}
 	
 	@Transactional(readOnly = true)

@@ -17,6 +17,7 @@ import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
 
 
+
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 public class GameServiceTest {
 	
