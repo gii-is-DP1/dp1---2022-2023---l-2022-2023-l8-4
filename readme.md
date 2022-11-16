@@ -312,7 +312,7 @@ Dado que estamos autenticados en el sistema como jugador, cuando pulsamos para c
 
 # Modelo de datos
 
-![Modelado conceptual](./docs/Modelado_Conceptual.svg)
+![Modelado conceptual](./docs/Modelado_Conceptual.png)
 
 
 # Reglas de Negocio
