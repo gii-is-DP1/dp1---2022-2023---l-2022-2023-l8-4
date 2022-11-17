@@ -15,8 +15,8 @@ public class GameService {
 	private final GameRepository gameRepository;
 		
 	@Autowired
-	public GameService(GameRepository pr) {
-		this.gameRepository = pr;
+	public GameService(GameRepository gameRepository) {
+		this.gameRepository = gameRepository;
 	}
 	
 	@Transactional(readOnly = true)
@@ -24,20 +24,14 @@ public class GameService {
 		return this.gameRepository.findAll();
 	}
 	
-	
 	@Transactional(readOnly = true)
-	public List<Game> getGamesByDateDesc() throws DataAccessException {
-		return this.gameRepository.findGamesByOrderByDateDesc();
-	}	
-	
-	@Transactional(readOnly = true)
-	public Collection<Game> getGamesInProgress() throws DataAccessException {
-		return this.gameRepository.findGamesStateInProgress();
+	public List<Game> getGamesInProgress() throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.IN_PROGRESS);
 	}
 	
 	@Transactional(readOnly = true)
-	public Collection<Game> getGamesFinalized() throws DataAccessException {
-		return this.gameRepository.findGamesStateFinalized();
+	public List<Game> getGamesFinalized() throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
 	}
 	
 	@Transactional(readOnly = true)

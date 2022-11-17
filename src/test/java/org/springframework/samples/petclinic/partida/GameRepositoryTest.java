@@ -1,11 +1,16 @@
 package org.springframework.samples.petclinic.partida;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.game.GameRepository;
+import org.springframework.samples.petclinic.game.GameState;
 import org.springframework.samples.petclinic.player.Player;
 
 
@@ -23,31 +29,28 @@ public class GameRepositoryTest {
 	@Autowired
 	private GameRepository gameRepository;
 	
-	private Collection<Player> players;
+	private List<Game> games;
+	
+	private int numberOfGames;
 	
 	
 	@BeforeEach
 	void setup() {
-		Player player1 = new Player();
-		Player player2 = new Player();
-		Player player3 = new Player();
-		
-		this.players = List.of(player1, player2, player3);
+		this.games = this.gameRepository.findAll();
+		this.numberOfGames = this.games.size();
 	}
 	
 	@Test
 	void shouldFindGameCorrectId() {
 		int gameId = 1;
-		Game game = new Game();
-		game.setId(gameId);
-		game.setGameMode(GameMode.ESTANDAR);;
-		game.setDate(LocalDate.of(2022, 11, 4));
-		Optional<Game> expectedGame = Optional.of(game);
+		Game firstGame = games.get(0);
+		Game actualGame = this.gameRepository.findById(gameId).get();
 		
-		Optional<Game> actualGame = this.gameRepository.findById(gameId);
-		assertEquals(expectedGame.get().getId(), actualGame.get().getId(), "El id de la partida no coincide");
-		assertEquals(expectedGame.get().getDate(), actualGame.get().getDate(), "La fecha de la partida no coincide");
-		assertEquals(expectedGame.get().getGameMode(), actualGame.get().getGameMode(), "El modo partida no coincide");
+		assertEquals(firstGame.getId(), actualGame.getId(), "The game id does not match");
+		assertEquals(firstGame.getDate(), actualGame.getDate(), "The game date does not match");
+		assertEquals(firstGame.getGameMode(), actualGame.getGameMode(), "Game mode does not match");
+		assertEquals(firstGame.getGameState(), actualGame.getGameState(), "The state of the game does not match");
+		assertEquals(firstGame.getGameCode(), actualGame.getGameCode(), "The game code does not match");
 
 	}
 	
@@ -60,19 +63,93 @@ public class GameRepositoryTest {
 		
 		assertEquals(expectedGame, actualGame, "It should not find the game");
 	}
+	
+	private Game createGame() {
+		Player player1 = new Player();
+		Player player2 = new Player();
+		Player player3 = new Player();
+		Collection<Player> players = List.of(player1, player2, player3);
+		
+		Game game = new Game();
+		int gameId = this.numberOfGames + 1;
+		int gameCode = 15;
+		game.setId(gameId);
+		game.setDate(LocalDate.now());
+		game.setGameMode(GameMode.EL_FOSO);
+		game.setGameCode(gameCode);
+		game.setGameState(GameState.INITIATED);
+		game.setGameCode(15);
+		game.setPlayers(players);
+		
+		return game;
+	}
 
 	@Test
 	void shouldSaveGame() {
 		
-		Game expectedGame = new Game();
-		int gameId = 6;
-		expectedGame.setId(gameId);
-		expectedGame.setDate(LocalDate.now());
-		expectedGame.setGameMode(GameMode.EL_FOSO);
-		expectedGame.setPlayers(this.players);
+		Game expectedGame = createGame();
+		
 		this.gameRepository.save(expectedGame);
 		
-		Game actualGame = this.gameRepository.findById(gameId).get();
-		assertEquals(expectedGame, actualGame);	
+		Game actualGame = this.gameRepository.findById(expectedGame.getId()).get();
+		assertEquals(expectedGame.getId(), actualGame.getId());
+		assertEquals(expectedGame.getDate(), actualGame.getDate());	
+		assertEquals(expectedGame.getGameMode(), actualGame.getGameMode());	
+		assertEquals(expectedGame.getGameCode(), actualGame.getGameCode());	
+		assertEquals(expectedGame.getPlayers(), actualGame.getPlayers());	
+	}
+	
+	private List<Game> getGamesWithStateOrderedByDateDesc(GameState gameState) {
+		return gameRepository.findAll().stream().filter(game -> game.getGameState().equals(gameState))
+				.sorted(Comparator.comparing(Game::getDate).reversed()).collect(Collectors.toList());	
+	}
+	
+	@Test
+	public void shouldGetGamesInitiated(){
+		List<Game> gamesInitiated = getGamesWithStateOrderedByDateDesc(GameState.INITIATED);
+		List<Game> actualGamesInitiated = this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.INITIATED);
+			
+		assertNotNull(actualGamesInitiated, "The list of games cannot be null");
+		assertFalse(actualGamesInitiated.isEmpty());
+		assertEquals(gamesInitiated.size(), actualGamesInitiated.size(), "Sizes do not match");
+		assertEquals(gamesInitiated,actualGamesInitiated, "List do not match");
+		
+	}
+	
+	@Test
+	public void shouldGetGamesInProgress(){
+		List<Game> gamesInProgress = getGamesWithStateOrderedByDateDesc(GameState.IN_PROGRESS);
+		
+		List<Game> actualGamesInProgress = this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.IN_PROGRESS);
+			
+		assertNotNull(actualGamesInProgress, "The list of games cannot be null");
+		assertFalse(actualGamesInProgress.isEmpty());
+		assertEquals(gamesInProgress.size(), actualGamesInProgress.size(), "Sizes do not match");
+		assertEquals(gamesInProgress, actualGamesInProgress, "List do not match");	
+	}
+	
+	@Test
+	public void shouldGetGamesFinalized(){
+		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(GameState.FINALIZED);
+		
+		List<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
+			
+		assertNotNull(actualGamesFinalized, "The list of games cannot be null");
+		assertFalse(actualGamesFinalized.isEmpty());
+		assertEquals(gamesFinalized.size(), actualGamesFinalized.size(), "Sizes do not match");
+		assertEquals(gamesFinalized, actualGamesFinalized, "List do not match");
+		
+	}
+	
+	@Test
+	public void shouldNotGetGamesWithNullState(){
+		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(null);
+		
+		List<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(null);
+			
+		assertNotNull(actualGamesFinalized, "The list of games cannot be null");
+		assertTrue(actualGamesFinalized.isEmpty(), "The list should be empty");
+		assertEquals(gamesFinalized, actualGamesFinalized, "List do not match");
+		
 	}
 }
