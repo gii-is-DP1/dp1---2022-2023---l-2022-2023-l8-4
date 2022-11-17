@@ -16,7 +16,6 @@
             <input type="hidden" name="gameState" value="${game.gameState}"/>
             <div class="form-group has-feedback">                
                 <dobble:selectField label="Game mode" name="gameMode" size = "3" names = "${gameModes}"/>
-                <input type="hidden" name="gameMode" value="${game.gameMode}"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
