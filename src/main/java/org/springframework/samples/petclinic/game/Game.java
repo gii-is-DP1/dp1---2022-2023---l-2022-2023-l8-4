@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -46,9 +47,7 @@ public class Game extends BaseEntity {
 	@Column(name = "game_code", unique = true, nullable = false)
 	private Integer gameCode;
 	
-	@ManyToMany
-	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "game_id"),
-	inverseJoinColumns = @JoinColumn(name = "player_id"))
+	@ManyToMany(mappedBy= "playedGames")
 	private Collection<Player> players;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,
