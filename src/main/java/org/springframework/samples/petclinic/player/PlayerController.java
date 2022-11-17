@@ -23,6 +23,7 @@ public class PlayerController {
 	public static final String player_listing = "players/playerList";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String game_listing = "games/listGames";
+    public static final String player_profile = "players/dataPlayer";
 	
 	@Autowired
 	public PlayerController(PlayerService playerService, GameService gameService) {
@@ -42,6 +43,13 @@ public class PlayerController {
         ModelAndView result = new ModelAndView(game_listing);
         result.addObject("games", gameService.getGamesByPlayerId(id));
         return result;
+	}
+	
+	@GetMapping("/{id}")
+	public ModelAndView showPlayerProfile(@PathVariable("id") Integer id) {
+		ModelAndView result = new ModelAndView(player_profile);
+		result.addObject("player", playerService.showPlayersById(id));
+		return result;
 	}
 	
 	@GetMapping("/delete/{id}")
