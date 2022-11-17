@@ -1,13 +1,6 @@
--- One admin user, named admin1 with passwor 4dm1n and authority admin
+-- Users
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
--- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
-
 
 INSERT INTO users(username,password,enabled) VALUES ('pgmarc','p4gmarc', TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'pgmarc','admin');
@@ -27,7 +20,7 @@ INSERT INTO authorities(id,username,authority) VALUES (8,'carzarrei','admin');
 INSERT INTO users(username,password,enabled) VALUES ('dangalmar','kaka', TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (9,'dangalmar','admin');
 
---Logros
+--Achivements
 INSERT INTO achievement(id,name,description,threshold,percentage,trophy,acquire_date,badge_image) VALUES
 (1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,90.0,3,'2022-01-01','https://bit.ly/certifiedGamer'),
 (2,'Talentoso','Si ganas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un talentoso.',20.0,70.0,2,'2022-01-01','https://bit.ly/proGamer'),
@@ -50,6 +43,7 @@ INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES
 (3, '2022-11-06', 1, 1, 12),
 (4, '2022-11-09', 0, 2, 13),
 (5, '2022-11-10', 2, 2, 14);
+
 --Player games
 INSERT INTO players_games(game_id,player_id) VALUES 
 (1,1),
@@ -65,6 +59,7 @@ INSERT INTO players_games(game_id,player_id) VALUES
 (5,5),
 (5,3),
 (5,1);
+
 -- Creating deck of cards
 INSERT INTO cards (id, icons) VALUES
 (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
