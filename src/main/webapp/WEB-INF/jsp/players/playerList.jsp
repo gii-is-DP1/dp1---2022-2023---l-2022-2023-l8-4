@@ -13,7 +13,6 @@
             <th>Statistics</th>
             <th>Games</th>
             <th>Username</th>
-            <th>Password</th>
             <th>Register_Date</th>
             <th>Modification_Date</th>
             <th>Last_Login</th>
@@ -35,9 +34,6 @@
                 </td>
                 <td>
                     <c:out value="${player.user.username}"/>
-                </td>
-                <td>                    
-                      <c:out value="${player.user.username} "/>
                 </td>
                 <td>                    
                       <c:out value="${player.registerDate} "/>                                        
