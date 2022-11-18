@@ -12,6 +12,7 @@
         <tr>
             <th>Statistics</th>
             <th>Games</th>
+            <th>Achievement</th>
             <th>Username</th>
             <th>Password</th>
             <th>Register_Date</th>
@@ -32,6 +33,9 @@
                 </td>
                 <td>
                     <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
+                 <td>
+                    <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                 <td>
                     <c:out value="${player.user.username}"/>

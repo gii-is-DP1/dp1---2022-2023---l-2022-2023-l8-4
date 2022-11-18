@@ -34,6 +34,8 @@ public class AchievementController {
         result.addObject("achievements", service.getAchievements());
         return result;
     }
+    
+    
 
     
     @GetMapping("/{id}/delete")
