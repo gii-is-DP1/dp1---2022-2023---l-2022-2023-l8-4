@@ -26,6 +26,7 @@ public class PlayerController {
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String game_listing = "games/listGames";
     public static final String achievement_listing = "achievements/AchievementsListing";
+    public static final String player_profile = "players/dataPlayer";
 	
 	@Autowired
 	public PlayerController(PlayerService playerService, GameService gameService, AchievementService achievementService) {
@@ -48,11 +49,21 @@ public class PlayerController {
         return result;
 	}
 	
+
 	@GetMapping("/{id}/achievements")
     public ModelAndView showAllAchievementGames(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(achievement_listing);
         result.addObject("achievements", achievementService.findAchievementByPlayerId(id));
         return result;
+    }
+    
+    
+	@GetMapping("/{id}")
+	public ModelAndView showPlayerProfile(@PathVariable("id") Integer id) {
+		ModelAndView result = new ModelAndView(player_profile);
+		result.addObject("player", playerService.showPlayersById(id));
+		return result;
+
 	}
 	
 	@GetMapping("/delete/{id}")
