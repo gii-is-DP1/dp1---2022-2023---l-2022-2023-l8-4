@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.game.GameService;
+import org.springframework.samples.petclinic.statistics.AchievementService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,15 +21,18 @@ public class PlayerController {
 	
 	private PlayerService playerService;
 	private GameService gameService;
+	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String game_listing = "games/listGames";
+    public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
 	
 	@Autowired
-	public PlayerController(PlayerService playerService, GameService gameService) {
+	public PlayerController(PlayerService playerService, GameService gameService, AchievementService achievementService) {
 		this.playerService = playerService;
 		this.gameService = gameService;
+		this.achievementService = achievementService;
 	}
 	
 	@GetMapping
@@ -45,11 +49,21 @@ public class PlayerController {
         return result;
 	}
 	
+
+	@GetMapping("/{id}/achievements")
+    public ModelAndView showAllAchievementGames(@PathVariable("id") Integer id) {
+        ModelAndView result = new ModelAndView(achievement_listing);
+        result.addObject("achievements", achievementService.findAchievementByPlayerId(id));
+        return result;
+    }
+    
+    
 	@GetMapping("/{id}")
 	public ModelAndView showPlayerProfile(@PathVariable("id") Integer id) {
 		ModelAndView result = new ModelAndView(player_profile);
 		result.addObject("player", playerService.showPlayersById(id));
 		return result;
+
 	}
 	
 	@GetMapping("/delete/{id}")
