@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.User;
 
 import lombok.EqualsAndHashCode;
@@ -60,8 +62,11 @@ public class Player extends BaseEntity {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 
-	@ManyToMany(fetch = FetchType.EAGER,
-				mappedBy="players")
+	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "player_id"),
+	inverseJoinColumns = @JoinColumn(name = "game_id"))
 	private Collection<Game> playedGames;
+	
+	
 	
 }
