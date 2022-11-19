@@ -23,6 +23,4 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 			+ "WHERE players.id=?1", nativeQuery= true)
 	Collection<Game> findGamesByPlayerId(int id);
 
-    @Query( "SELECT g FROM Game g JOIN g.players p WHERE p.id = :id" )
-    List<Game> getGamesByPlayers( @Param("id") int playerId );
 }
