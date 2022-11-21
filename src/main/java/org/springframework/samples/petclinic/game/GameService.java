@@ -75,4 +75,8 @@ public class GameService {
     public List<Game> gamesByPlayers(Integer id) {
         return (List<Game>) this.gameRepository.findGamesByPlayerId( id );
     }
+
+	public Game getGameByCode(int gameCode) {
+		return this.gameRepository.findGameByGameCode(gameCode);
+	}
 }

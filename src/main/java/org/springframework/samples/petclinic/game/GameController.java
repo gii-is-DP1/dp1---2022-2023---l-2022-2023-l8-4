@@ -65,14 +65,15 @@ public class GameController {
 	}
 	
 	@GetMapping("/{gameId}")
-	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
+	public ModelAndView showGame(@PathVariable("gameId") int gameId) {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("game", this.gameService.getGameById(gameId));
+		mav.addObject("creator", true);
 		return mav;
 	}
 	
 	@GetMapping(value = "/finalized")
-	public String listarPartidasAcabadas(Map<String, Object> model) {
+	public String listFinalizedGames(Map<String, Object> model) {
 		Collection<Game> games = gameService.getGamesFinalized();
 		model.put("games", games);
 		return VIEW_GAME_LIST;
@@ -80,11 +81,19 @@ public class GameController {
 	}
 	
 	@GetMapping(value = "/inProgress")
-	public String listarPartidasEnProgreso(Map<String, Object> model) {
+	public String listInProgressGames(Map<String, Object> model) {
 		Collection<Game> games = gameService.getGamesInProgress();
 		model.put("games", games);
 		return VIEW_GAME_LIST;
 		
+	}
+	
+	@GetMapping("/join/{gameCode}")
+	public ModelAndView joinGame(@PathVariable("gameCode") int gameCode) {
+		ModelAndView mav = new ModelAndView(GAME_DETAILS);
+		mav.addObject("game", this.gameService.getGameByCode(gameCode));
+		mav.addObject("creator", false);
+		return mav;
 	}
 	
 }
