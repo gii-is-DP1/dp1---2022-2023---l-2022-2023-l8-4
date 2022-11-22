@@ -7,36 +7,19 @@
 	description="Name of the active menu: home, owners, vets or error"%>
 
 <nav class="navbar navbar-default" role="navigation">
-	<div class="container">
+	<div>
 		<div class="navbar-header">
-			<a class="navbar-brand"
-				href="<spring:url value="/" htmlEscape="true" />"><span></span></a>
-			<button type="button" class="navbar-toggle" data-toggle="collapse"
-				data-target="#main-navbar">
-				<span class="sr-only"><os-p>Toggle navigation</os-p></span> <span
-					class="icon-bar"></span> <span class="icon-bar"></span> <span
-					class="icon-bar"></span>
-			</button>
+			<a href="<c:url value="/" />">
+				<img id="image" src="/resources/images/logo.png"/>
+			</a>
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
-					title="trigger a RuntimeException to see how it is handled">
-					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-					<span>Error</span>
-				</petclinic:menuItem>
 				
 				<petclinic:menuItem active="${name eq 'players'}" url="/players"
-					title="Jugadores">
-					<span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>
-					<span>Jugadores</span>
+					title="Players">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					<span>Players</span>
 				</petclinic:menuItem>
 				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
 					title="Achievements" dropdown="${true}">										
@@ -46,7 +29,7 @@
 							</li>
 							<li class="divider"></li>
 							<li>								
-								<a href="<c:url value="/statistics/achievements" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+								<a href="<c:url value="/statistics/achievements" />"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>My Achievements</a>
 
 							</li>
 						</ul>					
@@ -89,15 +72,12 @@
 								<div class="navbar-login">
 									<div class="row">
 										<div class="col-lg-4">
-											<p class="text-center">
-												<span class="glyphicon glyphicon-user icon-size"></span>
+											<p class="text-xl-center">
+												<span class="glyphicon glyphicon-log-out"></span>
 											</p>
 										</div>
 										<div class="col-lg-8">
-											<p class="text-left">
-												<strong><sec:authentication property="name" /></strong>
-											</p>
-											<p class="text-left">
+											<p class="text-center">
 												<a href="<c:url value="/logout" />"
 													class="btn btn-primary btn-block btn-sm">Logout</a>
 											</p>
