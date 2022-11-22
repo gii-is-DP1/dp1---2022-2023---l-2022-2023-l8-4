@@ -28,9 +28,8 @@
 								<a href="<c:url value="/statistics/achievements" />">Achievements listing</a>
 							</li>
 							<li class="divider"></li>
-							<li>								
-								<a href="<c:url value="/statistics/achievements" />"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span>My Achievements</a>
-
+							<li>							
+								<a href="<c:url value="/players/{id}/achievements" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
 							</li>
 						</ul>					
 				</petclinic:menuItem>

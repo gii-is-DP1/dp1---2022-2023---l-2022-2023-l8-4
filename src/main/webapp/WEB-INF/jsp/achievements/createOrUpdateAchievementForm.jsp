@@ -25,7 +25,7 @@
                 <dobble:inputField label="Badge" name="badgeImage"/>
                 <dobble:inputField label="Threshold" name="threshold"/>
                 <dobble:inputField label="Percentage" name="percentage"/>
-                <dobble:inputField label="Achievement Trophy" name="trophy"/>
+                <dobble:inputField label="Achievement Throphy" name="trophy"/>
         
             </div>
             <div class="form-group">

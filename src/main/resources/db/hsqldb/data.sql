@@ -60,6 +60,21 @@ INSERT INTO players_games(game_id,player_id) VALUES
 (5,3),
 (5,1);
 
+--Player achievements
+INSERT INTO players_achievements(achievement_id,player_id) VALUES 
+(1,1),
+(1,2),
+(1,5),
+(2,2),
+(2,3),
+(3,3),
+(3,2),
+(3,1),
+(3,5),
+(4,4),
+(1,4),
+(2,4);
+
 -- Creating deck of cards
 INSERT INTO cards (id, icons) VALUES
 (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
