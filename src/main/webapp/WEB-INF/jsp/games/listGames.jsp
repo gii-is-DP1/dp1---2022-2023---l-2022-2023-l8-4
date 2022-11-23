@@ -24,8 +24,8 @@
                 <td>
                     <c:out value="${game.date}"/>
                 </td>
-                <td>                    
-                      <c:out value="${game.gameMode} "/>                                        
+                <td>
+                	<spring:eval expression="game.gameState"></spring:eval>          
                 </td>
                 <td>                    
                       <c:out value="${game.gameCode} "/>                                        
