@@ -8,7 +8,7 @@
 <petclinic:layout pageName="games">
     <h2>Games</h2>
 
-    <table id="playersTable" class="table table-striped">
+    <table id="playersTable" class="table table-condensed">
         <thead>
         <tr>
             <th>Date</th>
@@ -20,7 +20,7 @@
         <tbody>
        
         <c:forEach items="${games}" var="game">
-            <tr>
+            <tr class="tabla">
                 <td>
                     <c:out value="${game.date}"/>
                 </td>
