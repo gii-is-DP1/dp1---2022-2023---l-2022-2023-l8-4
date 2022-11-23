@@ -25,6 +25,6 @@
     </table>
     
     <c:if test="${creator}">
-    	<a href="${gameLink}">Comenzar partida</a>
+    	<h3>Comenzar partida</h3>
     </c:if>
 </dobble:layout>

@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.player;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -47,5 +48,13 @@ public class PlayerServiceTest {
 			assertEquals(playerSave.getRegisterDate(), LocalDate.now());
 			assertEquals(playerSave.getLastLogin(), LocalDate.now());
 			assertEquals(playerSave.getModificationDate(), LocalDate.now());
+	}
+	
+	@Test
+	public void testFindPlayerByUsername() throws Exception {
+			assertThrows(Exception.class,() -> playerService.getPlayerByUsername(""));
+			Player player = playerService.getPlayerByUsername("pgmarc");
+			assertEquals(player.getId(), Integer.valueOf(1));
+			
 	}
 }

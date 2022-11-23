@@ -6,12 +6,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.CardService;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,11 +36,13 @@ public class GameController {
 	private static final String VIEW_GAME_LIST = "games/listGames";
 	private GameService gameService;
 	private CardService cardService;
+	private PlayerService playerService;
 	
 	@Autowired
-	public GameController(GameService gameService, CardService cardService) {
+	public GameController(GameService gameService, CardService cardService, PlayerService playerService) {
 		this.gameService = gameService;
 		this.cardService = cardService;
+		this.playerService = playerService;
 	}
 	
 	@GetMapping(value = "/new")
@@ -65,10 +72,23 @@ public class GameController {
 	}
 	
 	@GetMapping("/{gameId}")
-	public ModelAndView showGame(@PathVariable("gameId") int gameId) {
+	public ModelAndView initLobby(@PathVariable("gameId") int gameId) throws Exception {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
-		mav.addObject("game", this.gameService.getGameById(gameId));
 		mav.addObject("creator", true);
+		
+		Game game = this.gameService.getGameById(gameId);
+		String currentUsername = "";
+		try {
+			User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			currentUsername = currentUser.getUsername();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		Collection<Player> listOfPlayers = this.gameService.getPlayersFromGame(gameId);
+		listOfPlayers.add(playerService.getPlayerByUsername(currentUsername));
+		game.setPlayers(listOfPlayers);
+		mav.addObject("game", game);
+		
 		return mav;
 	}
 	
