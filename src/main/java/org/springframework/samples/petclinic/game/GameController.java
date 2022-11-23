@@ -76,6 +76,7 @@ public class GameController {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("creator", true);
 		
+		
 		Game game = this.gameService.getGameById(gameId);
 		String currentUsername = "";
 		try {

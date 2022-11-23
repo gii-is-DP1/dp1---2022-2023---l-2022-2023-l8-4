@@ -37,7 +37,7 @@ public class PlayerServiceTest {
 			User user=userService.findUser("pgmarc").get();
 			player.setUser(user);
 			
-			
+		
 			playerService.savePlayer(player);
 			Collection<Player> players=playerService.getAllPlayers();
 			Integer idPlayerSave=players.size();

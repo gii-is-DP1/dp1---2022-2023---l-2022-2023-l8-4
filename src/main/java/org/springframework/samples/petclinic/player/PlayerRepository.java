@@ -16,4 +16,5 @@ public interface PlayerRepository extends CrudRepository<Player,Integer> {
 	public Player findPlayerByUsername(@Param("username") String username);
 
 	Player save(Player usuario);
+	
 }
