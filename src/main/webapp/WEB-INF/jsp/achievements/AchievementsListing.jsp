@@ -7,7 +7,7 @@
 <dobble:layout pageName="achievements">
     <h2>Achievements</h2>
 
-    <table id="achievementsTable" class="table table-striped">
+    <table id="achievementsTable" class="table table-condensed">
         <thead>
         <tr>
             <th>Name</th>
@@ -20,7 +20,7 @@
         </thead>
         <tbody>
         <c:forEach items="${achievements}" var="achievement">
-            <tr>
+            <tr class="tabla">
                 <td>
                     <c:out value="${achievement.name}"/>
                 </td>

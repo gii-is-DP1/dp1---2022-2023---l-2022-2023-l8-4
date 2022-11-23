@@ -7,7 +7,7 @@
 <petclinic:layout pageName="players">
     <h2>Players</h2>
 
-    <table id="playersTable" class="table table-striped">
+    <table id="playersTable" class="table table-condensed">
         <thead>
         <tr>
             <th>Statistics</th>
@@ -26,7 +26,10 @@
         <tbody>
        
         <c:forEach items="${players}" var="player">
-            <tr>
+        <spring:url value="/players/{playerId}" var="playerProfile">
+                    <spring:param name="playerId" value="${player.id}"></spring:param>
+         </spring:url>
+            <tr class="tabla">
                 <td>
                     <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
@@ -37,7 +40,7 @@
                     <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                 <td>
-                    <c:out value="${player.user.username}"/>
+                    <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
                 </td>
                 <td>                    
                       <c:out value="${player.registerDate} "/>                                        
@@ -63,7 +66,7 @@
                 <td>
 				<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 				&nbsp;
-				<a href="/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
+				<a href="/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></span></a> </td>
             </tr>
         </c:forEach>
         </tbody>
