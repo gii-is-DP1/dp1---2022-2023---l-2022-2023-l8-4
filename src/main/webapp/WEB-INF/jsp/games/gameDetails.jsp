@@ -5,7 +5,8 @@
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
 <dobble:layout pageName="games">
-    <h2>Game <c:out value="${game.gameMode}"/></h2>
+    <h2>Game of <c:out value="${game.gameMode}"/></h2>
+    <h2>CODE: <c:out value="${game.gameCode}"/></h2>
 
     <table id="gameDetailsTable" class="table table-striped">
         <thead>
