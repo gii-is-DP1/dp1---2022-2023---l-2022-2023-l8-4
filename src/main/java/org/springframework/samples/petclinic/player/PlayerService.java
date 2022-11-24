@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,12 @@ public class PlayerService {
         return result.isPresent()?result.get():null;
 		
 	}
+	
+	@Transactional
+    public Collection<Game> gamesByPlayers(Integer id) {
+    	Player player = playerRepository.findById(id).get();
+        return player.getPlayedGames();
+    }
 	
 	@Transactional
 	public void deletePlayer(Integer id) throws DataAccessException {
