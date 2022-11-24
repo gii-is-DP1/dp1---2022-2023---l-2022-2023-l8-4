@@ -5,21 +5,18 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
-<petclinic:layout pageName="home">
-	<img src="/resources/images/logoPNG_3.png">
-    <h2><fmt:message key="welcome"/></h2>
-    <div class="row">
-    <h2>Project ${title}</h2>
-    <p><h2>Group ${group}</h2></p>
-    <p><ul>
-    <c:forEach items="${people}" var = "person">
-    	<li>${person.firstName}  ${person.lastName}</li>
-    </c:forEach>
-    </ul>
-    <p/>
-    </div>
-    <div class="col-md-12">
-            <spring:url value="/resources/images/logo.png" htmlEscape="true" var="petsImage"/>
-            <img class="img-responsive" src="${petsImage}" width='25%'/>
-    </div>
-</petclinic:layout>
+<html>
+<petclinic:htmlHeader/>
+
+<body id="fondo">
+	
+	<div id="contenedor">
+	<img id="imagen" src="/resources/images/logo.png"/>	
+	<a href="<c:url value="/login" />"><div class="button">
+	<span style="color: black" class="glyphicon glyphicon-log-in" aria-hidden="true"></span><p class="texto">Login</p></div></a>
+	<a href="<c:url value="/users/new" />"><div class="button">
+	<span style="color: black" class="glyphicon glyphicon-user" aria-hidden="true"></span><p class="texto">Register</p></div></a>
+	</div>
+
+</body>
+</html>
