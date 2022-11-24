@@ -73,6 +73,6 @@ public class GameService {
 
     @Transactional
     public List<Game> gamesByPlayers(Integer id) {
-        return (List<Game>) this.gameRepository.findGamesByPlayerId( id );
+        return (List<Game>) this.gameRepository.findGamesByPlayerId(id);
     }
 }
