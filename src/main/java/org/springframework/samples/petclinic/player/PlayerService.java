@@ -31,6 +31,15 @@ public class PlayerService {
 		return playerRepository.findAll();
 	}
 	
+	@Transactional(readOnly=true)
+	public Player getPlayerByUsername(String username) throws Exception{
+		Player player = playerRepository.findPlayerByUsername(username);
+		if(player == null) {
+			throw new Exception("Player not found");
+		}
+		return player;
+	}
+	
 	@Transactional(readOnly = true)
 	public Player showPlayersById(Integer id) {
 		Optional<Player> result= playerRepository.findById(id);

@@ -21,5 +21,6 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 			+ "JOIN players  ON players_games.player_id=players.id "
 			+ "WHERE players.id=?1", nativeQuery= true)
 	Collection<Game> findGamesByPlayerId(int id);
+	Game findGameByGameCode(int gameCode);
 
 }
