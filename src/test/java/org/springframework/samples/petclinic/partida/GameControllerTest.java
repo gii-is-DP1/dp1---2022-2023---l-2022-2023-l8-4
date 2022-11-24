@@ -70,7 +70,7 @@ public class GameControllerTest {
 	
 	
 	@Test
-	@WithMockUser(username = "pgmarc", password ="123", authorities = {"admin"})
+	@WithMockUser(username = "carbersor", password ="123", authorities = {"admin"})
 	void shouldShowGame() throws Exception {
 		mockMvc.perform(get("/games/" + gameId))
 		.andExpect(status().isOk())
