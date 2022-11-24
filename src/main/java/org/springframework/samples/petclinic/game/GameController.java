@@ -33,6 +33,7 @@ public class GameController {
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST = "games/listGames";
+	private static final String GAME_JOIN_VIEW = "games/joinGame";
 	private GameService gameService;
 	private CardService cardService;
 	private PlayerService playerService;
@@ -66,6 +67,7 @@ public class GameController {
 		game.setGameState(GameState.INITIATED);
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
+		addCurrentPlayerToGame(game);
 		this.gameService.saveGame(game);
 		return "redirect:/games/" + game.getId();
 	}
@@ -75,9 +77,8 @@ public class GameController {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("creator", true);
 		
-		
 		Game game = this.gameService.getGameById(gameId);
-		addCurrentPlayerToGame(game);
+		
 		mav.addObject("game", game);
 		
 		return mav;
@@ -99,14 +100,28 @@ public class GameController {
 		
 	}
 	
+	@GetMapping("/join")
+	public ModelAndView joinGames() throws Exception {
+		ModelAndView mav = new ModelAndView(GAME_JOIN_VIEW);
+		mav.addObject("gameCode","");
+		return mav;
+	}
+	
+	@PostMapping("/join")
+	public String joinGame(@ModelAttribute("gameCode") int gameCode) throws Exception {
+		Game game = this.gameService.getGameByCode(gameCode);
+		addCurrentPlayerToGame(game);
+		
+		return "redirect:/games/join/"+game.getGameCode();
+	}
+	
 	@GetMapping("/join/{gameCode}")
-	public ModelAndView joinGame(@PathVariable("gameCode") int gameCode) throws Exception {
+	public ModelAndView joinGameCode(@PathVariable("gameCode") int gameCode) throws Exception {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("creator", false);
 		
 		Game game = this.gameService.getGameByCode(gameCode);
-		addCurrentPlayerToGame(game);
-		mav.addObject("game", game);
+		mav.addObject("game",game);
 		
 		return mav;
 	}
@@ -124,6 +139,7 @@ public class GameController {
 			e.printStackTrace();
 		}
 		game.addPlayer(playerService.getPlayerByUsername(currentUsername));
+		gameService.saveGame(game);
 	}
 	
 }
