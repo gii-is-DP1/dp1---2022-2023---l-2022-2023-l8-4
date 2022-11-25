@@ -143,7 +143,8 @@ public class GameController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		game.addPlayer(playerService.getPlayerByUsername(currentUsername));
+		Player player = playerService.getPlayerByUsername(currentUsername);
+		game.addPlayer(player);
 		gameService.saveGame(game);
 	}
 	
