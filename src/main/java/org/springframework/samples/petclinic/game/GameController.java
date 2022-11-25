@@ -45,12 +45,17 @@ public class GameController {
 		this.playerService = playerService;
 	}
 	
-	@GetMapping(value = "/new")
-	public String iniciarFormulario(Map<String, Object> model) {
+	private Game initGame() {
 		Game game = new Game();
 		game.setGameState(GameState.INITIATED);
 		game.setGameMode(GameMode.ESTANDAR);
 		game.setDate(LocalDate.now());
+		return game;
+	}
+	
+	@GetMapping(value = "/new")
+	public String iniciarFormulario(Map<String, Object> model) {
+		Game game = initGame();
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
 		model.put("gameModes", gameModes);
@@ -103,16 +108,16 @@ public class GameController {
 	@GetMapping("/join")
 	public ModelAndView joinGames() throws Exception {
 		ModelAndView mav = new ModelAndView(GAME_JOIN_VIEW);
-		mav.addObject("gameCode","");
+		mav.addObject("gameCode",0);
 		return mav;
 	}
 	
 	@PostMapping("/join")
 	public String joinGame(@ModelAttribute("gameCode") int gameCode) throws Exception {
-		Game game = this.gameService.getGameByCode(gameCode);
+		Game game = gameService.getGameByCode(gameCode);
 		addCurrentPlayerToGame(game);
 		
-		return "redirect:/games/join/"+game.getGameCode();
+		return "redirect:/games/join/"+game.getGameCode().toString();
 	}
 	
 	@GetMapping("/join/{gameCode}")
@@ -138,7 +143,8 @@ public class GameController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		game.addPlayer(playerService.getPlayerByUsername(currentUsername));
+		Player player = playerService.getPlayerByUsername(currentUsername);
+		game.addPlayer(player);
 		gameService.saveGame(game);
 	}
 	
