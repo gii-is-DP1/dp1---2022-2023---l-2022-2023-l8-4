@@ -22,11 +22,11 @@ INSERT INTO authorities(id,username,authority) VALUES (9,'dangalmar','admin');
 
 --Achivements
 INSERT INTO achievement(id,name,description,threshold,percentage,trophy,acquire_date,badge_image) VALUES
-(1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,90.0,3,'2022-01-01','viciado.png'),
-(2,'Talentoso','Si ganas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un talentoso.',20.0,70.0,2,'2022-01-01',''),
-(3,'Picado','Si juegas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un picado.',100.0,70.0,3,'2022-01-01',''),
-(4,'Maestro','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un maestro.',10.0,70.0,1,'2022-01-15',''),
-(5,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'2022-01-10','');
+(1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,90.0,3,'2022-01-01','/resources/images/logros/viciado.png'),
+(2,'Soldado','Si ganas <THRESHOLD> partidas o mas, en cualquier modo eres un buen soldado.',20.0,70.0,2,'2022-01-01','/resources/images/logros/soldado.png'),
+(3,'King','Si juegas <THRESHOLD> partidas o mas, en cualquier modo es que eres el rey.',100.0,70.0,3,'2022-01-01','/resources/images/logros/king.png'),
+(4,'Maestro','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un maestro.',10.0,70.0,1,'2022-01-15','/resources/images/logros/sensei.png'),
+(5,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'2022-01-10','/resources/images/logo.png');
 
 --Players
 INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
@@ -68,14 +68,11 @@ INSERT INTO players_achievements(achievement_id,player_id) VALUES
 (1,4),
 (2,2),
 (2,3),
-(3,3),
 (3,2),
 (3,1),
 (3,3),
 (4,4),
-(1,4),
 (2,4),
-(4,4),
 (3,5),
 (5,5);
 

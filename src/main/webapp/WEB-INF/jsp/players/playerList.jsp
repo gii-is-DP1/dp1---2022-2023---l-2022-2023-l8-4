@@ -38,7 +38,7 @@
                     <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                  <td>
-                    <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                    <a href="/players/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                 <td>
                     <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
@@ -64,7 +64,7 @@
                 <td>                    
                     <c:if test="${player.profilePicture == ''}">none</c:if>
                     <c:if test="${player.profilePicture != ''}">
-                        <img src="resources/images/${player.profilePicture}" width="100px"  /> 
+                        <img src="${player.profilePicture}" width="100px"  /> 
                     </c:if>
                 </td>
                 <td>

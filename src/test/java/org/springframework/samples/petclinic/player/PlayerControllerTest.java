@@ -1,4 +1,6 @@
 package org.springframework.samples.petclinic.player;
+
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -18,41 +20,40 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.statistics.AchievementService;
-
+import org.springframework.samples.petclinic.user.User;
+import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-public class PlayerControllerTest {
-	@ExtendWith(SpringExtension.class)
-	@WebMvcTest(controllers = PlayerController.class,
-	excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-	excludeAutoConfiguration= SecurityConfiguration.class)
-	public class GameControllerTest {
-		
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = PlayerController.class,
+excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
+excludeAutoConfiguration= SecurityConfiguration.class)
+	public class PlayerControllerTest {
+
 		@MockBean
 		private PlayerService playerService;
 		
 		@MockBean
-		private AchievementService achievementService;
-		
-		@MockBean
-		private GameService gameService;
+		private UserService userService;
 		
 		@Autowired
 		private MockMvc mockMvc;
 		
 		private Integer playerId = 1;
 		
-		@BeforeEach
-		private void setup() {
+		@Test
+		private void inicializar() {
 			Player player= new Player();
+			User user=userService.findUser("pgmarc").get();
 	        player.setId(playerId);
+	        player.setUser(user);
 	        player.setRegisterDate(LocalDate.now());
 	        player.setModificationDate(LocalDate.now());
 	        player.setLastLogin(LocalDate.now());
@@ -73,17 +74,17 @@ public class PlayerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("games/listGames"))
 			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("games", gameService.getGamesByPlayerId(playerId)));
+			.andExpect(model().attribute("games", playerService.gamesByPlayers(playerId)));
 		}
 		
 		@Test
 		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 		void shouldShowPlayersAchievements() throws Exception {
-			mockMvc.perform(get("/players/" + playerId + "/achievements"))
+			mockMvc.perform(get("/players/achievements"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("achievements/AchievementsListing"))
 			.andExpect(model().attributeExists("achievements"))
-			.andExpect(model().attribute("achievements", achievementService.findAchievementByPlayerId(playerId)));
+			.andExpect(model().attribute("achievements", playerService.achievementsByUsername()));
 		}
 		
 		@Test
@@ -92,10 +93,9 @@ public class PlayerControllerTest {
 			mockMvc.perform(get("/players/data/" + playerId))
 			.andExpect(status().isOk())
 			.andExpect(view().name("players/dataPlayer"))
-			.andExpect(model().attributeExists("players"))
 			.andExpect(model().attribute("player", playerService.showPlayersById(playerId)))
-			.andExpect(model().attribute("games", gameService.gamesByPlayers(playerId)));
+			.andExpect(model().attribute("games", playerService.gamesByPlayers(playerId)));
 		}
-	}
+	
 
 }

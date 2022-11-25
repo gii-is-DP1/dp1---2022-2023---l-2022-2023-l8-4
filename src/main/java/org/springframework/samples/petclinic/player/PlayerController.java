@@ -1,12 +1,18 @@
 package org.springframework.samples.petclinic.player;
 
 
+import java.time.LocalDate;
+import java.util.Collection;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameService;
+import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.statistics.AchievementService;
+import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -21,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlayerController {
 
 	private PlayerService playerService;
-	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String game_listing = "games/listGames";
@@ -29,9 +34,9 @@ public class PlayerController {
     public static final String player_profile = "players/dataPlayer";
 
 	@Autowired
-	public PlayerController(PlayerService playerService, AchievementService achievementService) {
+	public PlayerController(PlayerService playerService) {
 		this.playerService = playerService;
-		this.achievementService = achievementService;
+		
 	}
 
 	@GetMapping
@@ -49,10 +54,10 @@ public class PlayerController {
 	}
 
 
-	@GetMapping("/{id}/achievements")
-    public ModelAndView showAllAchievementGames(@PathVariable("id") Integer id) {
+	@GetMapping("/achievements")
+    public ModelAndView showAllPlayerAchievements() {
         ModelAndView result = new ModelAndView(achievement_listing);
-        result.addObject("achievements", achievementService.findAchievementByPlayerId(id));
+        result.addObject("achievements", playerService.achievementsByUsername());
         return result;
     }
 
@@ -86,7 +91,14 @@ public class PlayerController {
         }else {
             Player jugador = playerService.showPlayersById(id);
             if(jugador !=null) {
+            	Collection<Game> game = jugador.getPlayedGames();
+            	LocalDate date = jugador.getRegisterDate();
+            	Collection<Achievement> achievement = jugador.getPlayersAchievement();
+            	jugador2.setPlayedGames(game);
+            	jugador2.setRegisterDate(date);
+            	jugador2.setPlayersAchievement(achievement);
                 BeanUtils.copyProperties(jugador2, jugador,"id");
+                
                 playerService.savePlayer(jugador2);
                 result = showAllPlayers();
                 result.addObject("message", "Jugador editado satisfactoriamente");
