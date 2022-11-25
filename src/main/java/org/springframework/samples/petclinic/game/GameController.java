@@ -13,7 +13,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
-import org.springframework.samples.petclinic.user.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -73,8 +72,7 @@ public class GameController {
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
 		addCurrentPlayerToGame(game);
-		this.gameService.saveGame(game);
-		return "redirect:/games/" + game.getId();
+		return "redirect:/games/" + game.getId().toString();
 	}
 	
 	@GetMapping("/{gameId}")
