@@ -117,7 +117,7 @@ public class GameController {
 		Game game = gameService.getGameByCode(gameCode);
 		addCurrentPlayerToGame(game);
 		
-		return "redirect:/games/join/"+game.getGameCode();
+		return "redirect:/games/join/"+game.getGameCode().toString();
 	}
 	
 	@GetMapping("/join/{gameCode}")

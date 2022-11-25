@@ -7,10 +7,10 @@
 <dobble:layout pageName="games">
     <jsp:body>
         <h2>Join Game</h2>
-        <form action="#" th:action="@{/join}" th:object="gameCode" method="post">
+        <form:form action="/games/join" object="gameCode" method="post">
         	<label for="gc">Game code:</label>
-        	<input type = "text" id = "gc" name = "gameCode" />
+        	<input type = "number" id = "gc" name = "gameCode" />
          	<input type = "submit" value = "Join Game" />
-      	</form>      
+      	</form:form>      
     </jsp:body>
 </dobble:layout>
