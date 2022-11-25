@@ -27,6 +27,5 @@
     
     <c:if test="${creator}">
     	<h3>Comenzar partida</h3>
-    	
     </c:if>
 </dobble:layout>

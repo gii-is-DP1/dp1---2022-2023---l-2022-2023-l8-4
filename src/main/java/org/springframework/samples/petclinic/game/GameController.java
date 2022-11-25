@@ -72,7 +72,7 @@ public class GameController {
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
 		addCurrentPlayerToGame(game);
-		return "redirect:/games/" + game.getId().toString();
+		return "redirect:/games/" + game.getId();
 	}
 	
 	@GetMapping("/{gameId}")
@@ -143,7 +143,7 @@ public class GameController {
 		}
 		Player player = playerService.getPlayerByUsername(currentUsername);
 		game.addPlayer(player);
-		gameService.saveGame(game);
+		this.gameService.saveGame(game);
 	}
 	
 }
