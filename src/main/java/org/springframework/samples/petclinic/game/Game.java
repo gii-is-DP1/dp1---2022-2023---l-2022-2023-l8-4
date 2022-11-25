@@ -64,6 +64,7 @@ public class Game extends BaseEntity {
 	
 	public void addPlayer(Player player) {
 		getPlayersInternal().add(player);
+		player.addGame(this);
 	}
 	
 	public boolean removePlayer(Player player) {
