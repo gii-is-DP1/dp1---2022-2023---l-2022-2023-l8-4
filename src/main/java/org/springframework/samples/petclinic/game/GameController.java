@@ -25,19 +25,19 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/games")
 public class GameController {
-	
+
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST = "games/listGames";
 	private GameService gameService;
 	private CardService cardService;
-	
+
 	@Autowired
 	public GameController(GameService gameService, CardService cardService) {
 		this.gameService = gameService;
 		this.cardService = cardService;
 	}
-	
+
 	@GetMapping(value = "/new")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
@@ -55,7 +55,7 @@ public class GameController {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
-		
+
 		game.setDate(LocalDate.now());
 		game.setGameState(GameState.INITIATED);
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
@@ -63,28 +63,34 @@ public class GameController {
 		this.gameService.saveGame(game);
 		return "redirect:/games/" + game.getId();
 	}
-	
+
 	@GetMapping("/{gameId}")
 	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("game", this.gameService.getGameById(gameId));
 		return mav;
 	}
-	
+
 	@GetMapping(value = "/finalized")
 	public String listarPartidasAcabadas(Map<String, Object> model) {
 		Collection<Game> games = gameService.getGamesFinalized();
 		model.put("games", games);
 		return VIEW_GAME_LIST;
-		
+
 	}
-	
+
 	@GetMapping(value = "/inProgress")
 	public String listarPartidasEnProgreso(Map<String, Object> model) {
 		Collection<Game> games = gameService.getGamesInProgress();
 		model.put("games", games);
 		return VIEW_GAME_LIST;
-		
+
 	}
-	
+
+    @GetMapping(value = "/board")
+    public String board(Map<String, Object> model) {
+        return "games/board";
+
+    }
+
 }
