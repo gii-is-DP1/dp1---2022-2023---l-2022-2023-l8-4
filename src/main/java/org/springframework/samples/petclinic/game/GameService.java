@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,12 +34,6 @@ public class GameService {
 	public List<Game> getGamesFinalized() throws DataAccessException {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
 	}
-
-	@Transactional(readOnly = true)
-	public Collection<Game> getGamesByPlayerId(int id) throws DataAccessException {
-		return this.gameRepository.findGamesByPlayerId(id);
-	}
-
 
 	@Transactional(readOnly = true)
 	public List<Game> getGamesByDateDesc() throws DataAccessException {

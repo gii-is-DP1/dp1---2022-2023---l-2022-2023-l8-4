@@ -21,7 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlayerController {
 
 	private PlayerService playerService;
-	private GameService gameService;
 	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
     public static final String player_editing = "players/createOrUpdatePlayer";
@@ -30,9 +29,8 @@ public class PlayerController {
     public static final String player_profile = "players/dataPlayer";
 
 	@Autowired
-	public PlayerController(PlayerService playerService, GameService gameService, AchievementService achievementService) {
+	public PlayerController(PlayerService playerService, AchievementService achievementService) {
 		this.playerService = playerService;
-		this.gameService = gameService;
 		this.achievementService = achievementService;
 	}
 
@@ -46,7 +44,7 @@ public class PlayerController {
 	@GetMapping("/{id}/games")
     public ModelAndView showAllPlayerGames(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(game_listing);
-        result.addObject("games", gameService.getGamesByPlayerId(id));
+        result.addObject("games", playerService.gamesByPlayers(id));
         return result;
 	}
 
@@ -62,7 +60,7 @@ public class PlayerController {
     @GetMapping("/data/{id}")
     public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model ) {;
         model.put( "player", this.playerService.showPlayersById( id ) );
-        model.put( "games", this.gameService.gamesByPlayers( id ) );
+        model.put( "games", this.playerService.gamesByPlayers(id) );
         return player_profile;
     }
 
