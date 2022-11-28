@@ -13,8 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +52,7 @@ public class GameController {
 	}
 	
 	@GetMapping(value = "/new")
-	public String iniciarFormulario(Map<String, Object> model) {
+	public String initForm(Map<String, Object> model) {
 		Game game = initGame();
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
@@ -62,7 +61,7 @@ public class GameController {
 	}
 
 	@PostMapping(value = "/new")
-	public String procesarForlulario(@ModelAttribute("game") @Valid Game game, BindingResult result) throws DataAccessException, Exception {
+	public String proccessForm(Authentication authentication, @ModelAttribute("game") @Valid Game game, BindingResult result) throws DataAccessException, Exception {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
@@ -71,7 +70,7 @@ public class GameController {
 		game.setGameState(GameState.INITIATED);
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
-		addCurrentPlayerToGame(game);
+		addCurrentPlayerToGame(authentication.getName(),game);
 		return "redirect:/games/" + game.getId();
 	}
 
@@ -104,18 +103,18 @@ public class GameController {
 	}
 	
 	@GetMapping("/join")
-	public ModelAndView joinGames() throws Exception {
+	public ModelAndView initJoinGameForm() throws Exception {
 		ModelAndView mav = new ModelAndView(GAME_JOIN_VIEW);
 		mav.addObject("gameCode",0);
 		return mav;
 	}
 	
 	@PostMapping("/join")
-	public String joinGame(@ModelAttribute("gameCode") int gameCode) throws Exception {
+	public String joinGame(Authentication authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
 		Game game = gameService.getGameByCode(gameCode);
-		addCurrentPlayerToGame(game);
+		addCurrentPlayerToGame(authentication.getName(),game);
 		
-		return "redirect:/games/join/"+game.getGameCode().toString();
+		return "redirect:/games/join/"+game.getGameCode();
 	}
 	
 	@GetMapping("/join/{gameCode}")
@@ -129,21 +128,9 @@ public class GameController {
 		return mav;
 	}
 	
-	private void addCurrentPlayerToGame(Game game) throws Exception {
-		String currentUsername = "";
-		try {
-			Object currentUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if (currentUser instanceof UserDetails) {
-					currentUsername = ((UserDetails)currentUser).getUsername();
-				} else {
-					currentUsername = currentUser.toString();
-				}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		Player player = playerService.getPlayerByUsername(currentUsername);
-		game.addPlayer(player);
-		this.gameService.saveGame(game);
+	private void addCurrentPlayerToGame(String username, Game game) throws Exception {
+		Player player = playerService.getPlayerByUsername(username);
+		this.gameService.addPlayerToGame(player, game);
 	}
 	
     @GetMapping(value = "/board")

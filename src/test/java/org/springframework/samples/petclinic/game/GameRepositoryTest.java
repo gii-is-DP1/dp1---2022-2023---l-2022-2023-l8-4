@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.partida;
+package org.springframework.samples.petclinic.game;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,10 +16,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.game.GameRepository;
-import org.springframework.samples.petclinic.game.GameState;
 import org.springframework.samples.petclinic.player.Player;
 
 

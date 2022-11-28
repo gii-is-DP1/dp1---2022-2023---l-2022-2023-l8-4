@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.partida;
+package org.springframework.samples.petclinic.game;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,11 +23,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameController;
-import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.game.GameState;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -91,16 +86,16 @@ public class GameControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
+	@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 	void shouldCreateGame() throws Exception {
+		
 		mockMvc.perform(post("/games/new")
 				.with(csrf())
 				.param("date", "2022-11-04")
-				.param("gameState", "0")
-				.param("gameMode", "el foso")
+				.param("gameState", "INITIATED")
+				.param("gameMode", "EL_FOSO")
 				.param("gameCode", "10"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("games/createGame"))
-        .andExpect(model().attributeExists("game"));
+		.andExpect(status().is3xxRedirection());
+		
 	}	
 }
