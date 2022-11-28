@@ -9,7 +9,7 @@
 
     <table id="playersTable" class="table table-condensed">
         <thead>
-        <tr>
+        <tr class="tabla">
             <th>Statistics</th>
             <th>Games</th>
             <th>Achievement</th>
