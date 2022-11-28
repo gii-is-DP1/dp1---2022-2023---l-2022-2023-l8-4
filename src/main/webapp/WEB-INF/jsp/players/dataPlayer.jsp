@@ -7,14 +7,69 @@
 
 <petclinic:layout pageName="players">
 
-<div class="card-group">
-  <div class="card">
-    <img class="card-img-top" src="resources/static/resources/images/${player.profilePicture}" alt="Card image cap">
-    <div class="card-body">
-      <h5 class="card-title">Player <b>${player.user.username}</b> statistics </h5>
-      <p class="card-text">Games played ${fn:length(games)}</p>
-      <p class="card-text"><small class="text-muted">Last login ${player.lastLogin}</small></p>
-    </div>
-  </div>
+<div id="dataPlayer-superior">
+	<div id="dataPlayer-superior-divImage">
+		<img id="dataPlayer-superior-image" alt="Without image" src="/resources/images/logo.png">
+	</div>
+	<div id="dataPlayer-superior-data">
+		<div class="dataPlayer-superior-data-value">
+			<p class="font" >Username: <span class="values-Player">${ player.user.username}</span></p>
+		</div>
+		<div class="dataPlayer-superior-data-value">
+			<p class="font" >Email: <span class="values-Player">${ player.email}</span></p>
+		</div>
+		<div class="dataPlayer-superior-data-value">
+			<p class="font" >Last Modification: <span class="values-Player">${ player.modificationDate}</span></p>
+		</div>
+	</div>
+</div>
+<div id="dataPlayer-medio">
+  
+  <h2>My Games</h2>
+
+    <table id="playersTable" class="table table-condensed">
+        <thead>
+        <tr>
+            <th>Date</th>
+            <th>Game Mode</th>
+            <th>Game Code</th>
+            <th>Players</th>
+        </tr>
+        </thead>
+        <tbody>
+       
+        <c:forEach items="${games}" var="game">
+            <tr class="tabla">
+                <td>
+                    <c:out value="${game.date}"/>
+                </td>
+                <td>                    
+                      <c:out value="${game.gameMode} "/>                                        
+                </td>
+                <td>                    
+                      <c:out value="${game.gameCode} "/>                                        
+                </td>
+                <td>                    
+                     <c:forEach items="${game.players}" var="player">
+                     	<c:out value="${player.user.username}"></c:out><br/>
+                     </c:forEach>                                        
+                </td>
+             </c:forEach>
+        </tbody>
+    </table>
+</div>
+<div id="dataPlayer-inferior">
+</div>
+<div id="dataPlayer-buttons">
+	<spring:url value="/players/edit/{playerId}" var="editPlayer">
+       <spring:param name="playerId" value="${player.id}"></spring:param>
+    </spring:url>
+	<a href="${editPlayer}"><button class="btn btn-default">Edit Profile</button></a>
+	
+	<spring:url value="/players/delete/{playerId}" var="deletePlayer">
+       <spring:param name="playerId" value="${player.id}"></spring:param>
+    </spring:url>
+	<a href="${deletePlayer}"><button class="btn btn-default">Delete Profile</button></a>
+</div>
 
 </petclinic:layout>

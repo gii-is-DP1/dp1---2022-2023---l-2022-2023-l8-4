@@ -59,7 +59,7 @@ public class PlayerControllerTest {
 	        player.setEmail("plopezr2012@gmail.com");
 	        player.setBirthDate(LocalDate.of(2002, 12, 10));
 	        player.getProfilePicture();
-	        Mockito.when(playerService.showPlayersById(playerId)).thenReturn(player);
+	        Mockito.when(playerService.showPlayerById(playerId)).thenReturn(player);
 	        List<Player> players = new ArrayList<Player>();
 	        players.add(player);
 	        Mockito.when(playerService.getAllPlayers()).thenReturn(players);
@@ -73,7 +73,7 @@ public class PlayerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("games/listGames"))
 			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("games", gameService.getGamesByPlayerId(playerId)));
+			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId)));
 		}
 		
 		@Test
@@ -93,8 +93,8 @@ public class PlayerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("players/dataPlayer"))
 			.andExpect(model().attributeExists("players"))
-			.andExpect(model().attribute("player", playerService.showPlayersById(playerId)))
-			.andExpect(model().attribute("games", gameService.gamesByPlayers(playerId)));
+			.andExpect(model().attribute("player", playerService.showPlayerById(playerId)))
+			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId)));
 		}
 	}
 

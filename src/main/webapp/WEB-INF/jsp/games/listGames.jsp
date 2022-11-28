@@ -32,7 +32,7 @@
                 </td>
                 <td>                    
                      <c:forEach items="${game.players}" var="player">
-                     	<spring:url value="/players/{playerId}" var="playerProfile">
+                     	<spring:url value="/players/data/{playerId}" var="playerProfile">
                      		<spring:param name="playerId" value="${player.id}"></spring:param>
                      	</spring:url>
                      	<a href="${fn:escapeXml(playerProfile)}"><c:out value="${player.user.username}"></c:out></a><br/>

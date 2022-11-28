@@ -40,7 +40,7 @@ public class PlayerServiceTest {
 			playerService.savePlayer(player);
 			Collection<Player> players=playerService.getAllPlayers();
 			Integer idPlayerSave=players.size();
-			Player playerSave = playerService.showPlayersById(idPlayerSave);
+			Player playerSave = playerService.showPlayerById(idPlayerSave);
 			
 			assertEquals(playerSave.getId(), idPlayerSave);
 			assertEquals(playerSave.getBirthDate(), LocalDate.now());

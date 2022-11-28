@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.player;
 
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -44,7 +46,7 @@ public class PlayerController {
 	@GetMapping("/{id}/games")
     public ModelAndView showAllPlayerGames(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(game_listing);
-        result.addObject("games", playerService.gamesByPlayers(id));
+        result.addObject("games", playerService.gamesByPlayerId(id));
         return result;
 	}
 
@@ -59,8 +61,8 @@ public class PlayerController {
 
     @GetMapping("/data/{id}")
     public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model ) {;
-        model.put( "player", this.playerService.showPlayersById( id ) );
-        model.put( "games", this.playerService.gamesByPlayers(id) );
+        model.put( "player", this.playerService.showPlayerById( id ) );
+        model.put( "games", this.playerService.gamesByPlayerId(id) );
         return player_profile;
     }
 
@@ -73,34 +75,28 @@ public class PlayerController {
 	@GetMapping("/edit/{id}")
     public ModelAndView editJugador(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(player_editing);
-        result.addObject("player", playerService.showPlayersById(id));
+        result.addObject("player", playerService.showPlayerById(id));
         return result;
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player jugador2,BindingResult br) {
+    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br) {
         ModelAndView result=null;
         if(br.hasErrors()) {
             result = new ModelAndView(player_editing);
             result.addAllObjects(br.getModel());
-        }else {
-            Player jugador = playerService.showPlayersById(id);
-            if(jugador !=null) {
-                BeanUtils.copyProperties(jugador2, jugador,"id");
-                playerService.savePlayer(jugador2);
-                result = showAllPlayers();
-                result.addObject("message", "Jugador editado satisfactoriamente");
-
-
-            }else {
-                result = showAllPlayers();
-                result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
-            }
-
-
+            return result;
         }
-        return result;
-
+        Player playerModified = playerService.showPlayerById(id);
+        if(playerModified !=null) {
+        	playerService.savePlayer(newPlayer);
+            result = showAllPlayers();
+            result.addObject("message", "Jugador editado satisfactoriamente");
+            return result;
+         }
+         result = showAllPlayers();
+         result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
+         return result;
     }
 
     @GetMapping("/new")

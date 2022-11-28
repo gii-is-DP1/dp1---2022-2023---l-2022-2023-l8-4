@@ -33,14 +33,14 @@ public class PlayerService {
 	}
 	
 	@Transactional(readOnly = true)
-	public Player showPlayersById(Integer id) {
+	public Player showPlayerById(Integer id) {
 		Optional<Player> result= playerRepository.findById(id);
         return result.isPresent()?result.get():null;
 		
 	}
 	
 	@Transactional
-    public Collection<Game> gamesByPlayers(Integer id) {
+    public Collection<Game> gamesByPlayerId(Integer id) {
     	Player player = playerRepository.findById(id).get();
         return player.getPlayedGames();
     }
@@ -51,15 +51,18 @@ public class PlayerService {
 	}
 	
 	@Transactional
-	public void savePlayer(Player player) throws DataAccessException {
-		player.setRegisterDate(LocalDate.now());
-		player.setModificationDate(LocalDate.now());
-		player.setLastLogin(LocalDate.now());
-	
-    	playerRepository.save(player);		
+	public void savePlayer(Player newPlayer) throws DataAccessException {
+		Player playerModified = this.showPlayerById(newPlayer.getId());
+		
+		playerModified.setModificationDate(LocalDate.now());
+    	playerModified.setEmail(newPlayer.getEmail());
+    	playerModified.setUser(newPlayer.getUser());
+    	playerModified.setProfilePicture(newPlayer.getProfilePicture());
+		
+    	playerRepository.save(playerModified);		
 
-		userService.saveUser(player.getUser());
+		userService.saveUser(playerModified.getUser());
 
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "Jugador");
+		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
 	}		
 }

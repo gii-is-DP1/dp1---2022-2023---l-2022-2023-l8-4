@@ -22,7 +22,7 @@
 @spring-purple: purple;
 @spring-light-purple: rgb(206, 128, 204);
 
-@body-bg:                           @spring-light-grey;
+@body-bg:                           rgb(235, 207, 234);
 @text-color:                        @spring-brown;
 @link-color:                        @spring-purple;
 @link-hover-color:                  @spring-purple;
@@ -67,6 +67,11 @@
 }
 
 .btn-default {
+  background-color: purple;
+  color: white;
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
   border-width: 2px;
   transition: border 0.15s;
   -webkit-transition: border 0.15s;
@@ -79,8 +84,8 @@
   &:active,
   &.active,
   .open .dropdown-toggle& {
-    background-color: @spring-brown;
-    border-color: @spring-brown;
+    background-color: rgb(64, 0, 64);
+    border-color: rgb(64, 0, 64);
   }
 }
 
@@ -244,3 +249,4 @@ hr {
 @import "tabla.less";
 @import "background.less";
 @import "footer.less";
+@import "dataPlayer.less";
