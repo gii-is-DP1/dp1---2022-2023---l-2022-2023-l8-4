@@ -35,11 +35,6 @@ public class GameService {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
 	}
 
-	@Transactional(readOnly = true)
-	public Collection<Game> getGamesByPlayerId(int id) throws DataAccessException {
-		return this.gameRepository.findGamesByPlayerId(id);
-	}
-
 
 	@Transactional(readOnly = true)
 	public List<Game> getGamesByDateDesc() throws DataAccessException {
@@ -71,4 +66,9 @@ public class GameService {
 	public void deleteGame(int gameid) throws DataAccessException {
 		this.gameRepository.deleteById(gameid);
 	}
+	
+	public Game getGameByCode(int gameCode) {
+		return this.gameRepository.findGameByGameCode(gameCode);
+	}
+	
 }
