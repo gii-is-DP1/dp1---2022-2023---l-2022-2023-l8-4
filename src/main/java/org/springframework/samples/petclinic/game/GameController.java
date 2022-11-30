@@ -31,20 +31,20 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/games")
 public class GameController {
-	
+
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST_FINALIZED = "games/listGamesFinalized";
 	private static final String VIEW_GAME_LIST_IN_PROGRESS = "games/listGamesInProgress";
 	private GameService gameService;
 	private CardService cardService;
-	
+
 	@Autowired
 	public GameController(GameService gameService, CardService cardService) {
 		this.gameService = gameService;
 		this.cardService = cardService;
 	}
-	
+
 	@GetMapping(value = "/new")
 	public String iniciarFormulario(Map<String, Object> model) {
 		Game game = new Game();
@@ -62,7 +62,7 @@ public class GameController {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
-		
+
 		game.setDate(LocalDate.now());
 		game.setGameState(GameState.INITIATED);
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
@@ -70,14 +70,14 @@ public class GameController {
 		this.gameService.saveGame(game);
 		return "redirect:/games/" + game.getId();
 	}
-	
+
 	@GetMapping("/{gameId}")
 	public ModelAndView mostrarPartida(@PathVariable("gameId") int gameId) {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("game", this.gameService.getGameById(gameId));
 		return mav;
 	}
-	
+
 	@GetMapping(value = "/finalized")
 	public String listarPartidasAcabadas(Map<String, Object> model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
@@ -98,9 +98,9 @@ public class GameController {
         model.put( "prev", page);
         model.put( "last", totalPages);
 		return VIEW_GAME_LIST_FINALIZED;
-		
+
 	}
-	
+
 	@GetMapping(value = "/inProgress")
 	public String listarPartidasEnProgreso(Map<String, Object> model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
@@ -123,5 +123,11 @@ public class GameController {
 		return VIEW_GAME_LIST_IN_PROGRESS;
 		
 	}
-	
+
+    @GetMapping(value = "/board")
+    public String board(Map<String, Object> model) {
+        return "games/board";
+
+    }
+
 }
