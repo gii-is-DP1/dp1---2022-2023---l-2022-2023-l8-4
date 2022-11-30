@@ -19,4 +19,7 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
 	Page<Game> getGamesByPlayerId(Pageable pageable, Integer playerId);
 
 	Player save(Player usuario);
+	
+	@Query(value = "SELECT * FROM players  WHERE players.username=:username", nativeQuery = true)
+	public Player findPlayerByUsername(@Param("username") String username);
 }
