@@ -149,10 +149,6 @@ public class GameController {
 	@PostMapping("/join")
 	public String joinGame(@ModelAttribute("gameCode") int gameCode) throws Exception {
 		Game game = gameService.getGameByCode(gameCode);
-		
-		if(game.getPlayers().size() >= 4) {
-			return "redirect:/games/error";
-		}
 		addCurrentPlayerToGame(game);
 		
 		return "redirect:/games/join/"+game.getGameCode().toString();
