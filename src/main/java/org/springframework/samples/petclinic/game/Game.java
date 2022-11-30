@@ -47,7 +47,7 @@ public class Game extends BaseEntity {
 	private Integer gameCode;
 	
 	@ManyToMany(mappedBy= "playedGames")
-	@Size(max=4)
+	@Size(max = 4)
 	private Collection<Player> players;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,

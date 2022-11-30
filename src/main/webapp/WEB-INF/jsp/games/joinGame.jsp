@@ -10,7 +10,7 @@
         <form:form action="/games/join" object="gameCode" method="post">
         	<label for="gc">Game code:</label><br>
         	<input type = "number" id = "gc" name = "gameCode" /><br><br>
-         	<button class="btn btn-default" type="submit">Join the Game</button>
+         	<button class="btn btn-default" type="submit">Join the Game </button>
       	</form:form>     
     </jsp:body>
 </dobble:layout>

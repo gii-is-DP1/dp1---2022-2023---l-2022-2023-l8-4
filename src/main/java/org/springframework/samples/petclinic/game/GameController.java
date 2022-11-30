@@ -152,8 +152,9 @@ public class GameController {
 		
 		if(game.getPlayers().size() >= 4) {
 			return "redirect:/games/error";
+		} else {
+			addCurrentPlayerToGame(game);
 		}
-		addCurrentPlayerToGame(game);
 		
 		return "redirect:/games/join/"+game.getGameCode().toString();
 	}

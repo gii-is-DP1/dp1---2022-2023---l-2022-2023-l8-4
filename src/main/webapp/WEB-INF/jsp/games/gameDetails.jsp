@@ -35,7 +35,7 @@
     		<c:otherwise>
     			Waiting for players...
     		</c:otherwise>
-    	</c:choose>
+    	</c:choose> 
     	
     	
     </c:if>
