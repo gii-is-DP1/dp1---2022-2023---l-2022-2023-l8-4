@@ -11,6 +11,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
@@ -38,14 +40,13 @@ public class PlayerServiceTest {
 			
 			
 			playerService.savePlayer(player);
-			Collection<Player> players=playerService.getAllPlayers();
-			Integer idPlayerSave=players.size();
+			Page<Player> players=playerService.getAllPlayers(PageRequest.of(0, 5));
+			Integer idPlayerSave=(int) players.getTotalElements();
 			Player playerSave = playerService.showPlayerById(idPlayerSave);
 			
 			assertEquals(playerSave.getId(), idPlayerSave);
 			assertEquals(playerSave.getBirthDate(), LocalDate.now());
 			assertEquals(playerSave.getRegisterDate(), LocalDate.now());
-			assertEquals(playerSave.getLastLogin(), LocalDate.now());
 			assertEquals(playerSave.getModificationDate(), LocalDate.now());
 	}
 }

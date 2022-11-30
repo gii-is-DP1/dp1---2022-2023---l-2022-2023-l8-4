@@ -18,7 +18,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.statistics.AchievementService;
@@ -62,7 +64,8 @@ public class PlayerControllerTest {
 	        Mockito.when(playerService.showPlayerById(playerId)).thenReturn(player);
 	        List<Player> players = new ArrayList<Player>();
 	        players.add(player);
-	        Mockito.when(playerService.getAllPlayers()).thenReturn(players);
+	        Page<Player> pagePlayers= new PageImpl<Player>(players, PageRequest.of(0, 5), players.size());
+	        Mockito.when(playerService.getAllPlayers(null)).thenReturn(pagePlayers);
 		}
 		
 		
@@ -73,7 +76,7 @@ public class PlayerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("games/listGames"))
 			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId)));
+			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
 		}
 		
 		@Test
@@ -94,7 +97,7 @@ public class PlayerControllerTest {
 			.andExpect(view().name("players/dataPlayer"))
 			.andExpect(model().attributeExists("players"))
 			.andExpect(model().attribute("player", playerService.showPlayerById(playerId)))
-			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId)));
+			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
 		}
 	}
 

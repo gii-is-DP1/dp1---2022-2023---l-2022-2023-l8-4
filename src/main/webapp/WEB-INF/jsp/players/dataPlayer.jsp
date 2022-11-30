@@ -7,6 +7,7 @@
 
 <petclinic:layout pageName="players">
 
+<div id="dataPlayer">
 <div id="dataPlayer-superior">
 	<div id="dataPlayer-superior-divImage">
 		<img id="dataPlayer-superior-image" alt="Without image" src="/resources/images/logo.png">
@@ -57,6 +58,40 @@
              </c:forEach>
         </tbody>
     </table>
+    <c:if test="${pages.size() > 1}">
+     <div class="row" id="pagination-disposition">
+		<div class="col-md-6">
+			<nav class="nav" id="pagination-disposition">
+				<ul class="pagination">
+					<c:if test="${prev != 0}">
+						<li class="page-item">
+							<a class="page-link" href="/players/data/${player.id}?page=${prev}">Previous</a>
+						</li>
+					</c:if>
+					<c:forEach items="${pages}" var="page">
+						<c:choose>
+						 <c:when test="${current == page}">
+						  <li class="page-item active">
+							<a class="page-link" href="/players/data/${player.id}?page=${page}"><span>${page}</span></a>
+					   	  </li>
+						 </c:when>
+						 <c:otherwise>
+						  <li class="page-item">
+							<a class="page-link" href="/players/data/${player.id}?page=${page}"><span>${page}</span></a>
+					   	  </li>
+						 </c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${current != last}">
+						<li class="page-item">
+							<a class="page-link" href="/players/data/${player.id}?page=${next}">Next</a>
+						</li>
+					</c:if>
+				</ul>
+			</nav>
+		</div>    
+    </div>
+    </c:if>
 </div>
 <div id="dataPlayer-inferior">
 </div>
@@ -71,5 +106,5 @@
     </spring:url>
 	<a href="${deletePlayer}"><button class="btn btn-default">Delete Profile</button></a>
 </div>
-
+</div>
 </petclinic:layout>

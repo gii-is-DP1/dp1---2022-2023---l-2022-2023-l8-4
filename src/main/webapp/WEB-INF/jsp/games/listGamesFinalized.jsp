@@ -41,6 +41,39 @@
              </c:forEach>
         </tbody>
     </table>
-    
+    <c:if test="${pages.size() > 1}">
+     <div class="row" id="pagination-disposition">
+		<div class="col-md-6">
+			<nav class="nav" id="pagination-disposition">
+				<ul class="pagination">
+					<c:if test="${prev != 0}">
+						<li class="page-item">
+							<a class="page-link" href="/games/finalized?page=${prev}">Previous</a>
+						</li>
+					</c:if>
+					<c:forEach items="${pages}" var="page">
+						<c:choose>
+						 <c:when test="${current == page}">
+						  <li class="page-item active">
+							<a class="page-link" href="/games/finalized?page=${page}"><span>${page}</span></a>
+					   	  </li>
+						 </c:when>
+						 <c:otherwise>
+						  <li class="page-item">
+							<a class="page-link" href="/games/finalized?page=${page}"><span>${page}</span></a>
+					   	  </li>
+						 </c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${current != last}">
+						<li class="page-item">
+							<a class="page-link" href="/games/finalized?page=${next}">Next</a>
+						</li>
+					</c:if>
+				</ul>
+			</nav>
+		</div>    
+    </div>
+    </c:if>
 
 </petclinic:layout>

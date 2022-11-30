@@ -2,10 +2,15 @@ package org.springframework.samples.petclinic.player;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
@@ -28,8 +33,8 @@ public class PlayerService {
 	private AuthoritiesService authoritiesService;
 	
 	@Transactional(readOnly=true)
-	public Collection<Player> getAllPlayers(){
-		return playerRepository.findAll();
+	public Page<Player> getAllPlayers(Pageable pageable){
+		return playerRepository.findAll(pageable);
 	}
 	
 	@Transactional(readOnly = true)
@@ -39,10 +44,10 @@ public class PlayerService {
 		
 	}
 	
-	@Transactional
-    public Collection<Game> gamesByPlayerId(Integer id) {
+	@Transactional(readOnly = true)
+    public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
     	Player player = playerRepository.findById(id).get();
-        return player.getPlayedGames();
+    	return playerRepository.getGamesByPlayerId(pageable, player.getId());
     }
 	
 	@Transactional
@@ -52,6 +57,13 @@ public class PlayerService {
 	
 	@Transactional
 	public void savePlayer(Player newPlayer) throws DataAccessException {
+		if(newPlayer.isNew()) {
+			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setRegisterDate(LocalDate.now());
+			newPlayer.setModificationDate(LocalDate.now());
+			playerRepository.save(newPlayer);
+			return;
+		}
 		Player playerModified = this.showPlayerById(newPlayer.getId());
 		
 		playerModified.setModificationDate(LocalDate.now());

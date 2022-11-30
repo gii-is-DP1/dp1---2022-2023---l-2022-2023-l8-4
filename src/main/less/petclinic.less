@@ -21,6 +21,7 @@
 @spring-black: black;
 @spring-purple: purple;
 @spring-light-purple: rgb(206, 128, 204);
+@spring-table-color: rgb(217, 179, 225);
 
 @body-bg:                           rgb(235, 207, 234);
 @text-color:                        @spring-brown;
@@ -48,7 +49,12 @@
 @nav-tabs-active-link-hover-border-color: @spring-brown;
 @nav-tabs-border-color:                   @spring-brown;
 
-@pagination-active-bg:                    @spring-brown;
+@pagination-color: 						  @spring-purple;
+@pagination-bg:							  @spring-table-color;
+@pagination-hover-bg:					  @spring-black;
+@pagination-hover-color:				  @spring-purple;
+@pagination-active-bg:                    @spring-purple;
+@pagination-active-color:				  @spring-black;
 @pagination-active-border:                @spring-black;
 @table-border-color:                      @spring-brown;
 
@@ -78,6 +84,9 @@
   -moz-transition: border 0.15s;
   -o-transition: border 0.15s;
   -ms-transition: border 0.15s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &:hover,
   &:focus,
@@ -250,3 +259,4 @@ hr {
 @import "background.less";
 @import "footer.less";
 @import "dataPlayer.less";
+@import "pagination.less"
