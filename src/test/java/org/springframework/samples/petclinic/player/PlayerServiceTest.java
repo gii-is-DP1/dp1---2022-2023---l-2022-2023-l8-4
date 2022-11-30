@@ -57,4 +57,28 @@ public class PlayerServiceTest {
 			assertEquals(player.getId(), Integer.valueOf(1));
 			
 	}
+	
+	@Test
+	void shouldFindPlayerWithGames() {
+		try {
+			Player player = this.playerService.showPlayersById(playerId);
+			Collection<Game> game = player.getPlayedGames();
+			List<Game> listaGame = game.stream().toList();
+			assertNotNull(game);
+			assertThat(game.size()).isEqualTo(3);
+			assertThat(listaGame.get(0).getGameCode()).isEqualTo(10);
+			assertThat(listaGame.get(1).getGameCode()).isEqualTo(12);
+			assertThat(listaGame.get(2).getGameCode()).isEqualTo(14);
+		}catch (Exception e) {
+			fail();
+		}
+	}
+	
+//	@Test
+//	void shouldFindPlayerWithAchievements() {
+//		Player player = this.playerService.achievementsByUsername();
+//		Collection<Game> game = player.getPlayedGames();
+//		assertNotNull(game);
+//		assertThat(game.size()).isEqualTo(3);
+//	}
 }

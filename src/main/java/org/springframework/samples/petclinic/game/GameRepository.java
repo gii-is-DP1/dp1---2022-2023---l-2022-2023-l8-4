@@ -14,13 +14,7 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 	List<Game> findAll();
 	List<Game> findGamesByOrderByDateDesc();
 	Optional<Game> findById(int id);
-	List<Game> findGamesByGameStateOrderByDateDesc(GameState gameState);
-
-	@Query(value="SELECT games.id, date, game_code, game_mode, game_state FROM games "
-			+ "JOIN players_games ON games.id=players_games.game_id "
-			+ "JOIN players  ON players_games.player_id=players.id "
-			+ "WHERE players.id=?1", nativeQuery= true)
-	Collection<Game> findGamesByPlayerId(int id);
+	Page<Game> findGamesByGameStateOrderByDateDesc(Pageable pageable, GameState gameState);
 	Game findGameByGameCode(int gameCode);
 
 }

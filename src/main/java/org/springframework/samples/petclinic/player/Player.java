@@ -77,4 +77,10 @@ public class Player extends BaseEntity {
 		return this.playedGames;
 	}
 	
+	 @ManyToMany
+	 @JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
+	 inverseJoinColumns = @JoinColumn(name = "player_id"))
+	 private Collection<Achievement> playersAchievement;
+	
+	
 }
