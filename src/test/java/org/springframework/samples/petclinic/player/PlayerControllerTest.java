@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,8 +25,6 @@ import org.springframework.data.domain.PageRequest;
 
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 
-import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.statistics.AchievementService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -72,20 +69,20 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 		}
 		
 		
-		@Test
-		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
-		void shouldShowPlayersGames() throws Exception {
-			mockMvc.perform(get("/players/" + playerId + "/games"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("games/listGames"))
-			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
-		}
+//		@Test
+//		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
+//		void shouldShowPlayersGames() throws Exception {
+//			mockMvc.perform(get("/players/" + playerId + "/games"))
+//			.andExpect(status().isOk())
+//			.andExpect(view().name("games/listGames"))
+//			.andExpect(model().attributeExists("games"))
+//			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
+//		}
 		
 		@Test
 		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 		void shouldShowPlayersAchievements() throws Exception {
-			mockMvc.perform(get("/players/achievements"))
+			mockMvc.perform(get("/players/"+ playerId +"/achievements"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("achievements/AchievementsListing"))
 			.andExpect(model().attributeExists("achievements"))

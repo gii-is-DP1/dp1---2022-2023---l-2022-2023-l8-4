@@ -59,11 +59,11 @@ public class PlayerServiceTest {
 	@Test
 	void shouldFindPlayerWithGames() {
 		try {
-			Player player = this.playerService.showPlayersById(playerId);
+			Player player = this.playerService.showPlayerById(playerId);
 			Collection<Game> game = player.getPlayedGames();
 			List<Game> listaGame = game.stream().toList();
 			assertNotNull(game);
-			assertThat(game.size()).isEqualTo(3);
+			assertThat(game.size()).isEqualTo(16);
 			assertThat(listaGame.get(0).getGameCode()).isEqualTo(10);
 			assertThat(listaGame.get(1).getGameCode()).isEqualTo(12);
 			assertThat(listaGame.get(2).getGameCode()).isEqualTo(14);
