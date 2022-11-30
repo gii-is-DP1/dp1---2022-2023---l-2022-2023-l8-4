@@ -129,6 +129,7 @@ public class PlayerController {
          result = showAllPlayers(null);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
+        }
     }
 
     @GetMapping("/new")

@@ -7,7 +7,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.IntStream;
+
 import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -36,7 +39,8 @@ public class GameController {
 
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
-	private static final String VIEW_GAME_LIST = "games/listGames";
+	private static final String VIEW_GAME_LIST_FINALIZED = "games/listGamesFinalized";
+	private static final String VIEW_GAME_LIST_IN_PROGRESS = "games/listGamesInProgress";
 	private static final String GAME_JOIN_VIEW = "games/joinGame";
 	private GameService gameService;
 	private CardService cardService;
@@ -96,16 +100,16 @@ public class GameController {
 	@GetMapping(value = "/finalized")
 	public String listarPartidasAcabadas(Map<String, Object> model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
-		
+
 		PageRequest pageRequest = PageRequest.of(page, 5);
 		Page<Game> pageGamesFinalized= gameService.getGamesFinalized(pageRequest);
-		
+
 		int totalPages = pageGamesFinalized.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
 			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
 		}
-		
+
         model.put( "games", pageGamesFinalized.getContent());
         model.put( "pages", pages);
         model.put( "current", page + 1);
@@ -186,6 +190,7 @@ public class GameController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		Player player = playerService.getPlayerByUsername(currentUsername);
 		game.addPlayer(player);
 		gameService.saveGame(game);

@@ -60,11 +60,7 @@ public class PlayerService {
 		
 	}
 	
-	@Transactional(readOnly = true)
-    public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
-    	Player player = playerRepository.findById(id).get();
-    	return playerRepository.getGamesByPlayerId(pageable, player.getId());
-    }
+
 	
 	@Transactional
     public Collection<Achievement> achievementsByUsername() {
@@ -73,6 +69,12 @@ public class PlayerService {
     	String autenticacion = user.getUsername();
     	Player player = playerRepository.findPlayerByUsername(autenticacion);
         return player.getPlayersAchievement();
+    }
+	
+	@Transactional(readOnly = true)
+    public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
+    	Player player = playerRepository.findById(id).get();
+    	return playerRepository.getGamesByPlayerId(pageable, player.getId());
     }
 	
 	@Transactional
