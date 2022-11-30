@@ -3,11 +3,14 @@ package org.springframework.samples.petclinic.game;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.CardService;
@@ -28,6 +31,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 
+	Logger logger = LoggerFactory.getLogger(GameController.class);
+	
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST = "games/listGames";
@@ -56,6 +61,11 @@ public class GameController {
 		Game game = initGame();
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
+		Map<String,String> description = new HashMap<String, String>();
+		description.put(GameMode.EL_FOSO.toString(), GameMode.EL_FOSO.getDescription());
+		description.put(GameMode.ESTANDAR.toString(), GameMode.ESTANDAR.getDescription());
+		description.put(GameMode.LA_PATATA_CALIENTE.toString(), GameMode.LA_PATATA_CALIENTE.getDescription());
+		model.put("descriptions", description);
 		model.put("gameModes", gameModes);
 		return VIEW_CREATION_FORM;
 	}
@@ -71,6 +81,7 @@ public class GameController {
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
 		addCurrentPlayerToGame(authentication.getName(),game);
+		logger.info("Juego con id" + game.getId());
 		return "redirect:/games/" + game.getId();
 	}
 
