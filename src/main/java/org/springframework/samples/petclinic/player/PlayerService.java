@@ -46,7 +46,7 @@ public class PlayerService {
 	
 	@Transactional(readOnly=true)
 	public Player getPlayerByUsername(String username) throws Exception{
-		Player player =playerRepository.findPlayerByUsername(username);
+		Player player = playerRepository.findPlayerByUsername(username);
 		if(player == null) {
 			throw new Exception("Player not found");
 		}
