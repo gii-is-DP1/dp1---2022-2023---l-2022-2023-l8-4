@@ -119,16 +119,15 @@ public class PlayerController {
             result.addAllObjects(br.getModel());
             return result;
         }else {
-        	Player playerModified = playerService.showPlayerById(id);
-        	if(playerModified !=null) {
-        		playerService.savePlayer(newPlayer);
-        		result = showAllPlayers(null);
-        		result.addObject("message", "Jugador editado satisfactoriamente");
-        		return result;
-        	}
+        Player playerModified = playerService.showPlayerById(id);
+        if(playerModified !=null) {
+        	playerService.savePlayer(newPlayer);
+            result = showAllPlayers(null);
+            result.addObject("message", "Jugador editado satisfactoriamente");
+            return result;
+         }
          result = showAllPlayers(null);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
-        }
          return result;
     }
 
