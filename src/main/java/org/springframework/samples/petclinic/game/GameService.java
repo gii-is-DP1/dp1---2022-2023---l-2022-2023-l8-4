@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,18 +28,13 @@ public class GameService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Game> getGamesInProgress() throws DataAccessException {
-		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.IN_PROGRESS);
+	public Page<Game> getGamesInProgress(Pageable pageable) throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.IN_PROGRESS);
 	}
 
 	@Transactional(readOnly = true)
-	public List<Game> getGamesFinalized() throws DataAccessException {
-		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
-	}
-
-	@Transactional(readOnly = true)
-	public Collection<Game> getGamesByPlayerId(int id) throws DataAccessException {
-		return this.gameRepository.findGamesByPlayerId(id);
+	public Page<Game> getGamesFinalized(Pageable pageable) throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.FINALIZED);
 	}
 
 
@@ -70,13 +68,9 @@ public class GameService {
 	public void deleteGame(int gameid) throws DataAccessException {
 		this.gameRepository.deleteById(gameid);
 	}
-
-    @Transactional
-    public List<Game> gamesByPlayers(Integer id) {
-        return (List<Game>) this.gameRepository.findGamesByPlayerId( id );
-    }
-
+	
 	public Game getGameByCode(int gameCode) {
 		return this.gameRepository.findGameByGameCode(gameCode);
 	}
+	
 }
