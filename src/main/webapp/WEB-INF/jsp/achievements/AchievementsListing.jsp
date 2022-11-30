@@ -37,10 +37,10 @@
                 <td>       
                     <c:out value="${achievement.acquireDate} "/>
                 </td>
-                <td>                   
+                <td>                    
                     <c:if test="${achievement.badgeImage == ''}">none</c:if>
                     <c:if test="${achievement.badgeImage != ''}">
-                        <img src="${achievement.badgeImage}" width="100px"  /> 
+                        <img src="resources/images/${achievement.badgeImage}" width="100px"  /> 
                     </c:if>
                 </td>
                 <td>
