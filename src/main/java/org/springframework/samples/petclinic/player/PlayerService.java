@@ -9,6 +9,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
@@ -36,21 +40,21 @@ public class PlayerService {
 	private AuthoritiesService authoritiesService;
 	
 	@Transactional(readOnly=true)
-	public Collection<Player> getAllPlayers(){
-		return playerRepository.findAll();
+	public Page<Player> getAllPlayers(Pageable pageable){
+		return playerRepository.findAll(pageable);
 	}
 	
 	@Transactional(readOnly = true)
-	public Player showPlayersById(Integer id) {
+	public Player showPlayerById(Integer id) {
 		Optional<Player> result= playerRepository.findById(id);
         return result.isPresent()?result.get():null;
 		
 	}
 	
-	@Transactional
-    public Collection<Game> gamesByPlayers(Integer id) {
+	@Transactional(readOnly = true)
+    public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
     	Player player = playerRepository.findById(id).get();
-        return player.getPlayedGames();
+    	return playerRepository.getGamesByPlayerId(pageable, player.getId());
     }
 	
 	@Transactional
@@ -70,17 +74,24 @@ public class PlayerService {
 	
 	
 	@Transactional
-	public void savePlayer(Player player) throws DataAccessException {
-		player.setModificationDate(LocalDate.now());
-		player.setLastLogin(LocalDate.now());
-	
-    	playerRepository.save(player);		
+	public void savePlayer(Player newPlayer) throws DataAccessException {
+		if(newPlayer.isNew()) {
+			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setRegisterDate(LocalDate.now());
+			newPlayer.setModificationDate(LocalDate.now());
+			playerRepository.save(newPlayer);
+			return;
+		}
+		Player playerModified = this.showPlayerById(newPlayer.getId());
+		
+		playerModified.setModificationDate(LocalDate.now());
+    	playerModified.setEmail(newPlayer.getEmail());
+    	playerModified.setUser(newPlayer.getUser());
+    	playerModified.setProfilePicture(newPlayer.getProfilePicture());
+		
+    	playerRepository.save(playerModified);		
+		  userService.saveUser(playerModified.getUser());
+		  authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
+	}		
 
-		userService.saveUser(player.getUser());
-
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "Jugador");
-	}	
-	
-	
-	
 }

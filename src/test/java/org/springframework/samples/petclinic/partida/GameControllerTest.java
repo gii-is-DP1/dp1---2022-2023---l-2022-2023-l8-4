@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.game.Game;
@@ -77,13 +78,12 @@ public class GameControllerTest {
 	
 	@Test
 	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
-
 	void shouldShowGameList() throws Exception {
 		mockMvc.perform(get("/games/finalized"))
 		.andExpect(status().isOk())
-		.andExpect(view().name("games/listGames"))
+		.andExpect(view().name("games/listGamesFinalized"))
 		.andExpect(model().attributeExists("games"))
-		.andExpect(model().attribute("games", gameService.getGamesFinalized()));
+		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5))));
 	}
 	
 	@Test
