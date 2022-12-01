@@ -1,17 +1,16 @@
 package org.springframework.samples.petclinic.game;
 
-import java.time.LocalDate; 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.card.Card;
@@ -48,6 +47,7 @@ public class Game extends BaseEntity {
 	private Integer gameCode;
 	
 	@ManyToMany(mappedBy= "playedGames")
+	@Size(max = 4)
 	private Collection<Player> players;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,
@@ -55,4 +55,21 @@ public class Game extends BaseEntity {
 					CascadeType.DETACH,
 					CascadeType.REFRESH})
 	private Collection<Card> cards;
+	
+	
+	protected Collection<Player> getPlayersInternal() {
+		if (this.players == null) {
+			this.players = new ArrayList<Player>();
+		}
+		return this.players;
+	}
+	
+	public void addPlayer(Player player) {
+		getPlayersInternal().add(player);
+		player.addGame(this);
+	}
+	
+	public boolean removePlayer(Player player) {
+		return getPlayersInternal().remove(player);
+	}
 }

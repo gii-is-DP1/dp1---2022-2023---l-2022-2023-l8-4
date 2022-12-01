@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.validation.Valid;
@@ -54,7 +55,7 @@ public class PlayerController {
 		int totalPages = pagePlayer.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
 		
         ModelAndView result = new ModelAndView(player_listing);
@@ -85,7 +86,7 @@ public class PlayerController {
 		int totalPages = pageGamesByPlayerId.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
     	
         model.put( "player", this.playerService.showPlayerById( id ) );
@@ -130,7 +131,7 @@ public class PlayerController {
          result = showAllPlayers(params);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
-    }
+        }
 
     @GetMapping("/new")
     public ModelAndView createJugador() {

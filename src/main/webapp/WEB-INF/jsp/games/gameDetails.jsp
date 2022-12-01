@@ -2,23 +2,21 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="games">
-    <h2>Game <c:out value="${game.id}"/></h2>
+<dobble:layout pageName="games">
+    <h2>Game of <c:out value="${game.gameMode}"/></h2>
+    <h2>CODE: <c:out value="${game.gameCode}"/></h2>
 
     <table id="gameDetailsTable" class="table table-striped">
         <thead>
         <tr>
-            <th>Game</th>
             <th>Players</th>
         </tr>
         </thead>
         <tbody>
         <c:forEach items="${game.players}" var="player">
             <tr>
-            	<td>
-                </td>
                 <td>
                     <c:out value="${player.user.username}"/>
                 </td>
@@ -26,4 +24,17 @@
         </c:forEach>
         </tbody>
     </table>
-</petclinic:layout>
+    
+    <c:if test="${creator}">
+    	<c:choose>
+    		<c:when test="${ game.players.size() >= 2}">
+    			<form action="/games/board" method="GET">
+             		<button class="btn btn-default" type="submit">Begin the Game</button>
+				</form>
+    		</c:when>
+    		<c:otherwise>
+    			Waiting for players...
+    		</c:otherwise>
+    	</c:choose> 
+    </c:if>
+</dobble:layout>

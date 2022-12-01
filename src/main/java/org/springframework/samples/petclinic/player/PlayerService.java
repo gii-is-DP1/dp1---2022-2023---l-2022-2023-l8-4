@@ -12,8 +12,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,12 +41,32 @@ public class PlayerService {
 		return playerRepository.findAll(pageable);
 	}
 	
+	@Transactional(readOnly=true)
+	public Player getPlayerByUsername(String username) throws Exception{
+		Player player = playerRepository.findPlayerByUsername(username);
+		if(player == null) {
+			throw new Exception("Player not found");
+		}
+		return player;
+	}
+	
 	@Transactional(readOnly = true)
 	public Player showPlayerById(Integer id) {
 		Optional<Player> result= playerRepository.findById(id);
         return result.isPresent()?result.get():null;
 		
 	}
+	
+
+	
+	@Transactional
+    public Collection<Achievement> achievementsByUsername() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+    	String autenticacion = user.getUsername();
+    	Player player = playerRepository.findPlayerByUsername(autenticacion);
+        return player.getPlayersAchievement();
+    }
 	
 	@Transactional(readOnly = true)
     public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {

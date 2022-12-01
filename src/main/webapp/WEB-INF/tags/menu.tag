@@ -47,6 +47,9 @@
 							<li>								
 								<a href="<c:url value="/games/new" />">New Game <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
 							</li>
+							<li>								
+								<a href="<c:url value="/games/join" />">Join Game <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+							</li>
 						</ul>					
 				</petclinic:menuItem>
 
