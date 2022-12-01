@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.validation.Valid;
@@ -42,7 +43,18 @@ public class PlayerController {
 	}
 
 	@GetMapping
-    public ModelAndView showAllPlayers() {
+    public ModelAndView showAllPlayers(@RequestParam Map<String, Object> params) {
+		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+		
+		PageRequest pageRequest = PageRequest.of(page, 5);
+		Page<Player> pagePlayer= playerService.getAllPlayers(pageRequest);
+		
+		int totalPages = pagePlayer.getTotalPages();
+		List<Integer> pages=new ArrayList<>();
+		if(totalPages > 0) {
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+		}
+		
         ModelAndView result = new ModelAndView(player_listing);
         result.addObject("players", playerService.getAllPlayers());
         return result;
@@ -65,9 +77,25 @@ public class PlayerController {
 
 
     @GetMapping("/data/{id}")
-    public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model ) {;
-        model.put( "player", this.playerService.showPlayersById( id ) );
-        model.put( "games", this.playerService.gamesByPlayers(id) );
+    public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
+    	int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+		
+		PageRequest pageRequest = PageRequest.of(page, 3);
+		Page<Game> pageGamesByPlayerId= playerService.gamesByPlayerId(id, pageRequest);
+		
+		int totalPages = pageGamesByPlayerId.getTotalPages();
+		List<Integer> pages=new ArrayList<>();
+		if(totalPages > 0) {
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+		}
+    	
+        model.put( "player", this.playerService.showPlayerById( id ) );
+        model.put( "games", pageGamesByPlayerId.getContent());
+        model.put( "pages", pages);
+        model.put( "current", page + 1);
+        model.put( "next", page + 2);
+        model.put( "prev", page);
+        model.put( "last", totalPages);
         return player_profile;
     }
 
@@ -102,7 +130,7 @@ public class PlayerController {
          result = showAllPlayers(null);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
-    }
+        }
 
     @GetMapping("/new")
     public ModelAndView createJugador() {

@@ -8,9 +8,9 @@
     <jsp:body>
         <h2>Join Game</h2>
         <form:form action="/games/join" object="gameCode" method="post">
-        	<label for="gc">Game code:</label>
-        	<input type = "number" id = "gc" name = "gameCode" />
-         	<input type = "submit" value = "Join Game" />
-      	</form:form>      
+        	<label for="gc">Game code:</label><br>
+        	<input type = "number" id = "gc" name = "gameCode" /><br><br>
+         	<button class="btn btn-default" type="submit">Join the Game </button>
+      	</form:form>
     </jsp:body>
 </dobble:layout>

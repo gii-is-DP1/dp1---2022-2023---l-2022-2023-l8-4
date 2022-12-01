@@ -29,6 +29,7 @@ public class GameService {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.IN_PROGRESS);
 	}
 
+
 	@Transactional(readOnly = true)
 	public List<Game> getGamesFinalized() throws DataAccessException {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);

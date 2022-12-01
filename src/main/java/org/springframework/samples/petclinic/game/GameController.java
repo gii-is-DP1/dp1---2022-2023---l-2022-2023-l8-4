@@ -7,10 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javax.validation.Valid;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.CardService;
@@ -35,7 +36,8 @@ public class GameController {
 	
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
-	private static final String VIEW_GAME_LIST = "games/listGames";
+	private static final String VIEW_GAME_LIST_FINALIZED = "games/listGamesFinalized";
+	private static final String VIEW_GAME_LIST_IN_PROGRESS = "games/listGamesInProgress";
 	private static final String GAME_JOIN_VIEW = "games/joinGame";
 	private GameService gameService;
 	private CardService cardService;
@@ -100,16 +102,16 @@ public class GameController {
 	@GetMapping(value = "/finalized")
 	public String listarPartidasAcabadas(Map<String, Object> model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
-		
+
 		PageRequest pageRequest = PageRequest.of(page, 5);
 		Page<Game> pageGamesFinalized= gameService.getGamesFinalized(pageRequest);
-		
+
 		int totalPages = pageGamesFinalized.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
-		
+
         model.put( "games", pageGamesFinalized.getContent());
         model.put( "pages", pages);
         model.put( "current", page + 1);
@@ -130,7 +132,7 @@ public class GameController {
 		int totalPages = pageGamesInProgress.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
 		
         model.put( "games", pageGamesInProgress.getContent());
@@ -153,9 +155,12 @@ public class GameController {
 	@PostMapping("/join")
 	public String joinGame(Authentication authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
 		Game game = gameService.getGameByCode(gameCode);
-		addCurrentPlayerToGame(authentication.getName(),game);
-		
-		return "redirect:/games/join/"+game.getGameCode();
+		if(game.getPlayers().size() >= 4) {
+			return "redirect:/games/error";
+		} else {
+			addCurrentPlayerToGame(game);
+		}
+		return "redirect:/games/join/"+game.getGameCode().toString();
 	}
 	
 	@GetMapping("/join/{gameCode}")
