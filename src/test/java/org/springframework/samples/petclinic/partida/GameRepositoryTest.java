@@ -101,9 +101,8 @@ public class GameRepositoryTest {
 		assertEquals(expectedGame.getPlayers(), actualGame.getPlayers());	
 	}
 	
-	private List<Game> getGamesWithStateOrderedByDateDesc(GameState gameState, int offset,int limit) {
+	private List<Game> getGamesWithStateOrderedByDateDesc(GameState gameState) {
 		return gameRepository.findAll().stream().filter(game -> game.getGameState().equals(gameState))
-				.skip(offset).limit(limit+offset)
 				.sorted(Comparator.comparing(Game::getDate).reversed()).collect(Collectors.toList());	
 	}
 	

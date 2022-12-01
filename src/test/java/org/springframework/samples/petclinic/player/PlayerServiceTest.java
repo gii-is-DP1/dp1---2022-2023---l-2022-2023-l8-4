@@ -74,7 +74,7 @@ public class PlayerServiceTest {
 			Collection<Game> games = player.getPlayedGames();
 			List<Game> listaGame = games.stream().collect(Collectors.toList());
 			assertNotNull(games);
-			assertEquals(16, games.size());
+			assertEquals(3, games.size());
 			assertEquals(listaGame.get(0).getGameCode(), Integer.valueOf(10));
 			assertEquals(listaGame.get(1).getGameCode(), Integer.valueOf(12));
 			assertEquals(listaGame.get(2).getGameCode(), Integer.valueOf(14));
