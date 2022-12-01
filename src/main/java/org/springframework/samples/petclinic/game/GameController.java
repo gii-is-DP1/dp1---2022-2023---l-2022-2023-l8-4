@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.validation.Valid;
@@ -107,7 +108,7 @@ public class GameController {
 		int totalPages = pageGamesFinalized.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
 
         model.put( "games", pageGamesFinalized.getContent());
@@ -130,7 +131,7 @@ public class GameController {
 		int totalPages = pageGamesInProgress.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
 		
         model.put( "games", pageGamesInProgress.getContent());

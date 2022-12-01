@@ -32,6 +32,7 @@ public class GameService {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.IN_PROGRESS);
 	}
 
+
 	@Transactional(readOnly = true)
 	public Page<Game> getGamesFinalized(Pageable pageable) throws DataAccessException {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.FINALIZED);
