@@ -1,9 +1,11 @@
 package org.springframework.samples.petclinic.statistics;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,9 @@ public class AchievementService {
     	achievement.setAcquireDate(LocalDate.now());
         repo.save(achievement);
     }
-    
+    @Transactional(readOnly = true)
+	public Collection<Achievement> findAchievementByPlayerId(int id) throws DataAccessException {
+		return this.repo.findAchievementByPlayerId(id);
+	}
 	
 }

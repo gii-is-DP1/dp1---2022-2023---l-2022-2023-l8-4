@@ -8,17 +8,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.Collection;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.statistics.AchievementService;
-import org.springframework.samples.petclinic.user.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -34,15 +33,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class PlayerController {
 
 	private PlayerService playerService;
+	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
 
 	@Autowired
-	public PlayerController(PlayerService playerService) {
+	public PlayerController(PlayerService playerService, AchievementService achievementService) {
 		this.playerService = playerService;
-		
+		this.achievementService = achievementService;
 	}
 
 	@GetMapping
@@ -71,7 +71,7 @@ public class PlayerController {
 	@GetMapping("/{id}/achievements")
     public ModelAndView showAllAchievementGames(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(achievement_listing);
-        result.addObject("achievements", playerService.achievementsByUsername());
+        result.addObject("achievements", achievementService.findAchievementByPlayerId(id));
         return result;
     }
 
@@ -119,7 +119,7 @@ public class PlayerController {
             result = new ModelAndView(player_editing);
             result.addAllObjects(br.getModel());
             return result;
-        }else {
+        }
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);

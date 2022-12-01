@@ -20,10 +20,13 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
 	
 
 	Player save(Player usuario);
+<<<<<<< HEAD
 	
 	@Query("SELECT games FROM Player player INNER JOIN player.playedGames games WHERE player.id= ?1")
 	Page<Game> getGamesByPlayerId(Pageable pageable, Integer playerId);
 	
 	@Query(value = "SELECT * FROM players  WHERE players.username=:username", nativeQuery = true)
 	public Player findPlayerByUsername(@Param("username") String username);
+=======
+>>>>>>> dangalmar
 }

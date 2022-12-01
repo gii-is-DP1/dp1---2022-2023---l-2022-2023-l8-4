@@ -1,11 +1,9 @@
 package org.springframework.samples.petclinic.player;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -14,13 +12,8 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
-import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +56,7 @@ public class PlayerService {
 
 	
 	@Transactional
+<<<<<<< HEAD
     public Collection<Achievement> achievementsByUsername() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User user = (User)authentication.getPrincipal();
@@ -78,11 +72,11 @@ public class PlayerService {
     }
 	
 	@Transactional
+=======
+>>>>>>> dangalmar
 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
 	}
-	
-	
 	
 	@Transactional
 	public void savePlayer(Player newPlayer) throws DataAccessException {
@@ -101,8 +95,9 @@ public class PlayerService {
     	playerModified.setProfilePicture(newPlayer.getProfilePicture());
 		
     	playerRepository.save(playerModified);		
-		  userService.saveUser(playerModified.getUser());
-		  authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
-	}		
 
+		userService.saveUser(playerModified.getUser());
+
+		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
+	}		
 }
