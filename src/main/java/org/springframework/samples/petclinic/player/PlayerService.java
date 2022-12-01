@@ -49,26 +49,30 @@ public class PlayerService {
 	}
 	
 	@Transactional
-    public Collection<Game> gamesByPlayers(Integer id) {
-    	Player player = playerRepository.findById(id).get();
-        return player.getPlayedGames();
-    }
-	
-	@Transactional
 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
 	}
 	
 	@Transactional
-	public void savePlayer(Player player) throws DataAccessException {
-		player.setRegisterDate(LocalDate.now());
-		player.setModificationDate(LocalDate.now());
-		player.setLastLogin(LocalDate.now());
-	
-    	playerRepository.save(player);		
+	public void savePlayer(Player newPlayer) throws DataAccessException {
+		if(newPlayer.isNew()) {
+			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setRegisterDate(LocalDate.now());
+			newPlayer.setModificationDate(LocalDate.now());
+			playerRepository.save(newPlayer);
+			return;
+		}
+		Player playerModified = this.showPlayerById(newPlayer.getId());
+		
+		playerModified.setModificationDate(LocalDate.now());
+    	playerModified.setEmail(newPlayer.getEmail());
+    	playerModified.setUser(newPlayer.getUser());
+    	playerModified.setProfilePicture(newPlayer.getProfilePicture());
+		
+    	playerRepository.save(playerModified);		
 
-		userService.saveUser(player.getUser());
+		userService.saveUser(playerModified.getUser());
 
-		authoritiesService.saveAuthorities(player.getUser().getUsername(), "Jugador");
+		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
 	}		
 }

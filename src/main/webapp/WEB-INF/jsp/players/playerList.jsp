@@ -34,6 +34,7 @@
                     <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                 <td>
+<<<<<<< HEAD
                     <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                  <td>
@@ -41,6 +42,9 @@
                 </td>
                 <td>
                     <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
+=======
+                  	<c:out value="${player.user.username}"/>
+>>>>>>> dangalmar
                 </td>
                 <td>                    
                       <c:out value="${player.registerDate} "/>                                        

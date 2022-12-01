@@ -1,6 +1,13 @@
 package org.springframework.samples.petclinic.player;
 
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
@@ -83,24 +90,18 @@ public class PlayerController {
         if(br.hasErrors()) {
             result = new ModelAndView(player_editing);
             result.addAllObjects(br.getModel());
-        }else {
-            Player jugador = playerService.showPlayersById(id);
-            if(jugador !=null) {
-                BeanUtils.copyProperties(jugador2, jugador,"id");
-                playerService.savePlayer(jugador2);
-                result = showAllPlayers();
-                result.addObject("message", "Jugador editado satisfactoriamente");
-
-
-            }else {
-                result = showAllPlayers();
-                result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
-            }
-
-
+            return result;
         }
-        return result;
-
+        Player playerModified = playerService.showPlayerById(id);
+        if(playerModified !=null) {
+        	playerService.savePlayer(newPlayer);
+            result = showAllPlayers(null);
+            result.addObject("message", "Jugador editado satisfactoriamente");
+            return result;
+         }
+         result = showAllPlayers(null);
+         result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
+         return result;
     }
 
     @GetMapping("/new")
