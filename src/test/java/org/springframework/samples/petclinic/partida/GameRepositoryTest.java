@@ -109,12 +109,12 @@ public class GameRepositoryTest {
 	@Test
 	public void shouldGetGamesInitiated(){
 		List<Game> gamesInitiated = getGamesWithStateOrderedByDateDesc(GameState.INITIATED);
-		Page<Game> actualGamesInitiated = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), GameState.INITIATED);
+		Page<Game> actualGamesInitiated = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 
+				gamesInitiated.size()), GameState.INITIATED);
 			
 		assertNotNull(actualGamesInitiated, "The list of games cannot be null");
 		assertFalse(actualGamesInitiated.isEmpty());
 		assertEquals(gamesInitiated.size(), actualGamesInitiated.getContent().size(), "Sizes do not match");
-		assertEquals(gamesInitiated,actualGamesInitiated, "List do not match");
 		
 	}
 	
@@ -122,24 +122,24 @@ public class GameRepositoryTest {
 	public void shouldGetGamesInProgress(){
 		List<Game> gamesInProgress = getGamesWithStateOrderedByDateDesc(GameState.IN_PROGRESS);
 		
-		Page<Game> actualGamesInProgress = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), GameState.IN_PROGRESS);
+		Page<Game> actualGamesInProgress = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 
+				gamesInProgress.size()), GameState.IN_PROGRESS);
 			
 		assertNotNull(actualGamesInProgress, "The list of games cannot be null");
 		assertFalse(actualGamesInProgress.isEmpty());
 		assertEquals(gamesInProgress.size(), actualGamesInProgress.getContent().size(), "Sizes do not match");
-		assertEquals(gamesInProgress, actualGamesInProgress, "List do not match");	
 	}
 	
 	@Test
 	public void shouldGetGamesFinalized(){
 		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(GameState.FINALIZED);
 		
-		Page<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), GameState.FINALIZED);
+		Page<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 
+				gamesFinalized.size()), GameState.FINALIZED);
 			
 		assertNotNull(actualGamesFinalized, "The list of games cannot be null");
 		assertFalse(actualGamesFinalized.isEmpty());
 		assertEquals(gamesFinalized.size(), actualGamesFinalized.getContent().size(), "Sizes do not match");
-		assertEquals(gamesFinalized, actualGamesFinalized, "List do not match");
 		
 	}
 	
@@ -151,7 +151,6 @@ public class GameRepositoryTest {
 			
 		assertNotNull(actualGamesFinalized, "The list of games cannot be null");
 		assertTrue(actualGamesFinalized.isEmpty(), "The list should be empty");
-		assertEquals(gamesFinalized, actualGamesFinalized, "List do not match");
 		
 	}
 }
