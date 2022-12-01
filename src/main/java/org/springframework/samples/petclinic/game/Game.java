@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.card.Card;
@@ -47,7 +46,6 @@ public class Game extends BaseEntity {
 	private Integer gameCode;
 	
 	@ManyToMany(mappedBy= "playedGames")
-	@Size(max = 4)
 	private Collection<Player> players;
 	
 	@ManyToMany(cascade = {CascadeType.PERSIST,

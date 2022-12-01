@@ -21,8 +21,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.player.PlayerService;
@@ -62,7 +60,7 @@ public class GameControllerTest {
         Mockito.when(gameService.getGameById(gameId)).thenReturn(game);
         List<Game> games = new ArrayList<Game>();
         games.add(game);
-        Mockito.when(gameService.getGamesFinalized(PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
+        Mockito.when(gameService.getGames()).thenReturn(games);
 	}
 	
 	
@@ -84,7 +82,7 @@ public class GameControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/listGames"))
 		.andExpect(model().attributeExists("games"))
-		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
+		.andExpect(model().attribute("games", gameService.getGamesFinalized()));
 	}
 	
 	@Test
@@ -94,11 +92,10 @@ public class GameControllerTest {
 		mockMvc.perform(post("/games/new")
 				.with(csrf())
 				.param("date", "2022-11-04")
-				.param("gameState", "0")
-				.param("gameMode", "el foso")
-				.param("gameCode", "40"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("games/createGame"))
-        .andExpect(model().attributeExists("game"));
+				.param("gameState", "INITIATED")
+				.param("gameMode", "EL_FOSO")
+				.param("gameCode", "10"))
+		.andExpect(status().is3xxRedirection());
+		
 	}	
 }

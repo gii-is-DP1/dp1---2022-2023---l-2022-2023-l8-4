@@ -7,12 +7,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,26 +48,6 @@ public class PlayerService {
 		
 	}
 	
-<<<<<<< HEAD
-=======
-
-	
-	@Transactional
-    public Collection<Achievement> achievementsByUsername() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)authentication.getPrincipal();
-    	String autenticacion = user.getUsername();
-    	Player player = playerRepository.findPlayerByUsername(autenticacion);
-        return player.getPlayersAchievement();
-    }
-	
-	@Transactional(readOnly = true)
-    public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
-    	Player player = playerRepository.findById(id).get();
-    	return playerRepository.getGamesByPlayerId(pageable, player.getId());
-    }
-	
->>>>>>> carbersor
 	@Transactional
 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
