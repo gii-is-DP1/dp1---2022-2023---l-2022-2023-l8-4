@@ -131,7 +131,6 @@ public class PlayerController {
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
         }
-    }
 
     @GetMapping("/new")
     public ModelAndView createJugador() {

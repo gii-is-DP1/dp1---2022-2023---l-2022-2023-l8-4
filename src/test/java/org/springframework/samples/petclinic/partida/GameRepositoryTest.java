@@ -101,14 +101,15 @@ public class GameRepositoryTest {
 		assertEquals(expectedGame.getPlayers(), actualGame.getPlayers());	
 	}
 	
-	private List<Game> getGamesWithStateOrderedByDateDesc(GameState gameState) {
+	private List<Game> getGamesWithStateOrderedByDateDesc(GameState gameState, int offset,int limit) {
 		return gameRepository.findAll().stream().filter(game -> game.getGameState().equals(gameState))
+				.skip(offset).limit(limit+offset)
 				.sorted(Comparator.comparing(Game::getDate).reversed()).collect(Collectors.toList());	
 	}
 	
 	@Test
 	public void shouldGetGamesInitiated(){
-		List<Game> gamesInitiated = getGamesWithStateOrderedByDateDesc(GameState.INITIATED);
+		List<Game> gamesInitiated = getGamesWithStateOrderedByDateDesc(GameState.INITIATED, 0, 5);
 		Page<Game> actualGamesInitiated = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), GameState.INITIATED);
 			
 		assertNotNull(actualGamesInitiated, "The list of games cannot be null");
@@ -120,7 +121,7 @@ public class GameRepositoryTest {
 	
 	@Test
 	public void shouldGetGamesInProgress(){
-		List<Game> gamesInProgress = getGamesWithStateOrderedByDateDesc(GameState.IN_PROGRESS);
+		List<Game> gamesInProgress = getGamesWithStateOrderedByDateDesc(GameState.IN_PROGRESS, 0, 5);
 		
 		Page<Game> actualGamesInProgress = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), GameState.IN_PROGRESS);
 			
@@ -132,7 +133,7 @@ public class GameRepositoryTest {
 	
 	@Test
 	public void shouldGetGamesFinalized(){
-		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(GameState.FINALIZED);
+		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(GameState.FINALIZED, 0, 5);
 		
 		Page<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), GameState.FINALIZED);
 			
@@ -145,7 +146,7 @@ public class GameRepositoryTest {
 	
 	@Test
 	public void shouldNotGetGamesWithNullState(){
-		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(null);
+		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(null, 0, 5);
 		
 		Page<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), null);
 			

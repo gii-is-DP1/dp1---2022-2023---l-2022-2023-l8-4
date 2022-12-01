@@ -98,7 +98,7 @@ public class GameControllerTest {
 				.param("date", "2022-11-04")
 				.param("gameState", "0")
 				.param("gameMode", "el foso")
-				.param("gameCode", "10"))
+				.param("gameCode", "40"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/createGame"))
         .andExpect(model().attributeExists("game"));
