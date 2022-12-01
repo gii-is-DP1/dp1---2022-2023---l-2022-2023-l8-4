@@ -16,7 +16,7 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 				
-				<petclinic:menuItem active="${name eq 'players'}" url="/players"
+				<petclinic:menuItem active="${name eq 'players'}" url="/players?page=1"
 					title="Players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
@@ -46,6 +46,9 @@
 							</li>
 							<li>								
 								<a href="<c:url value="/games/new" />">New Game <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+							</li>
+							<li>								
+								<a href="<c:url value="/games/join" />">Join Game <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
 							</li>
 						</ul>					
 				</petclinic:menuItem>

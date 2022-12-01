@@ -19,4 +19,6 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
 			+ "JOIN players  ON players_achievements.player_id=players.id "
 			+ "WHERE players.id= :id", nativeQuery= true)
 	Collection<Achievement> findAchievementByPlayerId(@Param("id") int id);
+    
+   
 }
