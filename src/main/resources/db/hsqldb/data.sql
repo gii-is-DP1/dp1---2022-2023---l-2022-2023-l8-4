@@ -65,24 +65,24 @@ INSERT INTO players_games(game_id,player_id) VALUES
 INSERT INTO players_achievements(achievement_id,player_id) VALUES 
 (1,1),
 (1,2),
-(1,5),
+(1,4),
 (2,2),
 (2,3),
 (3,3),
 (3,2),
 (3,1),
-<<<<<<< HEAD
-=======
 (3,3),
 (4,4),
 (1,4),
 (2,4),
 (4,4),
->>>>>>> dangalmar
-(3,5),
+(3,3),
 (4,4),
 (1,4),
-(2,4);
+(2,4),
+(4,4),
+(3,5),
+(5,5);
 
 -- Creating deck of cards
 INSERT INTO cards (id, icons) VALUES

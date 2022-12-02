@@ -50,9 +50,7 @@ public class Achievement extends NamedEntity {
         return description.replace("<THRESHOLD>",String.valueOf(threshold));
     }
     
-    @ManyToMany
-	@JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
-	inverseJoinColumns = @JoinColumn(name = "player_id"))
+    @ManyToMany(mappedBy= "playersAchievement")
 	private Collection<Player> players;
     
 }

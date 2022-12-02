@@ -61,7 +61,7 @@ public class Player extends BaseEntity {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 
-	@ManyToMany(cascade= {CascadeType.PERSIST, CascadeType.MERGE})
+	@ManyToMany
 	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "player_id"),
 	inverseJoinColumns = @JoinColumn(name = "game_id"))
 	private Collection<Game> playedGames;

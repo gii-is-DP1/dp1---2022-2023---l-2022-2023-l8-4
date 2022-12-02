@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +27,14 @@ public class GameService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Game> getGamesInProgress() throws DataAccessException {
-		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.IN_PROGRESS);
+	public Page<Game> getGamesInProgress(Pageable pageable) throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.IN_PROGRESS);
 	}
 
+
 	@Transactional(readOnly = true)
-	public List<Game> getGamesFinalized() throws DataAccessException {
-		return this.gameRepository.findGamesByGameStateOrderByDateDesc(GameState.FINALIZED);
+	public Page<Game> getGamesFinalized(Pageable pageable) throws DataAccessException {
+		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.FINALIZED);
 	}
 
 
@@ -66,10 +69,6 @@ public class GameService {
 		this.gameRepository.deleteById(gameid);
 	}
 
-    @Transactional
-    public List<Game> gamesByPlayers(Integer id) {
-        return (List<Game>) this.gameRepository.findGamesByPlayerId(id);
-    }
 
 	@Transactional(readOnly = true)
 	public Game getGameByCode(int gameCode) {

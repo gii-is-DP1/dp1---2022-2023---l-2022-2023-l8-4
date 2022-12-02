@@ -26,6 +26,15 @@
     </table>
     
     <c:if test="${creator}">
-    	<h3>Comenzar partida</h3>
+    	<c:choose>
+    		<c:when test="${ game.players.size() >= 2}">
+    			<form action="/games/board" method="GET">
+             		<button class="btn btn-default" type="submit">Begin the Game</button>
+				</form>
+    		</c:when>
+    		<c:otherwise>
+    			Waiting for players...
+    		</c:otherwise>
+    	</c:choose> 
     </c:if>
 </dobble:layout>

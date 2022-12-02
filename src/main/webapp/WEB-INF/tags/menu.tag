@@ -16,7 +16,7 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 				
-				<petclinic:menuItem active="${name eq 'players'}" url="/players"
+				<petclinic:menuItem active="${name eq 'players'}" url="/players?page=1"
 					title="Players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
