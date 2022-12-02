@@ -60,9 +60,10 @@ public class PlayerService {
 		if(newPlayer.isNew()) {
 			newPlayer.setModificationDate(LocalDate.now());
 			newPlayer.setRegisterDate(LocalDate.now());
-			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setLastLogin(LocalDate.now());
 			playerRepository.save(newPlayer);
-			return;
+			userService.saveUser(newPlayer.getUser());
+			authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Jugador");
 		}
 		Player playerModified = this.showPlayerById(newPlayer.getId());
 		
@@ -76,5 +77,6 @@ public class PlayerService {
 		userService.saveUser(playerModified.getUser());
 
 		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
-	}		
+	}	
+	
 }

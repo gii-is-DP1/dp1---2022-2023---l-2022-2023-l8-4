@@ -33,7 +33,7 @@
                   	<c:out value="${player.user.username}"/>
                 </td>
                 <td>                    
-                      <c:out value="${player.user.username} "/>
+                      <c:out value="${player.user.password} "/>
                 </td>
                 <td>                    
                       <c:out value="${player.registerDate} "/>                                        
@@ -53,7 +53,7 @@
                 <td>                    
                     <c:if test="${player.profilePicture == ''}">none</c:if>
                     <c:if test="${player.profilePicture != ''}">
-                        <img src="resources/images/${player.profilePicture}" width="100px"  /> 
+                        <img src="${player.profilePicture}" width="100px"  /> 
                     </c:if>
                 </td>
                 <td>
