@@ -21,10 +21,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameController;
 import org.springframework.samples.petclinic.game.GameMode;
@@ -57,7 +59,7 @@ public class GameControllerTest {
 	private Integer gameId = 1;
 	
 	@BeforeEach
-	private void setup() {
+	private void setup() throws DataAccessException, NoSuchEntityException {
 		Game game=new Game();
         game.setId(gameId);
         game.setDate(LocalDate.now());

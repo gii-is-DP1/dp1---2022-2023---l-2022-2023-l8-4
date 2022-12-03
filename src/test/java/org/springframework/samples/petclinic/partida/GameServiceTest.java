@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
@@ -42,12 +43,12 @@ public class GameServiceTest {
 	
 	@Test
 	public void shouldThrowException() {
-		 Exception exception = assertThrows(Exception.class, () -> { 
+		 NoSuchEntityException exception = assertThrows(NoSuchEntityException.class, () -> { 
 			 	this.gameService.getPlayersFromGame(-1);
 			 });
 
 		    String expectedMessage = "Game not found";
-		    String actualMessage = exception.getMessage();
+		    String actualMessage = exception.getErrorMessage();
 		   
 
 		    assertTrue(expectedMessage.contains(actualMessage));

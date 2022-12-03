@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.stereotype.Service;
@@ -45,16 +46,21 @@ public class GameService {
 	}
 
 	@Transactional(readOnly = true)
-	public Game getGameById(int id) throws DataAccessException {
-		return this.gameRepository.findById(id).orElse(null);
+	public Game getGameById(int id) throws NoSuchEntityException, DataAccessException {
+		Game game = gameRepository.findById(id).orElse(null);
+
+		if (game == null) {
+			throw new NoSuchEntityException("404", "Game not found");
+		}
+		return game;
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Player> getPlayersFromGame(int gameId) throws Exception {
+	public Collection<Player> getPlayersFromGame(int gameId) throws NoSuchEntityException, DataAccessException {
 		Game game = getGameById(gameId);
 
 		if (game == null) {
-			throw new Exception("Game not found");
+			throw new NoSuchEntityException("404", "Game not found");
 		}
 
 		return game.getPlayers();

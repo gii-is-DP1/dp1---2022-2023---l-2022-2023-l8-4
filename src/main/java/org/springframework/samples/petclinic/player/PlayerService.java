@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
@@ -45,7 +46,7 @@ public class PlayerService {
 	public Player getPlayerByUsername(String username) throws Exception{
 		Player player = playerRepository.findPlayerByUsername(username);
 		if(player == null) {
-			throw new Exception("Player not found");
+			throw new NoSuchEntityException("404", "Player not found");
 		}
 		return player;
 	}
