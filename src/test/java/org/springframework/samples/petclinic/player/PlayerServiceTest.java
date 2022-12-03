@@ -20,7 +20,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+<<<<<<< HEAD
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
+=======
+>>>>>>> origin
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;

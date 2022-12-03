@@ -43,7 +43,7 @@ public class PlayerService {
 	}
 	
 	@Transactional(readOnly=true)
-	public Player getPlayerByUsername(String username) throws Exception{
+	public Player getPlayerByUsername(String username) throws NoSuchEntityException, DataAccessException{
 		Player player = playerRepository.findPlayerByUsername(username);
 		if(player == null) {
 			throw new NoSuchEntityException("404", "Player not found");

@@ -113,7 +113,8 @@ public class PlayerController {
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br) {
+    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
+    		@RequestParam Map<String, Object> params) {
         ModelAndView result=null;
         if(br.hasErrors()) {
             result = new ModelAndView(player_editing);
@@ -123,11 +124,11 @@ public class PlayerController {
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
-            result = showAllPlayers(null);
+            result = showAllPlayers(params);
             result.addObject("message", "Jugador editado satisfactoriamente");
             return result;
          }
-         result = showAllPlayers(null);
+         result = showAllPlayers(params);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
         }
