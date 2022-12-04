@@ -46,11 +46,8 @@ public class GameService {
 
 	@Transactional(readOnly = true)
 	public Game getGameById(int id) throws NoSuchEntityException, DataAccessException {
-		Game game = gameRepository.findById(id).orElse(null);
+		Game game = gameRepository.findById(id).orElseThrow(() -> new NoSuchEntityException("404", "Game not found"));
 
-		if (game == null) {
-			throw new NoSuchEntityException("404", "Game not found");
-		}
 		return game;
 	}
 
@@ -58,9 +55,6 @@ public class GameService {
 	public Collection<Player> getPlayersFromGame(int gameId) throws NoSuchEntityException, DataAccessException {
 		Game game = getGameById(gameId);
 
-		if (game == null) {
-			throw new NoSuchEntityException("404", "Game not found");
-		}
 
 		return game.getPlayers();
 	}

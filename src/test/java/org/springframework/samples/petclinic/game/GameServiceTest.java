@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
@@ -57,7 +58,7 @@ public class GameServiceTest {
 	}
 	
 	@Test
-	public void shouldAddPlayerToGame() {
+	public void shouldAddPlayerToGame() throws NoSuchEntityException {
 		Game game = gameService.getGameById(1);
 		Collection<Player> players = game.getPlayers();
 		User user = userService.findUser("carzarrei").get();
@@ -72,7 +73,7 @@ public class GameServiceTest {
 			actualPlayers = gameService.getPlayersFromGame(1);
 			assertEquals(players.size(), actualPlayers.size());
 
-		} catch (Exception e) {
+		} catch (NoSuchEntityException e) {
 			fail();
 		}
 	}
