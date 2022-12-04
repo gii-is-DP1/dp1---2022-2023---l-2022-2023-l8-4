@@ -141,7 +141,6 @@ public class GameRepositoryTest {
 	
 	@Test
 	public void shouldNotGetGamesWithNullState(){
-		List<Game> gamesFinalized = getGamesWithStateOrderedByDateDesc(null);
 		
 		Page<Game> actualGamesFinalized = this.gameRepository.findGamesByGameStateOrderByDateDesc(PageRequest.of(0, 5), null);
 			
