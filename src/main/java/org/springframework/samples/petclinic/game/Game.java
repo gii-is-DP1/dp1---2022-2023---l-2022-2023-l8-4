@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.game;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,6 +46,8 @@ public class Game extends BaseEntity {
 	private GameState gameState;
 	
 	@Column(name = "game_code", unique = true, nullable = false)
+	@NotNull
+	@PositiveOrZero
 	private Integer gameCode;
 	
 	@ManyToMany(mappedBy= "playedGames")
@@ -55,6 +59,12 @@ public class Game extends BaseEntity {
 					CascadeType.DETACH,
 					CascadeType.REFRESH})
 	private Collection<Card> cards;
+	
+	public Game() {
+		this.date = LocalDate.now();
+		this.gameState = GameState.INITIATED;
+		this.gameCode = ThreadLocalRandom.current().nextInt(0, 10000 + 1);
+	}
 	
 	
 	protected Collection<Player> getPlayersInternal() {

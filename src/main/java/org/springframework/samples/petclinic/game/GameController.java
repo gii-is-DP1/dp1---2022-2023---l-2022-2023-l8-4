@@ -1,13 +1,9 @@
 package org.springframework.samples.petclinic.game;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ThreadLocalRandom;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -25,12 +21,11 @@ import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.core.Authentication;
-import org.springframework.samples.petclinic.user.User;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -61,17 +56,15 @@ public class GameController {
 		this.playerService = playerService;
 	}
 	
-	private Game initGame() {
-		Game game = new Game();
-		game.setGameState(GameState.INITIATED);
-		game.setGameMode(GameMode.ESTANDAR);
-		game.setDate(LocalDate.now());
-		return game;
+	@InitBinder
+	public void initGameBinder(WebDataBinder dataBinder) {
+		dataBinder.setAllowedFields("gameMode");
 	}
+	
 	
 	@GetMapping(value = "/new")
 	public String iniciarFormulario(Map<String, Object> model) {
-		Game game = initGame();
+		Game game = new Game();
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
 		model.put("gameModes", gameModes);
@@ -83,10 +76,7 @@ public class GameController {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
-
-		game.setDate(LocalDate.now());
-		game.setGameState(GameState.INITIATED);
-		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
+		
 		game.setCards(cardService.getDeck());
 		addCurrentPlayerToGame(authentication.getName(),game);
 		logger.info("Juego con id" + game.getId());
