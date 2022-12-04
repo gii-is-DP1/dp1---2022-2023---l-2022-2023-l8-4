@@ -3,7 +3,6 @@ package org.springframework.samples.petclinic.player;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -79,7 +78,7 @@ public class PlayerServiceTest {
 			assertEquals(listaGame.get(0).getGameCode(), Integer.valueOf(10));
 			assertEquals(listaGame.get(1).getGameCode(), Integer.valueOf(12));
 			assertEquals(listaGame.get(2).getGameCode(), Integer.valueOf(14));
-		}catch (Exception e) {
+		} catch (Exception e) {
 			fail();
 		}
 	}

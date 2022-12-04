@@ -59,7 +59,6 @@ public class PlayerService {
 	}
 	
 
-	
 	@Transactional
     public Collection<Achievement> achievementsByUsername() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -76,7 +75,7 @@ public class PlayerService {
     }
 	
 	@Transactional
-	public void deletePlayer(Integer id) throws DataAccessException {
+ 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
 	}
 	

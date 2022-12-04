@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.partida;
+package org.springframework.samples.petclinic.game;
 
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -27,11 +27,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
-import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameController;
-import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.game.GameState;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -95,8 +90,9 @@ public class GameControllerTest {
 	}
 	
 	@Test
-	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
+	@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 	void shouldCreateGame() throws Exception {
+		
 		mockMvc.perform(post("/games/new")
 				.with(csrf())
 				.param("date", "2022-11-04")

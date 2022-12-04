@@ -2,7 +2,7 @@
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 
-INSERT INTO users(username,password,enabled) VALUES ('pgmarc','p4gmarc', TRUE);
+INSERT INTO users(username,password,enabled) VALUES ('pgmarc','abc', TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (4,'pgmarc','admin');
 
 INSERT INTO users(username,password,enabled) VALUES ('carbersor','123', TRUE);
@@ -71,6 +71,11 @@ INSERT INTO players_achievements(achievement_id,player_id) VALUES
 (3,3),
 (3,2),
 (3,1),
+(3,3),
+(4,4),
+(1,4),
+(2,4),
+(4,4),
 (3,3),
 (4,4),
 (1,4),
