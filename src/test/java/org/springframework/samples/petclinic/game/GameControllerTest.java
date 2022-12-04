@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
@@ -52,7 +53,7 @@ public class GameControllerTest {
 	private Integer gameId = 1;
 	
 	@BeforeEach
-	private void setup() {
+	private void setup() throws DataAccessException, NoSuchEntityException {
 		Game game=new Game();
         game.setId(gameId);
         game.setDate(LocalDate.now());

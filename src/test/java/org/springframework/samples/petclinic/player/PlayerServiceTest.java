@@ -18,7 +18,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
@@ -80,6 +80,19 @@ public class PlayerServiceTest {
 		} catch (Exception e) {
 			fail();
 		}
+	}
+	
+	@Test
+	public void shouldThrowException() {
+		 NoSuchEntityException exception = assertThrows(NoSuchEntityException.class, () -> { 
+			 	this.playerService.getPlayerByUsername("");
+			 });
+
+		    String expectedMessage = "Player not found";
+		    String actualMessage = exception.getErrorMessage();
+		   
+
+		    assertTrue(expectedMessage.contains(actualMessage));
 	}
 	
 //	@Test

@@ -45,12 +45,12 @@ public class GameServiceTest {
 	
 	@Test
 	public void shouldThrowException() {
-		 Exception exception = assertThrows(Exception.class, () -> { 
+		 NoSuchEntityException exception = assertThrows(NoSuchEntityException.class, () -> { 
 			 	this.gameService.getPlayersFromGame(-1);
 			 });
 
 		    String expectedMessage = "Game not found";
-		    String actualMessage = exception.getMessage();
+		    String actualMessage = exception.getErrorMessage();
 		   
 
 		    assertTrue(expectedMessage.contains(actualMessage));
