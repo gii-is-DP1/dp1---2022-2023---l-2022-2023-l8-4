@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.validation.Valid;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,11 +74,6 @@ public class GameController {
 		Game game = initGame();
 		List<GameMode> gameModes = Arrays.asList(GameMode.values());
 		model.put("game", game);
-		Map<String,String> description = new HashMap<String, String>();
-		description.put(GameMode.EL_FOSO.toString(), GameMode.EL_FOSO.getDescription());
-		description.put(GameMode.ESTANDAR.toString(), GameMode.ESTANDAR.getDescription());
-		description.put(GameMode.LA_PATATA_CALIENTE.toString(), GameMode.LA_PATATA_CALIENTE.getDescription());
-		model.put("descriptions", description);
 		model.put("gameModes", gameModes);
 		return VIEW_CREATION_FORM;
 	}
@@ -144,11 +138,7 @@ public class GameController {
 		int totalPages = pageGamesInProgress.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-<<<<<<< HEAD
-			pages= IntStream.rangeClosed(1, totalPages).boxed().toList();
-=======
 			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
->>>>>>> master
 		}
 		
         model.put( "games", pageGamesInProgress.getContent());
@@ -162,33 +152,21 @@ public class GameController {
 	}
 	
 	@GetMapping("/join")
-<<<<<<< HEAD
-	public ModelAndView initJoinGameForm() throws Exception {
-=======
 	public ModelAndView joinGames() throws Exception {
->>>>>>> master
 		ModelAndView mav = new ModelAndView(GAME_JOIN_VIEW);
 		mav.addObject("gameCode",0);
 		return mav;
 	}
 	
 	@PostMapping("/join")
-<<<<<<< HEAD
-	public String joinGame(Authentication authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
-		Game game = gameService.getGameByCode(gameCode);
-		addCurrentPlayerToGame(authentication.getName(),game);
-		
-		return "redirect:/games/join/"+game.getGameCode();
-=======
-	public String joinGame(@ModelAttribute("gameCode") int gameCode) throws Exception {
+	public String joinGame(Authentication  authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
 		Game game = gameService.getGameByCode(gameCode);
 		if(game.getPlayers().size() >= 4) {
 			return "redirect:/games/error";
-		} else {
-			addCurrentPlayerToGame(game);
 		}
-		return "redirect:/games/join/"+game.getGameCode().toString();
->>>>>>> master
+		addCurrentPlayerToGame(authentication.getName(),game);
+		
+		return "redirect:/games/join/" + game.getGameCode();
 	}
 	
 	@GetMapping("/join/{gameCode}")
@@ -202,38 +180,15 @@ public class GameController {
 		return mav;
 	}
 	
-<<<<<<< HEAD
-	private void addCurrentPlayerToGame(String username, Game game) throws Exception {
-		Player player = playerService.getPlayerByUsername(username);
-		this.gameService.addPlayerToGame(player, game);
-	}
 	
-=======
-	private void addCurrentPlayerToGame(Game game) throws Exception {
-		String currentUsername = "";
-		try {
-			Object currentUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if (currentUser instanceof UserDetails) {
-					currentUsername = ((UserDetails)currentUser).getUsername();
-				} else {
-					currentUsername = currentUser.toString();
-				}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		Player player = playerService.getPlayerByUsername(currentUsername);
-		game.addPlayer(player);
-		gameService.saveGame(game);
-	}
-
-
-
->>>>>>> master
     @GetMapping(value = "/board")
     public String board(Map<String, Object> model) {
         return "games/board";
-
     }
+    
+    private void addCurrentPlayerToGame(String username, Game game) throws Exception {
+		Player player = playerService.getPlayerByUsername(username);
+		this.gameService.addPlayerToGame(player, game);
+	}
 
 }

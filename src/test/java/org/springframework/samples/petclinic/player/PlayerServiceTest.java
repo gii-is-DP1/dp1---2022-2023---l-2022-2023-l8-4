@@ -3,8 +3,6 @@ package org.springframework.samples.petclinic.player;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.time.LocalDate;
@@ -20,10 +18,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-<<<<<<< HEAD
-=======
+
 import org.springframework.samples.petclinic.game.Game;
->>>>>>> master
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
@@ -73,16 +69,6 @@ public class PlayerServiceTest {
 	@Test
 	void shouldFindPlayerWithGames() {
 		try {
-<<<<<<< HEAD
-			Player player = this.playerService.showPlayersById(playerId);
-			Collection<Game> game = player.getPlayedGames();
-			List<Game> listaGame = game.stream().toList();
-			assertNotNull(game);
-			assertThat(game.size()).isEqualTo(3);
-			assertThat(listaGame.get(0).getGameCode()).isEqualTo(10);
-			assertThat(listaGame.get(1).getGameCode()).isEqualTo(12);
-			assertThat(listaGame.get(2).getGameCode()).isEqualTo(14);
-=======
 			Player player = this.playerService.showPlayerById(playerId);
 			Collection<Game> games = player.getPlayedGames();
 			List<Game> listaGame = games.stream().collect(Collectors.toList());
@@ -91,8 +77,7 @@ public class PlayerServiceTest {
 			assertEquals(listaGame.get(0).getGameCode(), Integer.valueOf(10));
 			assertEquals(listaGame.get(1).getGameCode(), Integer.valueOf(12));
 			assertEquals(listaGame.get(2).getGameCode(), Integer.valueOf(14));
->>>>>>> master
-		}catch (Exception e) {
+		} catch (Exception e) {
 			fail();
 		}
 	}

@@ -80,7 +80,4 @@ public class GameService {
 		game.addPlayer(player);
 		saveGame(game);
 	}
-	
-	//Esto es un comentario
-	
 }

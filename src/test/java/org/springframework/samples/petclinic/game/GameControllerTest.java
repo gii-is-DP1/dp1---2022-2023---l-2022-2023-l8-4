@@ -25,14 +25,6 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-<<<<<<< HEAD:src/test/java/org/springframework/samples/petclinic/game/GameControllerTest.java
-=======
-import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameController;
-import org.springframework.samples.petclinic.game.GameMode;
-import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.game.GameState;
->>>>>>> master:src/test/java/org/springframework/samples/petclinic/partida/GameControllerTest.java
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -102,19 +94,11 @@ public class GameControllerTest {
 		mockMvc.perform(post("/games/new")
 				.with(csrf())
 				.param("date", "2022-11-04")
-<<<<<<< HEAD:src/test/java/org/springframework/samples/petclinic/game/GameControllerTest.java
-				.param("gameState", "INITIATED")
-				.param("gameMode", "EL_FOSO")
-				.param("gameCode", "10"))
-		.andExpect(status().is3xxRedirection());
-		
-=======
 				.param("gameState", "0")
 				.param("gameMode", "el foso")
 				.param("gameCode", "40"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/createGame"))
         .andExpect(model().attributeExists("game"));
->>>>>>> master:src/test/java/org/springframework/samples/petclinic/partida/GameControllerTest.java
 	}	
 }

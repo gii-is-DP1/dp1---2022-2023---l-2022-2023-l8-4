@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.player;
 
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,12 +10,10 @@ import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.statistics.AchievementService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;

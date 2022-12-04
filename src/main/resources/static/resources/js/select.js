@@ -11,7 +11,7 @@ const selectGameModes = document.getElementById(selectId);
 const handleEvent = (event) => {
 	const paragraph = document.getElementById(paragraphId);
 	const gameMode = event.target.value;
-	paragraph.textContent = description[gameMode];
+	paragraph.textContent = gameMode;
 };
 	
 selectGameModes.addEventListener('change', handleEvent);
