@@ -55,7 +55,8 @@
                 <td>
 				<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 				&nbsp;
-				<a href="/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></span></a> </td>
+				<span class="glyphicon glyphicon-trash alert" aria-hidden="true" data-toggle="modal" data-target="#myModal"></span></td>
+				<petclinic:modal hrefConfirm="/players/delete/${player.id}" nameModal="myModal"></petclinic:modal>
             </tr>
         </c:forEach>
         </tbody>
