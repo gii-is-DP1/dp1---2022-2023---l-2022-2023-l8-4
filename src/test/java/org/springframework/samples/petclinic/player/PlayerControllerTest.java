@@ -23,7 +23,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.game.GameService;
-import org.springframework.samples.petclinic.statistics.AchievementService;
+import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -36,21 +36,21 @@ public class PlayerControllerTest {
 	excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 	excludeAutoConfiguration= SecurityConfiguration.class)
 	public class GameControllerTest {
-		
+
 		@MockBean
 		private PlayerService playerService;
-		
+
 		@MockBean
 		private AchievementService achievementService;
-		
+
 		@MockBean
 		private GameService gameService;
-		
+
 		@Autowired
 		private MockMvc mockMvc;
-		
+
 		private Integer playerId = 1;
-		
+
 		@BeforeEach
 		private void setup() {
 			Player player= new Player();
@@ -67,8 +67,8 @@ public class PlayerControllerTest {
 	        Page<Player> pagePlayers= new PageImpl<Player>(players, PageRequest.of(0, 5), players.size());
 	        Mockito.when(playerService.getAllPlayers(null)).thenReturn(pagePlayers);
 		}
-		
-		
+
+
 		@Test
 		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 		void shouldShowPlayersGames() throws Exception {
@@ -78,7 +78,7 @@ public class PlayerControllerTest {
 			.andExpect(model().attributeExists("games"))
 			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
 		}
-		
+
 		@Test
 		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 		void shouldShowPlayersAchievements() throws Exception {
@@ -88,7 +88,7 @@ public class PlayerControllerTest {
 			.andExpect(model().attributeExists("achievements"))
 			.andExpect(model().attribute("achievements", achievementService.findAchievementByPlayerId(playerId)));
 		}
-		
+
 		@Test
 		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 		void shouldShowPlayersData() throws Exception {

@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.statistics;
+package org.springframework.samples.petclinic.statistics.archivements;
 
 
 import javax.validation.Valid;
@@ -22,7 +22,7 @@ public class AchievementController {
     private final String ACHIEVEMENTS_FORM="achievements/createOrUpdateAchievementForm";
 
     private AchievementService service;
-    
+
     @Autowired
     public AchievementController(AchievementService service) {
 		this.service = service;
@@ -34,24 +34,24 @@ public class AchievementController {
         result.addObject("achievements", service.getAchievements());
         return result;
     }
-    
-    
 
-    
+
+
+
     @GetMapping("/{id}/delete")
     public ModelAndView deleteAchievement(@PathVariable("id") Integer id){
-        service.deleteAchievementById(id);        
+        service.deleteAchievementById(id);
         return showAchievements();
     }
 
     @GetMapping("/{id}/edit")
     public ModelAndView editAchievement(@PathVariable("id") Integer id){
-        Achievement achievement=service.getById(id);        
+        Achievement achievement=service.getById(id);
         ModelAndView result=new ModelAndView(ACHIEVEMENTS_FORM);
         result.addObject("achievement", achievement);
         return result;
     }
- 
+
     @Transactional
     @PostMapping("/{id}/edit")
     public ModelAndView saveAchievement(@PathVariable("id") Integer id, @Valid Achievement achievement, BindingResult br){
@@ -70,14 +70,14 @@ public class AchievementController {
         		result = showAchievements();
                 result.addObject("message", "Logro con id "+id+" no ha sido editado correctamente");
             }
-            
-           
+
+
         }
 		return result;
-              
+
     }
 
-    
+
     @GetMapping("/new")
     public ModelAndView createAchievement(){
         Achievement achievement=new Achievement();
@@ -96,11 +96,11 @@ public class AchievementController {
         	 service.save(achievement);
             result = showAchievements();
             result.addObject("message", "Jugador creado satisfactoriamente");
-            
+
         }
         return result;
     }
-        
+
 
 
 }

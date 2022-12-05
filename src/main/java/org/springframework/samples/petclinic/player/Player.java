@@ -6,7 +6,6 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -19,7 +18,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.statistics.Achievement;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.user.User;
 
 import lombok.EqualsAndHashCode;
@@ -66,12 +65,10 @@ public class Player extends BaseEntity {
 	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "player_id"),
 	inverseJoinColumns = @JoinColumn(name = "game_id"))
 	private Collection<Game> playedGames;
-	
+
 	 @ManyToMany
 	 @JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
 	 inverseJoinColumns = @JoinColumn(name = "player_id"))
 	 private Collection<Achievement> playersAchievement;
-	
-	
-	
+
 }
