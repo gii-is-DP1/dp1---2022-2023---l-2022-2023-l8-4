@@ -35,8 +35,7 @@ public class AchievementController {
         return result;
     }
     
-    
-
+  
     
     @GetMapping("/{id}/delete")
     public ModelAndView deleteAchievement(@PathVariable("id") Integer id){

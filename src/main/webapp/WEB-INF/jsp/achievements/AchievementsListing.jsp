@@ -40,7 +40,7 @@
                 <td>                    
                     <c:if test="${achievement.badgeImage == ''}">none</c:if>
                     <c:if test="${achievement.badgeImage != ''}">
-                        <img src="resources/images/logros/${achievement.badgeImage}" width="100px"  /> 
+                        <img src="${achievement.badgeImage}" width="100px"  /> 
                     </c:if>
                 </td>
                 <td>

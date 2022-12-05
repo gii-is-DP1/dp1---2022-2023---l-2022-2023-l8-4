@@ -3,9 +3,9 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="games">
+<dobble:layout pageName="games">
     <h2>Games</h2>
 
     <table id="playersTable" class="table table-condensed">
@@ -24,8 +24,8 @@
                 <td>
                     <c:out value="${game.date}"/>
                 </td>
-                <td>                    
-                      <c:out value="${game.gameMode} "/>                                        
+                <td>
+                	<spring:eval expression="game.gameState"></spring:eval>          
                 </td>
                 <td>                    
                       <c:out value="${game.gameCode} "/>                                        
@@ -43,4 +43,4 @@
     </table>
     
 
-</petclinic:layout>
+</dobble:layout>

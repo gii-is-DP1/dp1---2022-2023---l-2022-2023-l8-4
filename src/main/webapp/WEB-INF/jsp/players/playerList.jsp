@@ -11,6 +11,8 @@
         <thead>
         <tr class="tabla">
             <th>Statistics</th>
+            <th>Played Games</th>
+            <th>Achievemnts</th>
             <th>Username</th>
             <th>Register_Date</th>
             <th>Modification_Date</th>
@@ -18,7 +20,7 @@
             <th>Email</th>
             <th>BirthDate</th>
             <th>Profile_Picture</th>
-            <th>Action</th>
+            <th>Action</th>          
         </tr>
         </thead>
         <tbody>
@@ -29,7 +31,13 @@
                     <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                 <td>
-                  	<c:out value="${player.user.username}"/>
+                    <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
+                 <td>
+                    <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
+                <td>
+                    <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
                 </td>
                 <td>                    
                       <c:out value="${player.registerDate} "/>                                        
@@ -53,9 +61,10 @@
                     </c:if>
                 </td>
                 <td>
-				<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-				&nbsp;
-				<a href="/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></span></a> </td>
+					<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+					&nbsp;
+					<a href="/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></span></a>
+				</td>
             </tr>
         </c:forEach>
         </tbody>

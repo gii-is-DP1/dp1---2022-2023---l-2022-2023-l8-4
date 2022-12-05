@@ -22,6 +22,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 public class PlayerService {
 
@@ -57,9 +58,6 @@ public class PlayerService {
         return result.isPresent()?result.get():null;
 		
 	}
-	
-
-	
 	@Transactional
     public Collection<Achievement> achievementsByUsername() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -76,7 +74,7 @@ public class PlayerService {
     }
 	
 	@Transactional
-	public void deletePlayer(Integer id) throws DataAccessException {
+ 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
 	}
 	
@@ -85,9 +83,10 @@ public class PlayerService {
 		if(newPlayer.isNew()) {
 			newPlayer.setModificationDate(LocalDate.now());
 			newPlayer.setRegisterDate(LocalDate.now());
-			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setLastLogin(LocalDate.now());
 			playerRepository.save(newPlayer);
-			return;
+			userService.saveUser(newPlayer.getUser());
+			authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Player");
 		}
 		Player playerModified = this.showPlayerById(newPlayer.getId());
 		
@@ -100,6 +99,7 @@ public class PlayerService {
 
 		userService.saveUser(playerModified.getUser());
 
-		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
-	}		
+		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Player");
+	}	
+	
 }
