@@ -30,6 +30,7 @@ import org.springframework.samples.petclinic.game.GameController;
 import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.game.GameState;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -46,6 +47,9 @@ public class GameControllerTest {
 	
 	@MockBean
 	private CardService cardService;
+	
+	@MockBean
+	private PlayerService playerService;
 	
 	@Autowired
 	private MockMvc mockMvc;
@@ -68,7 +72,7 @@ public class GameControllerTest {
 	
 	
 	@Test
-	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
+	@WithMockUser(username = "carbersor", password ="123", authorities = {"admin"})
 	void shouldShowGame() throws Exception {
 		mockMvc.perform(get("/games/" + gameId))
 		.andExpect(status().isOk())
@@ -96,7 +100,7 @@ public class GameControllerTest {
 				.param("date", "2022-11-04")
 				.param("gameState", "0")
 				.param("gameMode", "el foso")
-				.param("gameCode", "10"))
+				.param("gameCode", "40"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/createGame"))
         .andExpect(model().attributeExists("game"));

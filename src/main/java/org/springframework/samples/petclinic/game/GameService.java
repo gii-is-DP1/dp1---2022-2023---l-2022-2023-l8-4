@@ -32,10 +32,12 @@ public class GameService {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.IN_PROGRESS);
 	}
 
+
 	@Transactional(readOnly = true)
 	public Page<Game> getGamesFinalized(Pageable pageable) throws DataAccessException {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.FINALIZED);
 	}
+
 
 	@Transactional(readOnly = true)
 	public List<Game> getGamesByDateDesc() throws DataAccessException {
@@ -67,4 +69,9 @@ public class GameService {
 	public void deleteGame(int gameid) throws DataAccessException {
 		this.gameRepository.deleteById(gameid);
 	}
+	
+	public Game getGameByCode(int gameCode) {
+		return this.gameRepository.findGameByGameCode(gameCode);
+	}
+	
 }

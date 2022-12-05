@@ -19,5 +19,6 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	List<Game> findGamesByOrderByDateDesc();
 	Optional<Game> findById(int id);
 	Page<Game> findGamesByGameStateOrderByDateDesc(Pageable pageable, GameState gameState);
+	Game findGameByGameCode(int gameCode);
 
 }

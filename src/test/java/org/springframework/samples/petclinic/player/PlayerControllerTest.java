@@ -76,6 +76,7 @@ import org.springframework.test.web.servlet.MockMvc;
 			.andExpect(model().attribute("achievements", achievementService.findAchievementByPlayerId(playerId)));
 		}
 		
+		
 		@Test
 		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 		void shouldShowPlayersData() throws Exception {
