@@ -4,11 +4,14 @@
 
 <petclinic:layout pageName="error">
 
-    <spring:url value="/resources/images/pets.png" var="petsImage"/>
-    <img src="${petsImage}"/>
+    <spring:url value="/resources/images/spotit.png" var="spotItImage"/>
+    <img src="${spotItImage}" width=300 height=300/><br><br><br><br>
 
-    <h2>Something happened...</h2>
+    <h1>Something happened...</h1>
 
-    <p>${exception.message}</p>
+    <body>
+		<p>${exception.errorMessage}</p>
+		<p></p>
+	</body>
 
 </petclinic:layout>

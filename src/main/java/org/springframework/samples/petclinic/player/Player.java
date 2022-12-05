@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.player;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.CascadeType;
@@ -66,9 +67,19 @@ public class Player extends BaseEntity {
 	inverseJoinColumns = @JoinColumn(name = "game_id"))
 	private Collection<Game> playedGames;
 
+	public void addGame(Game game) {
+		getGamesInternal().add(game);
+	}
+
+	protected Collection<Game> getGamesInternal() {
+		if (this.playedGames == null) {
+			this.playedGames = new ArrayList<Game>();
+		}
+		return this.playedGames;
+	}
+
 	 @ManyToMany
 	 @JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
 	 inverseJoinColumns = @JoinColumn(name = "player_id"))
 	 private Collection<Achievement> playersAchievement;
-
 }

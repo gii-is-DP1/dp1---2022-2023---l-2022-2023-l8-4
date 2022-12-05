@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.player;
 
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -15,8 +14,14 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PlayerRepository extends JpaRepository<Player,Integer> {
 	
-	@Query("SELECT games FROM Player player INNER JOIN player.playedGames games WHERE player.id= ?1")
-	Page<Game> getGamesByPlayerId(Pageable pageable, Integer playerId);
+	public List<Player> findAll();
+	
 
 	Player save(Player usuario);
+	
+	@Query("SELECT games FROM Player player INNER JOIN player.playedGames games WHERE player.id= ?1")
+	Page<Game> getGamesByPlayerId(Pageable pageable, Integer playerId);
+	
+	@Query(value = "SELECT * FROM players  WHERE players.username=:username", nativeQuery = true)
+	public Player findPlayerByUsername(@Param("username") String username);
 }

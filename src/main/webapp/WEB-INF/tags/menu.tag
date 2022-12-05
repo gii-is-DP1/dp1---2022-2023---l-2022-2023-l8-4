@@ -15,12 +15,15 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-				
+				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'players'}" url="/players?page=1"
 					title="Players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
 				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="isAuthenticated()">
 				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
 					title="Achievements" dropdown="${true}">										
 						<ul class="dropdown-menu">
@@ -33,6 +36,9 @@
 							</li>
 						</ul>					
 				</petclinic:menuItem>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'games'}" url="/games"
 					title="Games" dropdown="${true}">										
 						<ul class="dropdown-menu">
@@ -42,13 +48,26 @@
 							<li class="divider"></li>
 							<li>								
 								<a href="<c:url value="/games/inProgress" />">In Progress Games <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
-
 							</li>
+							</ul>					
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				
+				<sec:authorize access="isAuthenticated()">
+				<petclinic:menuItem active="${name eq 'games'}" url="/games"
+					title="Play" dropdown="${true}">										
+						<ul class="dropdown-menu">
+							
 							<li>								
 								<a href="<c:url value="/games/new" />">New Game <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
 							</li>
+							<li>								
+								<a href="<c:url value="/games/join" />">Join Game <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
+							</li>
 						</ul>					
 				</petclinic:menuItem>
+				</sec:authorize>
 
 			</ul>
 

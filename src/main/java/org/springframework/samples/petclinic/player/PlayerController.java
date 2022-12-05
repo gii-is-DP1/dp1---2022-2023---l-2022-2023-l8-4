@@ -32,6 +32,7 @@ public class PlayerController {
 	private PlayerService playerService;
 	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
+	public static final String player_listingById = "players/playerList2";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
@@ -52,7 +53,7 @@ public class PlayerController {
 		int totalPages = pagePlayer.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());;
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
 
         ModelAndView result = new ModelAndView(player_listing);
@@ -110,7 +111,8 @@ public class PlayerController {
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br) {
+    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
+    		@RequestParam Map<String, Object> params) {
         ModelAndView result=null;
         if(br.hasErrors()) {
             result = new ModelAndView(player_editing);
@@ -120,14 +122,14 @@ public class PlayerController {
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
-            result = showAllPlayers(null);
+            result = showAllPlayers(params);
             result.addObject("message", "Jugador editado satisfactoriamente");
             return result;
          }
-         result = showAllPlayers(null);
+         result = showAllPlayers(params);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
-    }
+        }
 
     @GetMapping("/new")
     public ModelAndView createJugador() {

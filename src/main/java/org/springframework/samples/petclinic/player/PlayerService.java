@@ -11,70 +11,95 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class PlayerService {
 
 	private PlayerRepository playerRepository;
-	
+
 	@Autowired
 	public PlayerService(PlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
 	}
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	private AuthoritiesService authoritiesService;
-	
+
 	@Transactional(readOnly=true)
 	public Page<Player> getAllPlayers(Pageable pageable){
 		return playerRepository.findAll(pageable);
 	}
-	
+
+	@Transactional(readOnly=true)
+	public Player getPlayerByUsername(String username) throws NoSuchEntityException, DataAccessException{
+		Player player = playerRepository.findPlayerByUsername(username);
+		if(player == null) {
+			throw new NoSuchEntityException("404", "Player not found");
+		}
+		return player;
+	}
+
 	@Transactional(readOnly = true)
 	public Player showPlayerById(Integer id) {
 		Optional<Player> result= playerRepository.findById(id);
         return result.isPresent()?result.get():null;
-		
+
 	}
-	
+	@Transactional
+    public Collection<Achievement> achievementsByUsername() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+    	String autenticacion = user.getUsername();
+    	Player player = playerRepository.findPlayerByUsername(autenticacion);
+        return player.getPlayersAchievement();
+    }
+
 	@Transactional(readOnly = true)
     public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
     	Player player = playerRepository.findById(id).get();
     	return playerRepository.getGamesByPlayerId(pageable, player.getId());
     }
-	
+
 	@Transactional
-	public void deletePlayer(Integer id) throws DataAccessException {
+ 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
 	}
-	
+
 	@Transactional
 	public void savePlayer(Player newPlayer) throws DataAccessException {
 		if(newPlayer.isNew()) {
 			newPlayer.setModificationDate(LocalDate.now());
 			newPlayer.setRegisterDate(LocalDate.now());
-			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setLastLogin(LocalDate.now());
 			playerRepository.save(newPlayer);
-			return;
+			userService.saveUser(newPlayer.getUser());
+			authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Player");
 		}
 		Player playerModified = this.showPlayerById(newPlayer.getId());
-		
+
 		playerModified.setModificationDate(LocalDate.now());
     	playerModified.setEmail(newPlayer.getEmail());
     	playerModified.setUser(newPlayer.getUser());
     	playerModified.setProfilePicture(newPlayer.getProfilePicture());
-		
-    	playerRepository.save(playerModified);		
+
+    	playerRepository.save(playerModified);
 
 		userService.saveUser(playerModified.getUser());
 
-		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
-	}		
+		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Player");
+	}
+
 }
