@@ -69,8 +69,6 @@ public class GameService {
 		this.gameRepository.deleteById(gameid);
 	}
 
-
-
 	@Transactional(readOnly = true)
 	public Game getGameByCode(int gameCode) {
 		return this.gameRepository.findGameByGameCode(gameCode);

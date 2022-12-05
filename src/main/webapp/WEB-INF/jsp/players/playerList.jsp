@@ -34,8 +34,16 @@
                     <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
 <<<<<<< HEAD
+<<<<<<< HEAD
                 <td>                    
                       <c:out value="${player.user.password} "/>
+=======
+                 <td>
+                    <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                </td>
+                <td>
+                    <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
+>>>>>>> refs/remotes/origin/master
 =======
                  <td>
                     <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>

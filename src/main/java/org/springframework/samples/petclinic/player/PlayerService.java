@@ -58,7 +58,7 @@ public class PlayerService {
         return result.isPresent()?result.get():null;
 		
 	}
-	
+
 	@Transactional
     public Collection<Achievement> achievementsByUsername() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
