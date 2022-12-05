@@ -7,8 +7,8 @@
               description="Label appears in red color if input is considered as invalid after submission" %>
 <%@ attribute name="names" required="true" rtexprvalue="true" type="java.util.List"
               description="Names in the list" %>
-<%@ attribute name="size" required="true" rtexprvalue="true"
-              description="Size of Select" %>
+<%@ attribute name="size" required="true" rtexprvalue="true" description="Size of Select" %>
+
 
 <spring:bind path="${name}">
     <c:set var="cssGroup" value="form-group ${status.error ? 'error' : '' }"/>

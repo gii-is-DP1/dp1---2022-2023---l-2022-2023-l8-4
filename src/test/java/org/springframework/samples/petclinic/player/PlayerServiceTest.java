@@ -1,9 +1,9 @@
+
 package org.springframework.samples.petclinic.player;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -20,6 +20,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
@@ -78,9 +79,22 @@ public class PlayerServiceTest {
 			assertEquals(listaGame.get(0).getGameCode(), Integer.valueOf(10));
 			assertEquals(listaGame.get(1).getGameCode(), Integer.valueOf(12));
 			assertEquals(listaGame.get(2).getGameCode(), Integer.valueOf(14));
-		}catch (Exception e) {
+		} catch (Exception e) {
 			fail();
 		}
+	}
+	
+	@Test
+	public void shouldThrowException() {
+		 NoSuchEntityException exception = assertThrows(NoSuchEntityException.class, () -> { 
+			 	this.playerService.getPlayerByUsername("");
+			 });
+
+		    String expectedMessage = "Player not found";
+		    String actualMessage = exception.getErrorMessage();
+		   
+
+		    assertTrue(expectedMessage.contains(actualMessage));
 	}
 	
 //	@Test

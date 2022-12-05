@@ -1,7 +1,6 @@
 package org.springframework.samples.petclinic.player;
 
 
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -26,5 +25,5 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
 	
 	@Query(value = "SELECT * FROM players  WHERE players.username=:username", nativeQuery = true)
 	public Player findPlayerByUsername(@Param("username") String username);
-	
+
 }
