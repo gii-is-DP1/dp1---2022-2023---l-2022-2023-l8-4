@@ -3,8 +3,6 @@ package org.springframework.samples.petclinic.game;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -22,12 +20,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
+import org.springframework.samples.petclinic.playergamedata.PlayerGameDataService;
 import org.springframework.security.core.Authentication;
-import org.springframework.samples.petclinic.user.User;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,15 +48,18 @@ public class GameController {
 	private static final String VIEW_GAME_LIST_FINALIZED = "games/listGamesFinalized";
 	private static final String VIEW_GAME_LIST_IN_PROGRESS = "games/listGamesInProgress";
 	private static final String GAME_JOIN_VIEW = "games/joinGame";
+	private static final String GAME_BOARD = "games/board";
 	private GameService gameService;
 	private CardService cardService;
 	private PlayerService playerService;
+	private PlayerGameDataService playerGameDataService;
 	
 	@Autowired
-	public GameController(GameService gameService, CardService cardService, PlayerService playerService) {
+	public GameController(GameService gameService, CardService cardService, PlayerService playerService, PlayerGameDataService playerGameDataService) {
 		this.gameService = gameService;
 		this.cardService = cardService;
 		this.playerService = playerService;
+		this.playerGameDataService = playerGameDataService;
 	}
 	
 	private Game initGame() {
@@ -180,10 +181,27 @@ public class GameController {
 		return mav;
 	}
 	
+	@GetMapping("/{gameId}/{playerId}/{middleCardId}")
+	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
+		ModelAndView mav = new ModelAndView(GAME_BOARD);
+		playerGameDataService.winPoint(gameId, playerId);
+		playerGameDataService.changeCards(gameId, playerId, middleCardId);
+		gameService.deleteCardFromDeck(gameId, middleCardId);
+		gameService.selectRandomMiddleCard(gameId);
+		Game game = this.gameService.getGameById(gameId);
+		mav.addObject("game", game);
+		List<PlayerGameData> data= new ArrayList<>();
+		for(Player player:game.getPlayers()){
+			PlayerGameData playerGameData = this.playerGameDataService.getByIds(game.getId(),player.getId());
+			data.add(playerGameData);
+		}
+		mav.addObject("players", data);
+		return mav;
+	}
 	
     @GetMapping(value = "/board")
     public String board(Map<String, Object> model) {
-        return "games/board";
+        return GAME_BOARD;
     }
     
     private void addCurrentPlayerToGame(String username, Game game) throws Exception {

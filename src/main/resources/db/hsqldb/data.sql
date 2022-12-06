@@ -84,6 +84,8 @@ INSERT INTO players_achievements(achievement_id,player_id) VALUES
 (3,5),
 (5,5);
 
+--Player Game Data
+
 -- Creating deck of cards
 INSERT INTO cards (id, icons) VALUES
 (0, 'AVISPA CEBRA ABEJA CIGUEÑA ZORRO LOBO BUHO CANGURO'),
