@@ -1,12 +1,10 @@
-package org.springframework.samples.petclinic.statistics;
+package org.springframework.samples.petclinic.statistics.archivements;
 
 import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -27,30 +25,30 @@ public class Achievement extends NamedEntity {
 	@Column(name = "description")
 	@NotEmpty
     private String description;
-	
+
 	@Column(name = "threshold")
 	@NotNull
     private double threshold;
-	
+
 	@Column(name = "percentage")
 	@NotNull
 	private double percentage;
-	
+
 	@Column(name = "acquire_date")
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDate acquireDate;
-	
+
 	@Column(name = "trophy")
 	private AchievementTrophy trophy;
-	
+
 	@Column(name = "badgeImage")
     private String badgeImage;
-	
+
     public String getActualDescription(){
         return description.replace("<THRESHOLD>",String.valueOf(threshold));
     }
-    
+
     @ManyToMany(mappedBy= "playersAchievement")
 	private Collection<Player> players;
-    
+
 }

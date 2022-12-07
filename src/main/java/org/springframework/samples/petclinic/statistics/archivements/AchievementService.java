@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.statistics;
+package org.springframework.samples.petclinic.statistics.archivements;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -39,5 +39,5 @@ public class AchievementService {
 	public Collection<Achievement> findAchievementByPlayerId(int id) throws DataAccessException {
 		return this.repo.findAchievementByPlayerId(id);
 	}
-	
+
 }

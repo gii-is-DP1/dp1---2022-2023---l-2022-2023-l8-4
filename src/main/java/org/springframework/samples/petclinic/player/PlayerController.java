@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.statistics.AchievementService;
+import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -46,16 +46,16 @@ public class PlayerController {
 	@GetMapping
     public ModelAndView showAllPlayers(@RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
-		
+
 		PageRequest pageRequest = PageRequest.of(page, 5);
 		Page<Player> pagePlayer= playerService.getAllPlayers(pageRequest);
-		
+
 		int totalPages = pagePlayer.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
 			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
-		
+
         ModelAndView result = new ModelAndView(player_listing);
         result.addObject("players", pagePlayer.getContent());
         result.addObject("pages", pages);
@@ -77,16 +77,16 @@ public class PlayerController {
     @GetMapping("/data/{id}")
     public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
     	int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
-		
+
 		PageRequest pageRequest = PageRequest.of(page, 3);
 		Page<Game> pageGamesByPlayerId= playerService.gamesByPlayerId(id, pageRequest);
-		
+
 		int totalPages = pageGamesByPlayerId.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
 			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
-    	
+
         model.put( "player", this.playerService.showPlayerById( id ) );
         model.put( "games", pageGamesByPlayerId.getContent());
         model.put( "pages", pages);

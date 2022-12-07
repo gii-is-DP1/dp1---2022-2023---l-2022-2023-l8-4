@@ -19,7 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.statistics.Achievement;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.user.User;
 
 import lombok.EqualsAndHashCode;
@@ -68,20 +68,18 @@ public class Player extends BaseEntity {
 	private Collection<Game> playedGames;
 
 	public void addGame(Game game) {
-		getGamesInternal().add(game);	
+		getGamesInternal().add(game);
 	}
-	
+
 	protected Collection<Game> getGamesInternal() {
 		if (this.playedGames == null) {
 			this.playedGames = new ArrayList<Game>();
 		}
 		return this.playedGames;
 	}
-	
+
 	 @ManyToMany
 	 @JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
 	 inverseJoinColumns = @JoinColumn(name = "player_id"))
 	 private Collection<Achievement> playersAchievement;
-	
-	
 }
