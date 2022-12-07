@@ -21,7 +21,7 @@
             <input type="hidden" name="id" value="${player.id}"/>
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Username" name="user.username"/>
-                <petclinic:inputField label="ContraseÃ±a" name="user.password"/>
+                <petclinic:inputField label="Contraseña" name="user.password"/>
                 <petclinic:inputField label="email" name="email"/>
                 <petclinic:inputField label="birthDate" name="birthDate"/>
                 <petclinic:inputField label="profilePicture" name="profilePicture"/>

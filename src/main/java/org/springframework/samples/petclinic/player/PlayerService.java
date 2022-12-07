@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
@@ -20,6 +21,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 public class PlayerService {
@@ -42,10 +44,10 @@ public class PlayerService {
 	}
 	
 	@Transactional(readOnly=true)
-	public Player getPlayerByUsername(String username) throws Exception{
+	public Player getPlayerByUsername(String username) throws NoSuchEntityException, DataAccessException{
 		Player player = playerRepository.findPlayerByUsername(username);
 		if(player == null) {
-			throw new Exception("Player not found");
+			throw new NoSuchEntityException("404", "Player not found");
 		}
 		return player;
 	}
@@ -56,9 +58,6 @@ public class PlayerService {
         return result.isPresent()?result.get():null;
 		
 	}
-	
-
-	
 	@Transactional
     public Collection<Achievement> achievementsByUsername() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -75,7 +74,7 @@ public class PlayerService {
     }
 	
 	@Transactional
-	public void deletePlayer(Integer id) throws DataAccessException {
+ 	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
 	}
 	
@@ -84,9 +83,10 @@ public class PlayerService {
 		if(newPlayer.isNew()) {
 			newPlayer.setModificationDate(LocalDate.now());
 			newPlayer.setRegisterDate(LocalDate.now());
-			newPlayer.setModificationDate(LocalDate.now());
+			newPlayer.setLastLogin(LocalDate.now());
 			playerRepository.save(newPlayer);
-			return;
+			userService.saveUser(newPlayer.getUser());
+			authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Player");
 		}
 		Player playerModified = this.showPlayerById(newPlayer.getId());
 		
@@ -99,6 +99,7 @@ public class PlayerService {
 
 		userService.saveUser(playerModified.getUser());
 
-		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Jugador");
-	}		
+		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Player");
+	}	
+	
 }

@@ -4,13 +4,17 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import javax.validation.Valid;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.validation.Valid;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.security.core.Authentication;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -38,6 +43,8 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 
+	Logger logger = LoggerFactory.getLogger(GameController.class);
+	
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
 	private static final String VIEW_GAME_LIST_FINALIZED = "games/listGamesFinalized";
@@ -72,7 +79,7 @@ public class GameController {
 	}
 
 	@PostMapping(value = "/new")
-	public String procesarForlulario(@ModelAttribute("game") @Valid Game game, BindingResult result) throws DataAccessException, Exception {
+	public String proccessForm(Authentication authentication, @ModelAttribute("game") @Valid Game game, BindingResult result) throws DataAccessException, Exception {
 		if (result.hasErrors()) {
 			return VIEW_CREATION_FORM;
 		}
@@ -81,8 +88,8 @@ public class GameController {
 		game.setGameState(GameState.INITIATED);
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
-		addCurrentPlayerToGame(game);
-		this.gameService.saveGame(game);
+		addCurrentPlayerToGame(authentication.getName(),game);
+		logger.info("Juego con id" + game.getId());
 		return "redirect:/games/" + game.getId();
 	}
 
@@ -152,14 +159,14 @@ public class GameController {
 	}
 	
 	@PostMapping("/join")
-	public String joinGame(@ModelAttribute("gameCode") int gameCode) throws Exception {
+	public String joinGame(Authentication  authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
 		Game game = gameService.getGameByCode(gameCode);
 		if(game.getPlayers().size() >= 4) {
 			return "redirect:/games/error";
-		} else {
-			addCurrentPlayerToGame(game);
 		}
-		return "redirect:/games/join/"+game.getGameCode().toString();
+		addCurrentPlayerToGame(authentication.getName(),game);
+		
+		return "redirect:/games/join/" + game.getGameCode();
 	}
 	
 	@GetMapping("/join/{gameCode}")
@@ -173,30 +180,15 @@ public class GameController {
 		return mav;
 	}
 	
-	private void addCurrentPlayerToGame(Game game) throws Exception {
-		String currentUsername = "";
-		try {
-			Object currentUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-			if (currentUser instanceof UserDetails) {
-					currentUsername = ((UserDetails)currentUser).getUsername();
-				} else {
-					currentUsername = currentUser.toString();
-				}
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-		
-		Player player = playerService.getPlayerByUsername(currentUsername);
-		game.addPlayer(player);
-		gameService.saveGame(game);
-	}
-
-
-
+	
     @GetMapping(value = "/board")
     public String board(Map<String, Object> model) {
         return "games/board";
-
     }
+    
+    private void addCurrentPlayerToGame(String username, Game game) throws Exception {
+		Player player = playerService.getPlayerByUsername(username);
+		this.gameService.addPlayerToGame(player, game);
+	}
 
 }
