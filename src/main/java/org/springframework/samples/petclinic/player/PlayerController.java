@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -31,6 +32,7 @@ public class PlayerController {
 
 	private PlayerService playerService;
 	private AchievementService achievementService;
+	private StatisticService statisticService;
 	public static final String player_listing = "players/playerList";
 	public static final String player_listingById = "players/playerList2";
     public static final String player_editing = "players/createOrUpdatePlayer";
@@ -38,9 +40,10 @@ public class PlayerController {
     public static final String player_profile = "players/dataPlayer";
 
 	@Autowired
-	public PlayerController(PlayerService playerService, AchievementService achievementService) {
+	public PlayerController(PlayerService playerService, AchievementService achievementService, StatisticService statisticService ) {
 		this.playerService = playerService;
 		this.achievementService = achievementService;
+		this.statisticService = statisticService;
 	}
 
 	@GetMapping
@@ -89,6 +92,7 @@ public class PlayerController {
 
         model.put( "player", this.playerService.showPlayerById( id ) );
         model.put( "games", pageGamesByPlayerId.getContent());
+        model.put("statistics", this.statisticService.getStatisticById(id));
         model.put( "pages", pages);
         model.put( "current", page + 1);
         model.put( "next", page + 2);

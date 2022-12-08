@@ -21,5 +21,7 @@ public class StatisticService {
 
     @Transactional(readOnly = true)
     public Integer getPlayedGames( Integer playerId ) { return this.statisticRepo.getPlayedGamesByPlayer( playerId ); }
+    
+    public Statistic getStatisticById(Integer playerId) {  return this.statisticRepo.findById(playerId).get(); }
 }
 

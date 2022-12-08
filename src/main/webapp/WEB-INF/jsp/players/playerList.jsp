@@ -11,7 +11,6 @@
         <thead>
         <tr class="tabla">
             <th>Statistics</th>
-            <th>Played Games</th>
             <th>Achievements</th>
             <th>Username</th>
             <th>Register_Date</th>
@@ -29,9 +28,6 @@
             <tr class="tabla">
                 <td>
                     <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
-                </td>
-                <td>
-                    <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                  <td>
                     <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>

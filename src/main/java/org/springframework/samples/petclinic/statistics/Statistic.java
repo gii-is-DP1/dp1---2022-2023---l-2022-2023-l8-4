@@ -2,38 +2,38 @@ package org.springframework.samples.petclinic.statistics;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.samples.petclinic.model.NamedEntity;
+
+import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.player.Player;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Getter
 @Setter
 @Table(name = "statistic")
-public class Statistic extends NamedEntity {
+public class Statistic extends BaseEntity {
 
-    @Column(name = "totalPoints")
+    @Column(name = "total_points")
     @NotNull
     private Integer totalPoints;
 
-    @Column( name = "gamesPlayed" )
+    @Column( name = "games_played" )
     @NotNull
     private Integer gamesPlayed;
 
-    @Column( name = "gamesWon")
+    @Column( name = "games_won")
     @NotNull
     private Integer gamesWon;
 
-    @Column( name = "gamesLost" )
+    @Column( name = "games_lost" )
     @NotNull
     private Integer gamesLost;
 
     @OneToOne( cascade = CascadeType.ALL )
     @NotNull
-    @JoinColumn( name = "playerid", referencedColumnName = "id")
+    @JoinColumn( name = "player_id", referencedColumnName = "id")
     private Player player;
 
 }

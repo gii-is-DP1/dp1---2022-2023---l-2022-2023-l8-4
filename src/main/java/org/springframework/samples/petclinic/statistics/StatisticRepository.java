@@ -7,7 +7,7 @@ import org.springframework.samples.petclinic.statistics.archivements.Achievement
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface StatisticRepository extends CrudRepository<Achievement, Integer> {
+public interface StatisticRepository extends CrudRepository<Statistic, Integer> {
 
     @Query( value = "SELECT s.gamesWon FROM Statistic s WHERE s.player.id = :id " )
     Integer getWonGamesByPlayer(@Param("id") int id);

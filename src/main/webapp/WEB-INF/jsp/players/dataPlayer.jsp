@@ -24,7 +24,6 @@
 		</div>
 	</div>
 </div>
-<div id="dataPlayer-medio">
   
   <h2>My Games</h2>
 
@@ -92,9 +91,12 @@
 		</div>    
     </div>
     </c:if>
-</div>
-<div id="dataPlayer-inferior">
-</div>
+    <div id="dataPlayer-inferior-statistics">
+	    <div class="div1" class="font">Total Points: <span class="values-Player">${statistics.totalPoints}</span></div>
+		<div class="div2" class="font">Games Played: <span class="values-Player">${statistics.gamesPlayed}</span></div>
+		<div class="div3" class="font">Games Won: <span class="values-Player">${statistics.gamesWon}</span></div>
+		<div class="div4" class="font">Games Lost: <span class="values-Player">${statistics.gamesLost}</span></div>
+	</div>
 <div class="dataPlayer-buttons">
 	<spring:url value="/players/edit/{playerId}" var="editPlayer">
        <spring:param name="playerId" value="${player.id}"></spring:param>
