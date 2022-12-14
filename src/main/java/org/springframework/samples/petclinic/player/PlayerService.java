@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.statistics.Statistic;
+import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
@@ -27,10 +29,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlayerService {
 
 	private PlayerRepository playerRepository;
+	private StatisticService statisticService;
 
 	@Autowired
-	public PlayerService(PlayerRepository playerRepository) {
+	public PlayerService(PlayerRepository playerRepository, StatisticService statisticService) {
 		this.playerRepository = playerRepository;
+		this.statisticService = statisticService;
 	}
 	@Autowired
 	private UserService userService;
@@ -84,6 +88,13 @@ public class PlayerService {
 			newPlayer.setModificationDate(LocalDate.now());
 			newPlayer.setRegisterDate(LocalDate.now());
 			newPlayer.setLastLogin(LocalDate.now());
+			Statistic statistic=new Statistic();
+			statistic.setGamesPlayed(0);
+			statistic.setGamesLost(0);
+			statistic.setGamesWon(0);
+			statistic.setTotalPoints(0);
+			statisticService.saveStatistic(statistic);
+			newPlayer.setStatistic(statistic);
 			playerRepository.save(newPlayer);
 			userService.saveUser(newPlayer.getUser());
 			authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Player");

@@ -115,11 +115,6 @@ public class PlayerController {
     public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
     		@RequestParam Map<String, Object> params) {
         ModelAndView result=null;
-        if(br.hasErrors()) {
-            result = new ModelAndView(player_editing);
-            result.addAllObjects(br.getModel());
-            return result;
-        }
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
@@ -145,15 +140,9 @@ public class PlayerController {
     @PostMapping("/new")
     public ModelAndView saveNewJugador(@Valid Player player, BindingResult br) {
         ModelAndView result=null;
-        if(br.hasErrors()) {
-            result = new ModelAndView(player_editing);
-            result.addAllObjects(br.getModel());
-        }else {
-            playerService.savePlayer(player);
-            result = showAllPlayers(new HashMap<>());
-            result.addObject("message", "Jugador creado satisfactoriamente");
-
-        }
+        playerService.savePlayer(player);
+        result = showAllPlayers(new HashMap<>());
+        result.addObject("message", "Jugador creado satisfactoriamente");
         return result;
     }
 

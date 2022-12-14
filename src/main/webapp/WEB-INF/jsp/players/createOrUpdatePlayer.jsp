@@ -18,7 +18,6 @@
         </h2>
         <form:form modelAttribute="player"
                    class="form-horizontal">
-            <input type="hidden" name="id" value="${player.id}"/>
             <div class="form-group has-feedback">                
                 <dobble:inputField label="Username" name="user.username"/>
                 <dobble:inputField label="Password" name="user.password"/>

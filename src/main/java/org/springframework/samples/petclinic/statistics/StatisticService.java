@@ -13,5 +13,9 @@ public class StatisticService {
     {
         this.statisticRepo = sr;
     }
+    
+    public void saveStatistic(Statistic statistic) {
+    	this.statisticRepo.save(statistic);
+    }
 }
 
