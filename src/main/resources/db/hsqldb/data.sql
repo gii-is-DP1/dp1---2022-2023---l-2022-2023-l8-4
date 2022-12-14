@@ -28,13 +28,22 @@ INSERT INTO achievement(id,name,description,threshold,percentage,trophy,acquire_
 (4,'Sensei','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un sensei.',10.0,70.0,1,'2022-01-15','/resources/images/logros/sensei logo.png'),
 (5,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'2022-01-10','/resources/images/logo.png');
 
+--Statistics
+INSERT INTO statistic(id,total_points,games_played, games_won, games_lost) VALUES 
+
+(1, 80, 3, 2, 1),
+(2, 60, 4, 1, 3),
+(3, 21, 3, 1, 2),
+(4, 103, 1, 1, 0),
+(5, 45, 2, 0, 2);
+
 --Players
-INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture) VALUES 
-(1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', '/resources/images/logros/viciado.png'),
-(2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', ''),
-(3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', ''),
-(4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', ''),
-(5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '');
+INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture,statistic_id) VALUES 
+(1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', '/resources/images/logros/viciado.png',1),
+(2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', '',2),
+(3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', '',3),
+(4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', '',4),
+(5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '',5);
 
 --Games
 INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
@@ -145,12 +154,3 @@ INSERT INTO cards (id, icons) VALUES
 (54, 'ORCA PEZ PAVOREAL AVISPA CISNE FLAMENCO PANDA UNICORNIO'),
 (55, 'CANGREJO MARIPOSA FLAMENCO BALLENA RENO AGUILA CABALLO CIGUEÑA'),
 (56, 'CARACOL AGUILA PERRO AVISPA PANDA TIGRE SINSAJO LEON');
-
---Statistics
-INSERT INTO statistic(id,total_points,games_played, games_won, games_lost, player_id) VALUES 
-
-(1, 80, 3, 2, 1, 1),
-(2, 60, 4, 1, 3, 2),
-(3, 21, 3, 1, 2, 3),
-(4, 103, 1, 1, 0, 4),
-(5, 45, 2, 0, 2, 5);

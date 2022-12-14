@@ -19,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.statistics.Statistic;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.user.User;
 
@@ -82,4 +83,8 @@ public class Player extends BaseEntity {
 	 @JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
 	 inverseJoinColumns = @JoinColumn(name = "player_id"))
 	 private Collection<Achievement> playersAchievement;
+	 
+	 @OneToOne( cascade = CascadeType.ALL )
+	 @NotNull
+	 private Statistic statistic;
 }

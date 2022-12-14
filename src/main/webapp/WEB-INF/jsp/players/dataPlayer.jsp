@@ -92,10 +92,10 @@
     </div>
     </c:if>
     <div id="dataPlayer-inferior-statistics">
-	    <div class="div1" class="font">Total Points: <span class="values-Player">${statistics.totalPoints}</span></div>
-		<div class="div2" class="font">Played Games: <span class="values-Player">${statistics.gamesPlayed}</span></div>
-		<div class="div3" class="font">Won Games: <span class="values-Player">${statistics.gamesWon}</span></div>
-		<div class="div4" class="font">Lost Games: <span class="values-Player">${statistics.gamesLost}</span></div>
+	    <div class="div1" class="font">Total Points: <span class="values-Player">${player.statistic.totalPoints}</span></div>
+		<div class="div2" class="font">Played Games: <span class="values-Player">${player.statistic.gamesPlayed}</span></div>
+		<div class="div3" class="font">Won Games: <span class="values-Player">${player.statistic.gamesWon}</span></div>
+		<div class="div4" class="font">Lost Games: <span class="values-Player">${player.statistic.gamesLost}</span></div>
 	</div>
 <div class="dataPlayer-buttons">
 	<spring:url value="/players/edit/{playerId}" var="editPlayer">

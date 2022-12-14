@@ -8,13 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StatisticRepository extends CrudRepository<Statistic, Integer> {
-
-    @Query( value = "SELECT s.gamesWon FROM Statistic s WHERE s.player.id = :id " )
-    Integer getWonGamesByPlayer(@Param("id") int id);
-
-    @Query( value = "SELECT s.gamesLost FROM Statistic s WHERE s.player.id = :id " )
-    Integer getLostGamesByPlayer(@Param("id") int id);
-
-    @Query( value = "SELECT s.gamesPlayed FROM Statistic s WHERE s.player.id = :id " )
-    Integer getPlayedGamesByPlayer(@Param("id") int id);
+	
 }

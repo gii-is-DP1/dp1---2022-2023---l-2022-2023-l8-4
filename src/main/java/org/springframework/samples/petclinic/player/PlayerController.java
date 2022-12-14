@@ -32,7 +32,6 @@ public class PlayerController {
 
 	private PlayerService playerService;
 	private AchievementService achievementService;
-	private StatisticService statisticService;
 	public static final String player_listing = "players/playerList";
 	public static final String player_listingById = "players/playerList2";
     public static final String player_editing = "players/createOrUpdatePlayer";
@@ -40,10 +39,9 @@ public class PlayerController {
     public static final String player_profile = "players/dataPlayer";
 
 	@Autowired
-	public PlayerController(PlayerService playerService, AchievementService achievementService, StatisticService statisticService ) {
+	public PlayerController(PlayerService playerService, AchievementService achievementService) {
 		this.playerService = playerService;
 		this.achievementService = achievementService;
-		this.statisticService = statisticService;
 	}
 
 	@GetMapping
@@ -92,7 +90,6 @@ public class PlayerController {
 
         model.put( "player", this.playerService.showPlayerById( id ) );
         model.put( "games", pageGamesByPlayerId.getContent());
-        model.put("statistics", this.statisticService.getStatisticById(id));
         model.put( "pages", pages);
         model.put( "current", page + 1);
         model.put( "next", page + 2);

@@ -31,9 +31,4 @@ public class Statistic extends BaseEntity {
     @NotNull
     private Integer gamesLost;
 
-    @OneToOne( cascade = CascadeType.ALL )
-    @NotNull
-    @JoinColumn( name = "player_id", referencedColumnName = "id")
-    private Player player;
-
 }

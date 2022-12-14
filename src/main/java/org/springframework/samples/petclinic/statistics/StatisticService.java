@@ -13,15 +13,5 @@ public class StatisticService {
     {
         this.statisticRepo = sr;
     }
-    @Transactional(readOnly = true)
-    public Integer getWonGames( Integer playerId ) { return this.statisticRepo.getWonGamesByPlayer( playerId ); }
-
-    @Transactional(readOnly = true)
-    public Integer getLostGames( Integer playerId ) { return this.statisticRepo.getLostGamesByPlayer( playerId ); }
-
-    @Transactional(readOnly = true)
-    public Integer getPlayedGames( Integer playerId ) { return this.statisticRepo.getPlayedGamesByPlayer( playerId ); }
-    
-    public Statistic getStatisticById(Integer playerId) {  return this.statisticRepo.findById(playerId).get(); }
 }
 
