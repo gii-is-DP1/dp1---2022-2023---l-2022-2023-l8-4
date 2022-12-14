@@ -5,7 +5,7 @@
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 <script defer type="text/javascript" src="/resources/js/select.js"></script>
 
-<dobble:layout pageName="games">
+<dobble:layout pageName="play">
     <jsp:body>
         <h2>
             <c:if test="${game['new']}">New </c:if> Game
