@@ -181,13 +181,13 @@ public class GameController {
 		return mav;
 	}
 	
+	//She game middle card is always the top card of the deck that is shuffled at the start of that game
 	@GetMapping("/{gameId}/{playerId}/{middleCardId}")
 	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
 		ModelAndView mav = new ModelAndView(GAME_BOARD);
 		playerGameDataService.winPoint(gameId, playerId);
 		playerGameDataService.changeCards(gameId, playerId, middleCardId);
 		gameService.deleteCardFromDeck(gameId, middleCardId);
-		gameService.selectRandomMiddleCard(gameId);
 		Game game = this.gameService.getGameById(gameId);
 		mav.addObject("game", game);
 		List<PlayerGameData> data= new ArrayList<>();

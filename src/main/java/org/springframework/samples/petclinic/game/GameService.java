@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,18 +89,16 @@ public class GameService {
 	public void deleteCardFromDeck(int gameId, int middleCardId){
 		Optional<Game> game = gameRepository.findById(gameId);
 		Collection<Card> cards= game.get().getCards();
-		Card card = cards.stream().filter(c->c.getId().equals(middleCardId)).collect(Collectors.toList()).get(0);
+		Card card = cards.stream().collect(Collectors.toList()).get(0);
 		cards.remove(card);
 		game.get().setCards(cards);
 		saveGame(game.get());
 	}
-
+	//This method has to be called when a game is started before starting the gameplay
 	@Transactional
-	public Card selectRandomMiddleCard(int gameId){
+	public void randomizeDeck(int gameId){
 		Optional<Game> game = gameRepository.findById(gameId);
-		Collection<Card>deck =game.get().getCards();
-		int random = (int) (Math.random() * deck.size());
-		Card randomNode = deck.stream().collect(Collectors.toList()).get( random );
-		return randomNode;
+		List<Card>deck =game.get().getCards().stream().collect(Collectors.toList());
+		Collections.shuffle(deck);
 	}
 }

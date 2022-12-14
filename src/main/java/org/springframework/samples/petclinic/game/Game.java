@@ -56,9 +56,6 @@ public class Game extends BaseEntity {
 					CascadeType.REFRESH})
 	private Collection<Card> cards;
 	
-	@Column(name ="middleCard")
-	private Card middleCard;
-	
 	protected Collection<Player> getPlayersInternal() {
 		if (this.players == null) {
 			this.players = new ArrayList<Player>();
