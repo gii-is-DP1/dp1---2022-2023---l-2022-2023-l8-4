@@ -145,3 +145,12 @@ INSERT INTO cards (id, icons) VALUES
 (54, 'ORCA PEZ PAVOREAL AVISPA CISNE FLAMENCO PANDA UNICORNIO'),
 (55, 'CANGREJO MARIPOSA FLAMENCO BALLENA RENO AGUILA CABALLO CIGUEÑA'),
 (56, 'CARACOL AGUILA PERRO AVISPA PANDA TIGRE SINSAJO LEON');
+
+--Statistics
+INSERT INTO statistic(id,total_points,games_played, games_won, games_lost, player_id) VALUES 
+
+(1, 80, 3, 2, 1, 1),
+(2, 60, 4, 1, 3, 2),
+(3, 21, 3, 1, 2, 3),
+(4, 103, 1, 1, 0, 4),
+(5, 45, 2, 0, 2, 5);

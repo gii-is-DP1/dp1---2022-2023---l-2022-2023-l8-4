@@ -24,7 +24,6 @@
 		</div>
 	</div>
 </div>
-<div id="dataPlayer-medio">
   
   <h2>My Games</h2>
 
@@ -92,9 +91,12 @@
 		</div>    
     </div>
     </c:if>
-</div>
-<div id="dataPlayer-inferior">
-</div>
+    <div id="dataPlayer-inferior-statistics">
+	    <div class="div1" class="font">Total Points: <span class="values-Player">${statistics.totalPoints}</span></div>
+		<div class="div2" class="font">Played Games: <span class="values-Player">${statistics.gamesPlayed}</span></div>
+		<div class="div3" class="font">Won Games: <span class="values-Player">${statistics.gamesWon}</span></div>
+		<div class="div4" class="font">Lost Games: <span class="values-Player">${statistics.gamesLost}</span></div>
+	</div>
 <div class="dataPlayer-buttons">
 	<spring:url value="/players/edit/{playerId}" var="editPlayer">
        <spring:param name="playerId" value="${player.id}"></spring:param>
@@ -107,25 +109,5 @@
 	<button class="btn btn-default" data-toggle="modal" data-target="#myModal">Delete Profile</button>
 </div>
 </div>
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Are you sure you want to delete your profile?</h4>
-      </div>
-      <div class="modal-body">
-        <p>If you delete this profile you won`t be able to return back</p>
-      </div>
-       <div class=dataPlayer-buttons>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="${deletePlayer}"><button type="button" class="btn btn-default">Delete</button></a>
-       </div>
-    </div>
-
-  </div>
-</div>
+<petclinic:modal hrefConfirm="${deletePlayer}" nameModal="myModal"></petclinic:modal>
 </petclinic:layout>

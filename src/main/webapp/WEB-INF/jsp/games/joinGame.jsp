@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
-<dobble:layout pageName="games">
+<dobble:layout pageName="play">
     <jsp:body>
         <h2>Join Game</h2>
         <form:form action="/games/join" object="gameCode" method="post">

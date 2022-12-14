@@ -11,8 +11,7 @@
         <thead>
         <tr class="tabla">
             <th>Statistics</th>
-            <th>Played Games</th>
-            <th>Achievemnts</th>
+            <th>Achievements</th>
             <th>Username</th>
             <th>Register_Date</th>
             <th>Modification_Date</th>
@@ -29,9 +28,6 @@
             <tr class="tabla">
                 <td>
                     <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
-                </td>
-                <td>
-                    <a href="/players/${player.id}/games"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                  <td>
                     <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
@@ -61,10 +57,10 @@
                     </c:if>
                 </td>
                 <td>
-					<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-					&nbsp;
-					<a href="/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></span></a>
-				</td>
+				<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
+				&nbsp;
+				<span class="glyphicon glyphicon-trash alert" aria-hidden="true" data-toggle="modal" data-target="#myModal"></span></td>
+				<petclinic:modal hrefConfirm="/players/delete/${player.id}" nameModal="myModal"></petclinic:modal>
             </tr>
         </c:forEach>
         </tbody>
