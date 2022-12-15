@@ -28,6 +28,7 @@ import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.samples.petclinic.playergamedata.PlayerGameDataService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -51,11 +52,14 @@ public class GameControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	
+	@MockBean
+	private PlayerGameDataService playerDataService;
+	
 	private Integer gameId = 1;
 	
 	@BeforeEach
 	private void setup() throws DataAccessException, NoSuchEntityException {
-		Game game=new Game();
+		Game game= new Game();
         game.setId(gameId);
         game.setDate(LocalDate.now());
         game.setGameCode(10);
@@ -102,5 +106,6 @@ public class GameControllerTest {
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/createGame"))
         .andExpect(model().attributeExists("game"));
-	}	
+	}
+	
 }
