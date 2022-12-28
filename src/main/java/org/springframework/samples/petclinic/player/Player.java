@@ -92,6 +92,5 @@ public class Player extends BaseEntity {
 	 
 	 @OneToOne( cascade = CascadeType.ALL )
 	 @NotAudited
-	 @NotNull
 	 private Statistic statistic;
 }
