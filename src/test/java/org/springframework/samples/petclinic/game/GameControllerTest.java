@@ -24,6 +24,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
@@ -38,6 +39,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @WebMvcTest(controllers = GameController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
+@MockBean(JpaMetamodelMappingContext.class)
 public class GameControllerTest {
 	
 	@MockBean
@@ -61,7 +63,6 @@ public class GameControllerTest {
 	private void setup() throws DataAccessException, NoSuchEntityException {
 		Game game= new Game();
         game.setId(gameId);
-        game.setDate(LocalDate.now());
         game.setGameCode(10);
         game.setGameMode(GameMode.ESTANDAR);
         game.setGameState(GameState.FINALIZED);
