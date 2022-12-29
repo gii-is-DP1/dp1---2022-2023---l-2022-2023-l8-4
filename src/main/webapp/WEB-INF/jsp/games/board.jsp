@@ -11,25 +11,18 @@
 <div id="middle-card-id" hidden>${card.id}</div>
 <div id="main-player-id" hidden>${player.id}</div>
 
-	<ul class = "list-group"> <!-- Esto debe de dinamizarse con un bucle ForEach -->
-		<li class="list-group-item">
-			<img class = "profilePicture" src="/resources/images/logo.png"/> <!-- Tener en cuenta añadir tanto la ruta como el .png -->
-			<div class="alert alert-success" role="alert"> <!-- La puntuación debería de llegar del backend también -->
-				5
-			</div>
-		</li>
-		<li class="list-group-item">
-			<img class = "profilePicture" src="/resources/images/logo.png"/>
-			<div class="alert alert-success" role="alert">
-				0
-			</div>
-		</li>
-		<li class="list-group-item">
-			<img class = "profilePicture" src="/resources/images/logo.png"/>
-			<div class="alert alert-success" role="alert">
-				15
-			</div>
-		</li>
+    <ul class = "list-group">
+    <c:forEach items="${players}" var="companions">
+    <li class="list-group-item">
+    			<img class = "profilePicture" src="${companion.player.profilePicture}"/>
+    			<div class="alert alert-success" role="alert">
+    				${companion.pointsNumber}
+    			</div>
+    			<div class="alert alert-primary" role="alert">
+                    ${companion.player.user.username}
+                </div>
+    		</li>
+    </c:forEach>
 	</ul>
 	<div class="card" style="width: 18rem; float: right;"> <!-- NO TOCAR -->
 		<p>Central</p>
@@ -85,8 +78,8 @@
 		     				     const gameId = document.getElementById( "game-id" );
 		     				     const playerId = document.getElementById( "main-player-id" );
 		     				     const middleCardId = document.getElementById( "middle-card-id" );
-						     // console.log( "Elemento que machea es el " + figure ); 
-		     				     window.location.replace('localhost:8080/games/${gameId}/${pallyerId}/${middleCardId}');
+						         console.log( "Elemento que machea es el " + figure );
+		     				     window.location.replace(`localhost:8080/games/${gameId}/${playerId}/${middleCardId}`);
 					     }
 				     }
 				}

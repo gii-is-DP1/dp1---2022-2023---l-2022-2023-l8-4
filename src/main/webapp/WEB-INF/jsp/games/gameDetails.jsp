@@ -28,7 +28,7 @@
     <c:if test="${creator}">
     	<c:choose>
     		<c:when test="${ game.players.size() >= 2}">
-    			<form action="/games/board" method="GET">
+    			<form action="/games/board/${game.id}" method="GET">
              		<button class="btn btn-default" type="submit">Begin the Game</button>
 				</form>
     		</c:when>
