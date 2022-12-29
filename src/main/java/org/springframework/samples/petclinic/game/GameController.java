@@ -177,8 +177,8 @@ public class GameController {
 		
 		return mav;
 	}
-	
-	//She game middle card is always the top card of the deck that is shuffled at the start of that game
+
+	//The game middle card is always the top card of the deck that is shuffled at the start of that game
 	@GetMapping("/{gameId}/{playerId}/{middleCardId}")
 	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
 		ModelAndView mav = new ModelAndView(GAME_BOARD);
@@ -190,12 +190,18 @@ public class GameController {
 		List<PlayerGameData> data= new ArrayList<>();
 		for(Player player:game.getPlayers()){
 			PlayerGameData playerGameData = this.playerGameDataService.getByIds(game.getId(),player.getId());
-			data.add(playerGameData);
+			if ( player.getId().equals( playerId ) )
+            {
+                mav.addObject("player", player);
+                mav.addObject( "playerCard", playerGameData.getActualCard() );
+            }
+            data.add(playerGameData);
 		}
 		mav.addObject("players", data);
+		mav.addObject( "card", game.getCards().stream().findFirst().get());
 		return mav;
 	}
-	
+
     @GetMapping(value = "/board")
     public String board(Map<String, Object> model) {
         return GAME_BOARD;
