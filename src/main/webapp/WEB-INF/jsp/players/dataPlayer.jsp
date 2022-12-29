@@ -10,7 +10,7 @@
 <div id="dataPlayer">
 <div id="dataPlayer-superior">
 	<div id="dataPlayer-superior-divImage">
-		<img id="dataPlayer-superior-image" alt="Without image" src="/resources/images/logo.png">
+		<img id="dataPlayer-superior-image" alt="Without image" src="${player.profilePicture}">
 	</div>
 	<div id="dataPlayer-superior-data">
 		<div class="dataPlayer-superior-data-value">
