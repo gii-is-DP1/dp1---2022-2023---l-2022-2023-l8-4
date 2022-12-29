@@ -37,6 +37,7 @@ public class PlayerGameDataService {
 		PlayerGameData data= playerGameDataRepository.findByIds(gameId,playerId);
 		Integer points=data.getPointsNumber();
 		data.setPointsNumber(points+1);
+        this.savePlayerGameData( data );
 	}
 
 	public void changeCards(Integer gameId, Integer playerId, Integer middleCardId) {
@@ -53,11 +54,13 @@ public class PlayerGameDataService {
         pgd.setPointsNumber( 0 );
         Card middleCard = cardRepository.getCardById(middleCardId);
         pgd.setActualCard(middleCard);
+        savePlayerGameData( pgd );
     }
 
 	public void setWinner(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		data.setWinner(true);
+        savePlayerGameData( data );
 	}
 
 	@Transactional

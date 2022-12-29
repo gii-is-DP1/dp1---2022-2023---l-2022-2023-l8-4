@@ -2,6 +2,7 @@ package org.springframework.samples.petclinic.game;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.validation.Valid;
 import org.slf4j.Logger;
@@ -186,18 +187,19 @@ public class GameController {
 		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
         if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
 		mav.addObject("game", game);
-		List<PlayerGameData> data= new ArrayList<>();
+        CopyOnWriteArrayList<PlayerGameData> data= new CopyOnWriteArrayList<>();
 		for(Player player:game.getPlayersInternal()){
 			PlayerGameData playerGameData = this.playerGameDataService.getByIds(game.getId(),player.getId());
 			if ( player.getId().equals( playerId ) )
             {
-                mav.addObject("player", player);
+                mav.addObject("player", player.getId());
                 mav.addObject( "playerCard", playerGameData.getActualCard() );
             }
             data.add(playerGameData);
 		}
 		mav.addObject("players", data);
 		mav.addObject( "card", game.getCards().stream().findFirst().get());
+        mav.addObject( "cardId", game.getCards().stream().findFirst().get().getId() );
 		return mav;
 	}
 
@@ -206,26 +208,25 @@ public class GameController {
     	ModelAndView mav = new ModelAndView(GAME_BOARD);
     	Game game= gameService.getGameById(gameId);
     	gameService.randomizeDeck(gameId);
-    	List<Card> deck= new ArrayList<>(game.getCards());
+        CopyOnWriteArrayList<Card> deck= new CopyOnWriteArrayList<>(game.getCards());
     	Collection<Player> players= game.getPlayersInternal();
-    	List<PlayerGameData> list= new ArrayList<>();
-        Iterator<Player> iplayer = players.iterator();
-    	while ( iplayer.hasNext() )
+        CopyOnWriteArrayList<PlayerGameData> list = new CopyOnWriteArrayList<>();
+    	for( Player player : new ArrayList<>(players))
         {
-                Player player = iplayer.next();
                 PlayerGameData pgd= new PlayerGameData();
                 playerGameDataService.initGameParams(deck.get(0).getId(), pgd, player, game);
-                playerGameDataService.savePlayerGameData(pgd);
                 gameService.deleteCardFromDeck(gameId, deck);
+                deck.remove(0);
+                list.add( pgd );
     	}
     	game.setGameState(GameState.IN_PROGRESS);
-    	mav.addObject("players", playerGameDataService.getById( game.getId() ));
+    	mav.addObject("players", new ArrayList<>(list));
         mav.addObject("game", game);
-        mav.addObject( "card", deck.get(0));
-
+        mav.addObject( "card", deck.get(0) );
+        mav.addObject( "cardId", deck.get(0).getId() );
         Player mainPlayer = players.stream().findFirst().get();
 
-        mav.addObject("player", mainPlayer);
+        mav.addObject("player", mainPlayer.getId() );
         mav.addObject( "playerCard", playerGameDataService.getByIds(gameId, mainPlayer.getId()).getActualCard() );
     	return mav;
     }

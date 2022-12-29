@@ -7,12 +7,12 @@
 
 <div id="middle-card" hidden>${card.icons}</div>
 <div id="player-card" hidden>${playerCard.icons}</div>
+<div id="middle-card-id" hidden>${cardId}</div>
+<div id="main-player-id" hidden>${player}</div>
 <div id="game-id" hidden>${game.id}</div>
-<div id="middle-card-id" hidden>${card.id}</div>
-<div id="main-player-id" hidden>${player.id}</div>
 
     <ul class = "list-group">
-    <c:forEach items="${players}" var="companions">
+    <c:forEach items="${players}" var="companion">
     <li class="list-group-item">
     			<img class = "profilePicture" src="${companion.player.profilePicture}"/>
     			<div class="alert alert-success" role="alert">
@@ -34,9 +34,6 @@
 		<div class="card-body" id = "middlecard">
 		</div>
 	</div>
-</petclinic:layout>
-
-
 <script>
 		     function loadSymbols( className, stringOfSymbols , deskId )
 		     {
@@ -75,9 +72,9 @@
 				     {
 					     if ( figure == middleCard[j].getAttribute( "id" ) )
 					     {
-		     				     const gameId = document.getElementById( "game-id" );
-		     				     const playerId = document.getElementById( "main-player-id" );
-		     				     const middleCardId = document.getElementById( "middle-card-id" );
+		     				     const gameId = document.getElementById( "game-id" ).innerHTML;
+		     				     const playerId = document.getElementById( "main-player-id" ).innerHTML;
+		     				     const middleCardId = document.getElementById( "middle-card-id" ).innerHTML;
 						         console.log( "Elemento que machea es el " + figure );
 		     				     window.location.replace(`localhost:8080/games/${gameId}/${playerId}/${middleCardId}`);
 					     }
@@ -87,3 +84,4 @@
 			     }
 		     )
 </script>
+</petclinic:layout>
