@@ -86,7 +86,7 @@ public class GameService {
 	}
 
 	@Transactional
-	public void deleteCardFromDeck(int gameId, int middleCardId){
+	public void deleteCardFromDeck(int gameId){
 		Optional<Game> game = gameRepository.findById(gameId);
 		Collection<Card> cards= game.get().getCards();
 		List<Card> deck =cards.stream().collect(Collectors.toList());

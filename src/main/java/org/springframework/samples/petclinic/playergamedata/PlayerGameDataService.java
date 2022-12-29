@@ -3,8 +3,10 @@ package org.springframework.samples.petclinic.playergamedata;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.card.CardRepository;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,15 +40,18 @@ public class PlayerGameDataService {
 	public void changeCards(Integer gameId, Integer playerId, Integer middleCardId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		Card middleCard = cardRepository.getCardById(middleCardId);
-		Collection<Card> deck= cardRepository.getCards();
-		
 		data.setActualCard(middleCard);
-		deck.remove(middleCard);
+		savePlayerGameData(data);
 	}
 	
 	public void setWinner(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		data.setWinner(true);
+	}
+	
+	@Transactional
+	public void savePlayerGameData(PlayerGameData playerGameData) throws DataAccessException {
+		this.playerGameDataRepository.save(playerGameData);
 	}
 
 }

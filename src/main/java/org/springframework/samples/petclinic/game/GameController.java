@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.game;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
@@ -184,7 +186,7 @@ public class GameController {
 		ModelAndView mav = new ModelAndView(GAME_BOARD);
 		playerGameDataService.winPoint(gameId, playerId);
 		playerGameDataService.changeCards(gameId, playerId, middleCardId);
-		gameService.deleteCardFromDeck(gameId, middleCardId);
+		gameService.deleteCardFromDeck(gameId);
 		Game game = this.gameService.getGameById(gameId);
 		mav.addObject("game", game);
 		List<PlayerGameData> data= new ArrayList<>();
@@ -202,9 +204,26 @@ public class GameController {
 		return mav;
 	}
 
-    @GetMapping(value = "/board")
-    public String board(Map<String, Object> model) {
-        return GAME_BOARD;
+    @GetMapping(value = "/start/{gameId}")
+    public ModelAndView startGame(@PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
+    	ModelAndView mav = new ModelAndView(GAME_BOARD);
+    	Game game= gameService.getGameById(gameId);
+    	gameService.randomizeDeck(gameId);
+    	List<Card> deck= game.getCards().stream().collect(Collectors.toList());
+    	Collection<Player> players= game.getPlayersInternal();
+    	List<PlayerGameData> list= new ArrayList<>();
+    	for(Player player:players){
+    		PlayerGameData pgd= new PlayerGameData();
+    		pgd.setGame(game);
+    		pgd.setPlayer(player);
+    		playerGameDataService.changeCards(gameId, player.getId(), deck.get(0).getId());
+    		gameService.deleteCardFromDeck(gameId);
+    		playerGameDataService.savePlayerGameData(pgd);
+    		list.add(pgd);
+    	}
+    	game.setGameState(GameState.IN_PROGRESS);
+    	mav.addObject("data", list);
+    	return mav;
     }
     
     private void addCurrentPlayerToGame(String username, Game game) throws Exception {
