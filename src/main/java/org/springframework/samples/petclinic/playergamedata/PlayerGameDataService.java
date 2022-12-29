@@ -38,9 +38,10 @@ public class PlayerGameDataService {
 	public void changeCards(Integer gameId, Integer playerId, Integer middleCardId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		Card middleCard = cardRepository.getCardById(middleCardId);
+		Collection<Card> deck= cardRepository.getCards();
 		
 		data.setActualCard(middleCard);
-		cardRepository.getCards().remove(middleCard);
+		deck.remove(middleCard);
 	}
 	
 	public void setWinner(Integer gameId, Integer playerId) {

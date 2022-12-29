@@ -89,7 +89,8 @@ public class GameService {
 	public void deleteCardFromDeck(int gameId, int middleCardId){
 		Optional<Game> game = gameRepository.findById(gameId);
 		Collection<Card> cards= game.get().getCards();
-		Card card = cards.stream().collect(Collectors.toList()).get(0);
+		List<Card> deck =cards.stream().collect(Collectors.toList());
+		Card card = deck.get(0);
 		cards.remove(card);
 		game.get().setCards(cards);
 		saveGame(game.get());
