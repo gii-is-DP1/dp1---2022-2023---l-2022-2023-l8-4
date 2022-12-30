@@ -4,12 +4,9 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
-
+<form action="/games/board/${game.id}/${player}/${cardId}" method="GET" id = "nextRound"></form>
 <div id="middle-card" hidden>${card.icons}</div>
 <div id="player-card" hidden>${playerCard.icons}</div>
-<div id="middle-card-id" hidden>${cardId}</div>
-<div id="main-player-id" hidden>${player}</div>
-<div id="game-id" hidden>${game.id}</div>
 
     <ul class = "list-group">
     <c:forEach items="${players}" var="companion">
@@ -24,17 +21,17 @@
     		</li>
     </c:forEach>
 	</ul>
-	<div class="card" style="width: 18rem; float: right;"> <!-- NO TOCAR -->
+	<div class="card" style="width: 18rem; float: right;"> <!-- DO NOT TOUCH -->
 		<p>Central</p>
-		<div class="card-body" id = "mycard">
-		</div>
-	</div>
-	<div class="card" style="width: 18rem; float: right;"> <!-- NO TOCAR -->
-		<p>My card</p>
 		<div class="card-body" id = "middlecard">
 		</div>
 	</div>
-<script>
+	<div class="card" style="width: 18rem; float: right;"> <!-- DO NOT TOUCH -->
+		<p>My card</p>
+		<div class="card-body" id = "mycard">
+		</div>
+	</div>
+<script  type="text/javascript" defer>
 		     function loadSymbols( className, stringOfSymbols , deskId )
 		     {
 			     const symbols = stringOfSymbols.split( " " );
@@ -61,7 +58,8 @@
 		     loadSymbols( "middle_symbols", document.getElementById( "middle-card" ).innerHTML, "middlecard" ); // Idem con las cartas del backend
 
 
-		     // Onclick event for each symbol of a card
+
+             // Onclick event for each symbol of a card
 		     Array.from( document.getElementsByClassName( "own_symbols" ) )
 		     .forEach( ( symbol ) => {
 			     symbol.addEventListener( "click", () =>
@@ -72,11 +70,7 @@
 				     {
 					     if ( figure == middleCard[j].getAttribute( "id" ) )
 					     {
-		     				     const gameId = document.getElementById( "game-id" ).innerHTML;
-		     				     const playerId = document.getElementById( "main-player-id" ).innerHTML;
-		     				     const middleCardId = document.getElementById( "middle-card-id" ).innerHTML;
-						         console.log( "Elemento que machea es el " + figure );
-		     				     window.location.replace(`localhost:8080/games/${gameId}/${playerId}/${middleCardId}`);
+						         document.getElementById('nextRound').submit();
 					     }
 				     }
 				}
