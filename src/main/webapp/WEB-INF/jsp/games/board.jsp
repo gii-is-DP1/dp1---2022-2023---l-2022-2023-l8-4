@@ -4,7 +4,8 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
-<form action="/games/board/${game.id}/${player}/${cardId}" method="GET" id = "nextRound"></form>
+<!-- <form action="/games/board/${game.id}/${playerName}" method="GET" id="reloadPage"></form> -->
+<form action="/games/board/${game.id}/${player}/${cardId}" method="GET" id="nextRound"></form>
 <div id="middle-card" hidden>${card.icons}</div>
 <div id="player-card" hidden>${playerCard.icons}</div>
 
@@ -32,7 +33,11 @@
 		</div>
 	</div>
 <script  type="text/javascript" defer>
-		     function loadSymbols( className, stringOfSymbols , deskId )
+
+            //reload board
+            //setTimeout( () => { document.getElementById( 'reloadPage' ).submit() }, 5000 )
+
+		    function loadSymbols( className, stringOfSymbols , deskId )
 		     {
 			     const symbols = stringOfSymbols.split( " " );
 			     for( let i = 0 ; i < symbols.length ; i += 2 )
@@ -56,8 +61,6 @@
 		     // Load cards
 		     loadSymbols( "own_symbols", document.getElementById( "player-card" ).innerHTML, "mycard" ); // El listado de nombres debe de sustituirse por la cadena de figuras que venga del backend
 		     loadSymbols( "middle_symbols", document.getElementById( "middle-card" ).innerHTML, "middlecard" ); // Idem con las cartas del backend
-
-
 
              // Onclick event for each symbol of a card
 		     Array.from( document.getElementsByClassName( "own_symbols" ) )

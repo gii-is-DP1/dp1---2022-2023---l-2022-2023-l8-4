@@ -5,6 +5,8 @@ import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.validation.Valid;
+import javax.websocket.server.PathParam;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.stream.Collectors;
@@ -22,6 +24,7 @@ import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameDataService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -155,24 +158,26 @@ public class GameController {
 		return mav;
 	}
 
-	@PostMapping("/join")
-	public String joinGame(Authentication  authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
-		Game game = gameService.getGameByCode(gameCode);
-		if(game.getPlayers().size() >= 4) {
-			return "redirect:/games/error";
-		}
-		addCurrentPlayerToGame(authentication.getName(),game);
+    @PostMapping("/join")
+    public String joinGame(Authentication  authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
+        Game game = gameService.getGameByCode(gameCode);
+        if( game.getPlayers().size() >= 4 || game.getGameState().equals( GameState.IN_PROGRESS ) )  {
+            return "redirect:/games/error";
+        }
+        addCurrentPlayerToGame(authentication.getName(),game);
 
-		return "redirect:/games/join/" + game.getGameCode();
-	}
+        return "redirect:/games/join/" + game.getGameCode() + "/" + authentication.getName();
+    }
 
-	@GetMapping("/join/{gameCode}")
-	public ModelAndView joinGameCode(@PathVariable("gameCode") int gameCode) throws Exception {
+	@GetMapping("/join/{gameCode}/{username}")
+	public ModelAndView joinGameCode(@PathVariable("gameCode") int gameCode, @PathVariable("username") String username ) throws Exception {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("creator", false);
 
 		Game game = this.gameService.getGameByCode(gameCode);
 		mav.addObject("game",game);
+        mav.addObject( "username", username );
+        mav.addObject( "gameState", game.getGameState().toString().toUpperCase());
 
 		return mav;
 	}
@@ -193,6 +198,7 @@ public class GameController {
 			if ( player.getId().equals( playerId ) )
             {
                 mav.addObject("player", player.getId());
+                mav.addObject( "playerName", player.getUser().getUsername());
                 mav.addObject( "playerCard", playerGameData.getActualCard() );
             }
             data.add(playerGameData);
@@ -202,11 +208,32 @@ public class GameController {
         mav.addObject( "cardId", game.getCards().stream().findFirst().get().getId() );
 		return mav;
 	}
+    @GetMapping(value = "/board/{gameId}/{username}")
+    public ModelAndView enterGame(@PathVariable( "gameId" ) Integer gameId, @PathParam( "username" ) String username) throws DataAccessException, NoSuchEntityException{
+        ModelAndView mav = new ModelAndView(GAME_BOARD);
+        Game game = this.gameService.getGameById( gameId );
+        mav.addObject("players", new ArrayList<>( game.getPlayersInternal() ) );
+        mav.addObject("game", game);
+
+        Integer playerId = this.playerService.getPlayerByUsername( username ).getId();
+        PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId);
+        Card card = this.gameService.getGameById( gameId).getCards().stream().findFirst().get();
+        mav.addObject( "card",  card);
+        mav.addObject( "cardId", card.getId() );
+
+        mav.addObject( "playerName", username);
+        mav.addObject("player", playerId );
+        mav.addObject( "playerCard", gameData.getActualCard() );
+
+        return mav;
+    }
 
     @GetMapping(value = "/board/{gameId}")
     public ModelAndView startGame(@PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
     	ModelAndView mav = new ModelAndView(GAME_BOARD);
     	Game game= gameService.getGameById(gameId);
+        game.setGameState( GameState.IN_PROGRESS );
+        this.gameService.saveGame( game );
     	gameService.randomizeDeck(gameId);
         CopyOnWriteArrayList<Card> deck= new CopyOnWriteArrayList<>(game.getCards());
     	Collection<Player> players= game.getPlayersInternal();
@@ -227,8 +254,10 @@ public class GameController {
         Player mainPlayer = players.stream().findFirst().get();
 
         mav.addObject("player", mainPlayer.getId() );
+        mav.addObject( "playerName", mainPlayer.getUser().getUsername());
         mav.addObject( "playerCard", playerGameDataService.getByIds(gameId, mainPlayer.getId()).getActualCard() );
-    	return mav;
+
+        return mav;
     }
 
     private void addCurrentPlayerToGame(String username, Game game) throws Exception {
