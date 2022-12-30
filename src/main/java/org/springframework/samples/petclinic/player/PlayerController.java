@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
@@ -75,27 +77,33 @@ public class PlayerController {
     }
 
 
-    @GetMapping("/data/{id}")
-    public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
-    	int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+    @GetMapping("/data/{username}")
+    public String getDataFromPlayer( @PathVariable("username") String username, ModelMap model, 
+    		@RequestParam Map<String, Object> params) {
+    	try {
+    		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 
-		PageRequest pageRequest = PageRequest.of(page, 3);
-		Page<Game> pageGamesByPlayerId= playerService.gamesByPlayerId(id, pageRequest);
+    		PageRequest pageRequest = PageRequest.of(page, 3);
+    		Player player=playerService.getPlayerByUsername(username);
+    		Page<Game> pageGamesByPlayerId= playerService.gamesByPlayerId(player.getId(), pageRequest);
 
-		int totalPages = pageGamesByPlayerId.getTotalPages();
-		List<Integer> pages=new ArrayList<>();
-		if(totalPages > 0) {
-			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-		}
+    		int totalPages = pageGamesByPlayerId.getTotalPages();
+    		List<Integer> pages=new ArrayList<>();
+    		if(totalPages > 0) {
+    			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+    		}
 
-        model.put( "player", this.playerService.showPlayerById( id ) );
-        model.put( "games", pageGamesByPlayerId.getContent());
-        model.put( "pages", pages);
-        model.put( "current", page + 1);
-        model.put( "next", page + 2);
-        model.put( "prev", page);
-        model.put( "last", totalPages);
-        return player_profile;
+            model.put( "player", this.playerService.showPlayerById( player.getId() ) );
+            model.put( "games", pageGamesByPlayerId.getContent());
+            model.put( "pages", pages);
+            model.put( "current", page + 1);
+            model.put( "next", page + 2);
+            model.put( "prev", page);
+            model.put( "last", totalPages);
+            return player_profile;
+    	} catch(NoSuchEntityException ex) {
+    		return "redirect:/oups";
+    	}
     }
 
 	@GetMapping("/delete/{id}")

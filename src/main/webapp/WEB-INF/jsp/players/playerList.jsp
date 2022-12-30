@@ -26,8 +26,8 @@
        
         <c:forEach items="${players}" var="player">
             <tr class="tabla">
-                <td>
-                    <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                <td>	
+                    <a href="/players/data/${player.user.username}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
                  <td>
                     <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>

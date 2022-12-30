@@ -78,11 +78,12 @@
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-							<strong><sec:authentication property="name" /></strong> <span
+							<strong id="identify"><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
 						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-							<li><a href="/logout">Logout</a></li>
+							<li><a href="/logout"><span>Logout </span><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+							<li><a id="enlace" href="/players/data/"><span>My profile </span><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
 						</ul></li>
 				</sec:authorize>
 			</ul>
@@ -92,3 +93,15 @@
 
 	</div>
 </nav>
+
+<script>
+
+	const nombre=document.getElementById("identify").textContent;
+	console.log(nombre)
+	const enlace=document.getElementById("enlace");
+	
+	enlace.addEventListener('click', () => {
+		enlace.href=enlace.href+nombre;
+	})
+
+</script>

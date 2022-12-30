@@ -39,7 +39,7 @@ INSERT INTO statistic(id,total_points,games_played, games_won, games_lost) VALUE
 
 --Players
 INSERT INTO players(id,username,register_date,modification_date,last_login,email,birth_date,profile_picture,statistic_id) VALUES 
-(1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', 'resources/images/logros/viciado.png',1),
+(1,'pgmarc', '2022-01-01','2022-01-01', '2022-10-01', 'fausto@gmail.com',  '2001-01-01', '/resources/images/logros/viciado.png',1),
 (2,'carbersor',  '2022-02-02','2022-02-03', '2022-10-01', 'rukisro@gmail.com',  '1992-01-01', '/resources/images/logros/viciado.png',2),
 (3,'fermatgom',   '2022-02-02','2022-02-03', '2022-10-01','sergio@gmail.com',  '1975-01-01', '/resources/images/logros/viciado.png',3),
 (4,'pedlopruz',   '2022-02-02','2022-02-02', '2022-10-01',  'rocioalberca@gmail.com',  '2002-01-01', '/resources/images/logros/viciado.png',4),
