@@ -166,17 +166,17 @@ public class GameController {
         }
         addCurrentPlayerToGame(authentication.getName(),game);
 
-        return "redirect:/games/join/" + game.getGameCode() + "/" + authentication.getName();
+        return "redirect:/games/join/" + game.getGameCode() + "/" + this.playerService.getPlayerByUsername( authentication.getName() ).getId();
     }
 
-	@GetMapping("/join/{gameCode}/{username}")
-	public ModelAndView joinGameCode(@PathVariable("gameCode") int gameCode, @PathVariable("username") String username ) throws Exception {
+	@GetMapping("/join/{gameCode}/{playerId}")
+	public ModelAndView joinGameCode(@PathVariable("gameCode") int gameCode, @PathVariable("playerId") Integer playerId ) throws Exception {
 		ModelAndView mav = new ModelAndView(GAME_DETAILS);
 		mav.addObject("creator", false);
 
 		Game game = this.gameService.getGameByCode(gameCode);
 		mav.addObject("game",game);
-        mav.addObject( "username", username );
+        mav.addObject( "playerId", playerId );
         mav.addObject( "gameState", game.getGameState().toString().toUpperCase());
 
 		return mav;
@@ -208,20 +208,20 @@ public class GameController {
         mav.addObject( "cardId", game.getCards().stream().findFirst().get().getId() );
 		return mav;
 	}
-    @GetMapping(value = "/board/{gameId}/{username}")
-    public ModelAndView enterGame(@PathVariable( "gameId" ) Integer gameId, @PathParam( "username" ) String username) throws DataAccessException, NoSuchEntityException{
+    @GetMapping(value = "/board/{gameId}/{playerId}")
+    public ModelAndView enterGame(@PathVariable( "gameId" ) Integer gameId, @PathParam( "playerId" ) Integer playerId) throws DataAccessException, NoSuchEntityException{
         ModelAndView mav = new ModelAndView(GAME_BOARD);
         Game game = this.gameService.getGameById( gameId );
         mav.addObject("players", new ArrayList<>( game.getPlayersInternal() ) );
         mav.addObject("game", game);
 
-        Integer playerId = this.playerService.getPlayerByUsername( username ).getId();
-        PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId);
-        Card card = this.gameService.getGameById( gameId).getCards().stream().findFirst().get();
+        PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId );
+
+        Card card = this.gameService.getGameById( gameId ).getCards().stream().findFirst().get();
         mav.addObject( "card",  card);
         mav.addObject( "cardId", card.getId() );
 
-        mav.addObject( "playerName", username);
+        mav.addObject( "playerName", this.playerService.showPlayerById( playerId ).getUser().getUsername() );
         mav.addObject("player", playerId );
         mav.addObject( "playerCard", gameData.getActualCard() );
 

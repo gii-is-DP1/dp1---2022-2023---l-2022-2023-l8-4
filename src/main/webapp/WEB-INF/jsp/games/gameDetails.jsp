@@ -9,10 +9,9 @@
     <p id="gameStatus" hidden>${gameState}</p>
     <c:choose>
         <c:when test="${ not creator }">
-            <p id="username" hidden>${username}</p>
 
-                        <form action="/games/join/${game.gameCode}/${username}" method="GET" id = "notStarted" ></form>
-                        <form action="/games/board/${game.id}/${username}" method="GET" id = "hasStarted"></form>
+                        <form action="/games/join/${game.gameCode}/${playerId}" method="GET" id = "notStarted" ></form>
+                        <form action="/games/board/${game.id}/${playerId}" method="GET" id = "hasStarted"></form>
                         <script>
                             if ( "IN_PROGRESS" == document.getElementById( "gameStatus" ).innerHTML )  document.getElementById( 'hasStarted' ).submit();
                         </script>

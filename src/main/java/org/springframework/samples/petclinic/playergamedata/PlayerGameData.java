@@ -26,17 +26,17 @@ public class PlayerGameData extends BaseEntity{
 	@Range(min=0,max=53)
 	@Column(name = "points_number")
 	private int pointsNumber;
-	
+
 	@NotNull
 	@Column(name = "winner")
 	private boolean winner;
-	
+
 	@ManyToOne
 	private Card actualCard;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Player player;
-	
+
 	@ManyToOne
 	private Game game;
 }
