@@ -18,6 +18,9 @@ import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -92,9 +95,16 @@ public class PlayerController {
     		if(totalPages > 0) {
     			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
     		}
+    		
+    		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    		User user = (User)authentication.getPrincipal();
+        	String autenticacion = user.getUsername();
 
+        	System.out.println(autenticacion);
+        	System.out.println(player.getUser().getUsername());
+        	
+        	result.addObject("username", autenticacion);
     		result.addObject( "player", this.playerService.showPlayerById( player.getId() ) );
-    		result.addObject("username", username);
     		result.addObject( "games", pageGamesByPlayerId.getContent());
     		result.addObject( "pages", pages);
     		result.addObject( "current", page + 1);

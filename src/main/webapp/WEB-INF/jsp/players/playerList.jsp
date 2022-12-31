@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="players">
@@ -19,7 +20,9 @@
             <th>Email</th>
             <th>BirthDate</th>
             <th>Profile_Picture</th>
-            <th>Action</th>          
+            <sec:authorize access="hasAuthority('admin')">
+            <th>Action</th>         
+            </sec:authorize> 
         </tr>
         </thead>
         <tbody>
@@ -56,11 +59,13 @@
                         <img src="${player.profilePicture}" width="100px"  /> 
                     </c:if>
                 </td>
+                <sec:authorize access="hasAuthority('admin')">
                 <td>
 				<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 				&nbsp;
 				<span class="glyphicon glyphicon-trash alert" aria-hidden="true" data-toggle="modal" data-target="#myModal"></span></td>
 				<petclinic:modal hrefConfirm="/players/delete/${player.id}" nameModal="myModal"></petclinic:modal>
+				</sec:authorize>
             </tr>
         </c:forEach>
         </tbody>

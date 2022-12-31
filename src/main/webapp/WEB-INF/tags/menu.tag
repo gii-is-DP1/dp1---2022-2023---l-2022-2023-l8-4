@@ -15,13 +15,11 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'players'}" url="/players?page=1"
 					title="Players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
 				</petclinic:menuItem>
-				</sec:authorize>
 				
 				<sec:authorize access="isAuthenticated()">
 				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
