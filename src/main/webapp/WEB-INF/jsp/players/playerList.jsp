@@ -11,7 +11,6 @@
         <thead>
         <tr class="tabla">
             <th>Statistics</th>
-            <th>Achievements</th>
             <th>Username</th>
             <th>Register_Date</th>
             <th>Modification_Date</th>
@@ -29,9 +28,7 @@
                 <td>
                     <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
-                 <td>
-                    <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
-                </td>
+      
                 <td>
                     <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
                 </td>
@@ -99,6 +96,5 @@
 		</div>    
     </div>
     </c:if>
-    <a class="btn btn-default" href="/players/new">Create new player</a>
 
 </petclinic:layout>

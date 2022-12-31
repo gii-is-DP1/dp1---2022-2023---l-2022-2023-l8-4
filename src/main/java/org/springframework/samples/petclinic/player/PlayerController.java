@@ -15,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.StatisticService;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,7 +34,6 @@ public class PlayerController {
 	private PlayerService playerService;
 	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
-	public static final String player_listingById = "players/playerList2";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
@@ -68,10 +68,23 @@ public class PlayerController {
 	}
 
 	@GetMapping("/{id}/achievements")
-    public ModelAndView showAllAchievementGames(@PathVariable("id") Integer id) {
-        ModelAndView result = new ModelAndView(achievement_listing);
-        result.addObject("achievements", achievementService.findAchievementByPlayerId(id));
-        return result;
+    public String showAllAchievementGames( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
+		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+		PageRequest pageRequest = PageRequest.of(page, 5);
+		Page<Achievement> pageAchievements= playerService.showAchievementsByPlayerId(id, pageRequest);
+		int totalPages = pageAchievements.getTotalPages();
+		List<Integer> pages=new ArrayList<>();
+		if(totalPages > 0) {
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+		}
+		
+        model.put("achievements", pageAchievements.getContent());
+        model.put("pages", pages);
+        model.put("current", page + 1);
+        model.put("next", page + 2);
+        model.put("prev", page);
+        model.put("last", totalPages);
+        return achievement_listing;
     }
 
 

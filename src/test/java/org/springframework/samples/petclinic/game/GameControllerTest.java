@@ -69,6 +69,7 @@ public class GameControllerTest {
         List<Game> games = new ArrayList<Game>();
         games.add(game);
         Mockito.when(gameService.getGamesFinalized(PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
+        Mockito.when(gameService.getGamesInProgress(PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
 	}
 	
 	
@@ -92,6 +93,18 @@ public class GameControllerTest {
 		.andExpect(model().attributeExists("games"))
 		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
 	}
+	
+	@Test
+	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
+
+	void shouldShowGameListInProgress() throws Exception {
+		mockMvc.perform(get("/games/inProgress"))
+		.andExpect(status().isOk())
+		.andExpect(view().name("games/listGamesInProgress"))
+		.andExpect(model().attributeExists("games"))
+		.andExpect(model().attribute("games", gameService.getGamesInProgress(PageRequest.of(0, 5)).getContent()));
+	}
+	
 	
 	@Test
 	@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
