@@ -25,8 +25,8 @@
        
         <c:forEach items="${players}" var="player">
             <tr class="tabla">
-                <td>
-                    <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                <td>	
+                    <a href="/players/data/${player.user.username}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
       
                 <td>
@@ -50,7 +50,7 @@
                 <td>                    
                     <c:if test="${player.profilePicture == ''}">none</c:if>
                     <c:if test="${player.profilePicture != ''}">
-                        <img src="resources/images/${player.profilePicture}" width="100px"  /> 
+                        <img src="${player.profilePicture}" width="100px"  /> 
                     </c:if>
                 </td>
                 <td>
