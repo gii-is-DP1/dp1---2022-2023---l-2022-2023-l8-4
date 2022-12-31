@@ -213,6 +213,7 @@ public class GameController {
         ModelAndView mav = new ModelAndView(GAME_BOARD);
 
         Game game = this.gameService.getGameById( gameId );
+        if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
 
         CopyOnWriteArrayList<PlayerGameData> players= new CopyOnWriteArrayList<>();
         for ( Player player:game.getPlayersInternal() ) players.add( this.playerGameDataService.getByIds( game.getId(), player.getId() ) );
