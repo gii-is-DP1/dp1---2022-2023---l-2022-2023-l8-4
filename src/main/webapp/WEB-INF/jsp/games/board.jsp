@@ -4,7 +4,7 @@
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="games">
-<!-- <form action="/games/board/${game.id}/${playerName}" method="GET" id="reloadPage"></form> -->
+<form action="/games/board/${game.id}/${player}" method="GET" id="reloadPage"></form>
 <form action="/games/board/${game.id}/${player}/${cardId}" method="GET" id="nextRound"></form>
 <div id="middle-card" hidden>${card.icons}</div>
 <div id="player-card" hidden>${playerCard.icons}</div>
@@ -35,7 +35,7 @@
 <script  type="text/javascript" defer>
 
             //reload board
-            //setTimeout( () => { document.getElementById( 'reloadPage' ).submit() }, 5000 )
+            setTimeout( () => { document.getElementById( 'reloadPage' ).submit() }, 5000 )
 
 		    function loadSymbols( className, stringOfSymbols , deskId )
 		     {

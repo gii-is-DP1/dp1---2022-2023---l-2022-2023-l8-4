@@ -209,13 +209,16 @@ public class GameController {
 		return mav;
 	}
     @GetMapping(value = "/board/{gameId}/{playerId}")
-    public ModelAndView enterGame(@PathVariable( "gameId" ) Integer gameId, @PathParam( "playerId" ) Integer playerId) throws DataAccessException, NoSuchEntityException{
+    public ModelAndView enterGame(@PathVariable( "gameId" ) Integer gameId, @PathVariable( "playerId" ) Integer playerId) throws DataAccessException, NoSuchEntityException{
         ModelAndView mav = new ModelAndView(GAME_BOARD);
-        Game game = this.gameService.getGameById( gameId );
-        mav.addObject("players", new ArrayList<>( game.getPlayersInternal() ) );
-        mav.addObject("game", game);
 
-        PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId );
+        Game game = this.gameService.getGameById( gameId );
+
+        CopyOnWriteArrayList<PlayerGameData> players= new CopyOnWriteArrayList<>();
+        for ( Player player:game.getPlayersInternal() ) players.add( this.playerGameDataService.getByIds( game.getId(), player.getId() ) );
+
+        mav.addObject("players", players );
+        mav.addObject("game", game);
 
         Card card = this.gameService.getGameById( gameId ).getCards().stream().findFirst().get();
         mav.addObject( "card",  card);
@@ -223,6 +226,9 @@ public class GameController {
 
         mav.addObject( "playerName", this.playerService.showPlayerById( playerId ).getUser().getUsername() );
         mav.addObject("player", playerId );
+
+        PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId );
+
         mav.addObject( "playerCard", gameData.getActualCard() );
 
         return mav;
