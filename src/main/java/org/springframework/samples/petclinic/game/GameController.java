@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.game;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -63,6 +65,16 @@ public class GameController {
 		game.setGameMode(GameMode.ESTANDAR);
 		game.setDate(LocalDate.now());
 		return game;
+	}
+	
+	@GetMapping("/description")
+	@ResponseBody
+	public Map<GameMode, String> getMinigamesDescription() {
+		Map<GameMode, String> map = new HashMap<GameMode, String>();
+		for (GameMode gameMode : GameMode.values()) {
+			map.put(gameMode, gameMode.getDescription());
+		}
+		return map;
 	}
 
 	@GetMapping(value = "/new")

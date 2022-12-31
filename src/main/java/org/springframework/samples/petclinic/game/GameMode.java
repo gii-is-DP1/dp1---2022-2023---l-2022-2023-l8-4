@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public enum GameMode {
 
-	ESTANDAR("Descripción estandar"),
-	EL_FOSO("Descripción el foso"),
-	LA_PATATA_CALIENTE("Descripción patata caliente");
+	ESTANDAR("Descripción la torre infernal ---------"),
+	EL_FOSO("Descripción el foso desde-----------"),
+	LA_PATATA_CALIENTE("Descripción patata caliente --------");
 	
 	private final String description;
 	
