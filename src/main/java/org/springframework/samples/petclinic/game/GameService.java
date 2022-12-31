@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +39,7 @@ public class GameService {
 	public Page<Game> getGamesFinalized(Pageable pageable) throws DataAccessException {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.FINALIZED);
 	}
+	
 
 
 	@Transactional(readOnly = true)

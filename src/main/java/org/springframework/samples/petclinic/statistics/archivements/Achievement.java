@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.statistics.archivements;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -51,4 +52,20 @@ public class Achievement extends NamedEntity{
     @ManyToMany(mappedBy= "playersAchievement")
 	private Collection<Player> players;
 
+    protected Collection<Player> getPlayersInternal() {
+		if (this.players == null) {
+			this.players = new ArrayList<Player>();
+		}
+		return this.players;
+	}
+	
+	public void addPlayerA(Player player) {
+		getPlayersInternal().add(player);
+		player.addAchievement(this);
+	}
+	
+	public boolean removePlayerA(Player player) {
+		return getPlayersInternal().remove(player);
+	}
+   
 }

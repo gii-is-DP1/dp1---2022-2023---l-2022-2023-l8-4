@@ -97,11 +97,7 @@ public class PlayerServiceTest {
 		    assertTrue(expectedMessage.contains(actualMessage));
 	}
 	
-//	@Test
-//	void shouldFindPlayerWithAchievements() {
-//		Player player = this.playerService.achievementsByUsername();
-//		Collection<Game> game = player.getPlayedGames();
-//		assertNotNull(game);
-//		assertThat(game.size()).isEqualTo(3);
-//	}
+	
+	
+	
 }
