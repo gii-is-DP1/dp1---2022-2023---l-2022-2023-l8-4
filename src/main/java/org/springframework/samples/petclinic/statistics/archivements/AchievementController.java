@@ -1,10 +1,19 @@
 package org.springframework.samples.petclinic.statistics.archivements;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -12,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -29,16 +39,32 @@ public class AchievementController {
 	}
 
     @GetMapping
-    public ModelAndView showAchievements(){
-        ModelAndView result=new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
-        result.addObject("achievements", service.getAchievements());
+    public ModelAndView showAchievements(@RequestParam Map<String, Object> params){
+    	int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+
+		PageRequest pageRequest = PageRequest.of(page, 5);
+		Page<Achievement> pageAchievement= service.getAchievements(pageRequest);
+
+		int totalPages = pageAchievement.getTotalPages();
+		List<Integer> pages=new ArrayList<>();
+		if(totalPages > 0) {
+			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+		}
+
+        ModelAndView result = new ModelAndView(ACHIEVEMENTS_LISTING_VIEW);
+        result.addObject("achievements", pageAchievement.getContent());
+        result.addObject("pages", pages);
+        result.addObject("current", page + 1);
+        result.addObject("next", page + 2);
+        result.addObject("prev", page);
+        result.addObject("last", totalPages);
         return result;
     }
 
     @GetMapping("/{id}/delete")
     public ModelAndView deleteAchievement(@PathVariable("id") Integer id){
         service.deleteAchievementById(id);
-        return showAchievements();
+        return showAchievements(new HashMap<>());
     }
 
     @GetMapping("/{id}/edit")
@@ -61,10 +87,10 @@ public class AchievementController {
         	if(achievementToBeUpdated!=null) {
         		BeanUtils.copyProperties(achievement,achievementToBeUpdated,"id");
                 service.save(achievement);
-                result =showAchievements();
+                result =showAchievements(new HashMap<>());
                 result.addObject("message", "The achievement was updated successfully");
         	}else {
-        		result = showAchievements();
+        		result = showAchievements(new HashMap<>());
                 result.addObject("message", "Logro con id "+id+" no ha sido editado correctamente");
             }
 
@@ -91,7 +117,7 @@ public class AchievementController {
             result.addAllObjects(br.getModel());
         }else {
         	 service.save(achievement);
-            result = showAchievements();
+            result = showAchievements(new HashMap<>());
             result.addObject("message", "Jugador creado satisfactoriamente");
 
         }

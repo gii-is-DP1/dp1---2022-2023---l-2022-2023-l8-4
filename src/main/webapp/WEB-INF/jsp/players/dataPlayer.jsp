@@ -105,12 +105,18 @@
 	    </spring:url>
 		<a href="${editPlayer}"><button class="btn btn-default">Edit Profile</button></a>
 		
+		<spring:url value="/players/{playerId}/achievements" var="AchievementsPlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<a href="${AchievementsPlayer}"><button class="btn btn-default">Achievements Acquired</button></a>
+		
 		<spring:url value="/players/delete/{playerId}" var="deletePlayer">
 	       <spring:param name="playerId" value="${player.id}"></spring:param>
 	    </spring:url>
 		<button class="btn btn-default" data-toggle="modal" data-target="#myModal">Delete Profile</button>
 	</div>
 </c:if>
+
 </div>
 <petclinic:modal hrefConfirm="${deletePlayer}" nameModal="myModal"></petclinic:modal>
 </petclinic:layout>
