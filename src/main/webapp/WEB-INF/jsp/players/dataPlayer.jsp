@@ -108,7 +108,7 @@
 		<spring:url value="/players/{playerId}/achievements" var="AchievementsPlayer">
 	       <spring:param name="playerId" value="${player.id}"></spring:param>
 	    </spring:url>
-		<a href="${AchievementsPlayer}"><button class="btn btn-default">Achievements Acquired</button></a>
+		<a href="${AchievementsPlayer}"><button class="btn btn-default">My Achievements</button></a>
 		
 		<spring:url value="/players/delete/{playerId}" var="deletePlayer">
 	       <spring:param name="playerId" value="${player.id}"></spring:param>
