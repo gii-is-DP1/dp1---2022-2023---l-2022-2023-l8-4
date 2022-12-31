@@ -1,9 +1,6 @@
 package org.springframework.samples.petclinic.game;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,7 +75,7 @@ public class GameService {
 	public Game getGameByCode(int gameCode) {
 		return this.gameRepository.findGameByGameCode(gameCode);
 	}
-	
+
 	@Transactional
 	public void addPlayerToGame(Player player, Game game) {
 		game.addPlayer(player);
@@ -86,11 +83,10 @@ public class GameService {
 	}
 
 	@Transactional
-	public void deleteCardFromDeck(int gameId, int middleCardId){
+	public void deleteCardFromDeck(int gameId, List<Card> deck){
 		Optional<Game> game = gameRepository.findById(gameId);
 		Collection<Card> cards= game.get().getCards();
-		Card card = cards.stream().collect(Collectors.toList()).get(0);
-		cards.remove(card);
+		cards.remove( deck.get(0) );
 		game.get().setCards(cards);
 		saveGame(game.get());
 	}
@@ -98,7 +94,8 @@ public class GameService {
 	@Transactional
 	public void randomizeDeck(int gameId){
 		Optional<Game> game = gameRepository.findById(gameId);
-		List<Card>deck =game.get().getCards().stream().collect(Collectors.toList());
+		List<Card>deck = new ArrayList<>(game.get().getCards());
 		Collections.shuffle(deck);
+        game.get().setCards( deck );
 	}
 }
