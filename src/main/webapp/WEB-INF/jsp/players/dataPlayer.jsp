@@ -64,26 +64,26 @@
 				<ul class="pagination">
 					<c:if test="${prev != 0}">
 						<li class="page-item">
-							<a class="page-link" href="/players/data/${player.id}?page=${prev}">Previous</a>
+							<a class="page-link" href="/players/data/${username}?page=${prev}">Previous</a>
 						</li>
 					</c:if>
 					<c:forEach items="${pages}" var="page">
 						<c:choose>
 						 <c:when test="${current == page}">
 						  <li class="page-item active">
-							<a class="page-link" href="/players/data/${player.id}?page=${page}"><span>${page}</span></a>
+							<a class="page-link" href="/players/data/${username}?page=${page}"><span>${page}</span></a>
 					   	  </li>
 						 </c:when>
 						 <c:otherwise>
 						  <li class="page-item">
-							<a class="page-link" href="/players/data/${player.id}?page=${page}"><span>${page}</span></a>
+							<a class="page-link" href="/players/data/${username}?page=${page}"><span>${page}</span></a>
 					   	  </li>
 						 </c:otherwise>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${current != last}">
 						<li class="page-item">
-							<a class="page-link" href="/players/data/${player.id}?page=${next}">Next</a>
+							<a class="page-link" href="/players/data/${username}?page=${next}">Next</a>
 						</li>
 					</c:if>
 				</ul>
@@ -111,3 +111,10 @@
 </div>
 <petclinic:modal hrefConfirm="${deletePlayer}" nameModal="myModal"></petclinic:modal>
 </petclinic:layout>
+
+<script>
+
+console.log(nombre);
+
+</script>
+

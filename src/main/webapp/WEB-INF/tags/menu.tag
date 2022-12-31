@@ -97,7 +97,6 @@
 <script>
 
 	const nombre=document.getElementById("identify").textContent;
-	console.log(nombre)
 	const enlace=document.getElementById("enlace");
 	
 	enlace.addEventListener('click', () => {

@@ -78,9 +78,9 @@ public class PlayerController {
 
 
     @GetMapping("/data/{username}")
-    public String getDataFromPlayer( @PathVariable("username") String username, ModelMap model, 
-    		@RequestParam Map<String, Object> params) {
-    	try {
+    public ModelAndView getDataFromPlayer( @PathVariable("username") String username,
+    		@RequestParam Map<String, Object> params) throws NoSuchEntityException {
+    		ModelAndView result=new ModelAndView(player_profile);
     		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 
     		PageRequest pageRequest = PageRequest.of(page, 3);
@@ -93,17 +93,15 @@ public class PlayerController {
     			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
     		}
 
-            model.put( "player", this.playerService.showPlayerById( player.getId() ) );
-            model.put( "games", pageGamesByPlayerId.getContent());
-            model.put( "pages", pages);
-            model.put( "current", page + 1);
-            model.put( "next", page + 2);
-            model.put( "prev", page);
-            model.put( "last", totalPages);
-            return player_profile;
-    	} catch(NoSuchEntityException ex) {
-    		return "redirect:/oups";
-    	}
+    		result.addObject( "player", this.playerService.showPlayerById( player.getId() ) );
+    		result.addObject("username", username);
+    		result.addObject( "games", pageGamesByPlayerId.getContent());
+    		result.addObject( "pages", pages);
+    		result.addObject( "current", page + 1);
+    		result.addObject( "next", page + 2);
+    		result.addObject( "prev", page);
+    		result.addObject( "last", totalPages);
+            return result;
     }
 
 	@GetMapping("/delete/{id}")
@@ -121,7 +119,7 @@ public class PlayerController {
 
     @PostMapping("/edit/{id}")
     public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
-    		@RequestParam Map<String, Object> params) {
+    		@RequestParam Map<String, Object> params) throws NoSuchEntityException {
     	ModelAndView result=null;
     	if(br.hasErrors()) {
     		result = new ModelAndView(player_editing);
@@ -132,11 +130,11 @@ public class PlayerController {
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
-            result = showAllPlayers(params);
+            result =  getDataFromPlayer(newPlayer.getUser().getUsername(), params);
             result.addObject("message", "Jugador editado satisfactoriamente");
             return result;
          }
-         result = showAllPlayers(params);
+         result = getDataFromPlayer(newPlayer.getUser().getUsername(), params);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
         }
