@@ -46,13 +46,13 @@ INSERT INTO players(id,username,register_date,modification_date,last_login,email
 (5,'carzarrei',  '2022-04-01','2022-01-01', '2022-10-01',  'vic@gmail.com',  '2000-01-01', '',5);
 
 --Games
-INSERT INTO games(id,date,game_mode, game_state, game_code) VALUES 
+INSERT INTO games(id,creator,date,game_mode, game_state, game_code) VALUES 
 
-(1, '2022-11-04', 0, 1, 10),
-(2, '2022-11-04', 0, 0, 11),
-(3, '2022-11-06', 1, 1, 12),
-(4, '2022-11-09', 0, 2, 13),
-(5, '2022-11-10', 2, 2, 14);
+(1, 'pgmarc', '2022-11-04', 0, 1, 10),
+(2, 'carbersor', '2022-11-04', 0, 0, 11),
+(3, 'fermatgom', '2022-11-06', 1, 1, 12),
+(4, 'pedlopruz', '2022-11-09', 0, 2, 13),
+(5, 'carzarrei', '2022-11-10', 2, 2, 14);
 
 --Player games
 INSERT INTO players_games(game_id,player_id) VALUES 

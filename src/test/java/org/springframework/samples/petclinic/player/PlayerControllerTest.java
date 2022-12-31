@@ -21,6 +21,7 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
@@ -35,25 +36,27 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-	@ExtendWith(SpringExtension.class)
-	@WebMvcTest(controllers = PlayerController.class,
-	excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
-	excludeAutoConfiguration= SecurityConfiguration.class)
-	public class PlayerControllerTest {
+@ExtendWith(SpringExtension.class)
+@WebMvcTest(controllers = PlayerController.class,
+excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
+excludeAutoConfiguration= SecurityConfiguration.class)
+@MockBean(JpaMetamodelMappingContext.class)
+public class PlayerControllerTest {
 
-		@MockBean
-		private PlayerService playerService;
+	@MockBean
+	private PlayerService playerService;
 
-		@MockBean
-		private AchievementService achievementService;
+	@MockBean
+	private AchievementService achievementService;
 
-		@MockBean
-		private GameService gameService;
+	@MockBean
+	private GameService gameService;
 
-		@Autowired
-		private MockMvc mockMvc;
+	@Autowired
+	private MockMvc mockMvc;
 
-		private Integer playerId = 1;
+	private Integer playerId = 1;
+
 
 		@BeforeEach
 		private void setup() {
@@ -99,7 +102,6 @@ import org.springframework.test.web.servlet.MockMvc;
 	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
 
 		}
-
 		@Test
 		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 		void shouldShowPlayersAchievements() throws Exception {
@@ -109,6 +111,7 @@ import org.springframework.test.web.servlet.MockMvc;
 			.andExpect(model().attributeExists("achievements"))
 			.andExpect(model().attribute("achievements", playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
 		}
+
 
 		@Test
 		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
@@ -122,6 +125,6 @@ import org.springframework.test.web.servlet.MockMvc;
 			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
 		}
 
-}
+		}
 
 

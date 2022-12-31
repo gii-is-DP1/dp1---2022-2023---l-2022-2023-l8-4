@@ -127,7 +127,13 @@ public class PlayerController {
     @PostMapping("/edit/{id}")
     public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
     		@RequestParam Map<String, Object> params) {
-        ModelAndView result=null;
+    	ModelAndView result=null;
+    	if(br.hasErrors()) {
+    		result = new ModelAndView(player_editing);
+    		result.addObject("player", newPlayer);
+    		System.out.println(br.getAllErrors());
+    		return result;
+    	}
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
