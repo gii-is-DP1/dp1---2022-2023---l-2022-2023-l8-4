@@ -125,6 +125,6 @@ public class PlayerControllerTest {
 			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
 		}
 
-		}
+	}
 
 
