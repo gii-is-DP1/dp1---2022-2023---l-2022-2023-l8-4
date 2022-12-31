@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,9 +14,14 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.StatisticService;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -33,7 +39,6 @@ public class PlayerController {
 	private PlayerService playerService;
 	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
-	public static final String player_listingById = "players/playerList2";
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
@@ -68,34 +73,58 @@ public class PlayerController {
 	}
 
 	@GetMapping("/{id}/achievements")
-    public ModelAndView showAllAchievementGames(@PathVariable("id") Integer id) {
-        ModelAndView result = new ModelAndView(achievement_listing);
-        result.addObject("achievements", achievementService.findAchievementByPlayerId(id));
-        return result;
-    }
-
-
-    @GetMapping("/data/{id}")
-    public String getDataFromPlayer( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
-    	int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
-
-		PageRequest pageRequest = PageRequest.of(page, 3);
-		Page<Game> pageGamesByPlayerId= playerService.gamesByPlayerId(id, pageRequest);
-
-		int totalPages = pageGamesByPlayerId.getTotalPages();
+    public String showAllAchievementGames( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
+		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+		PageRequest pageRequest = PageRequest.of(page, 5);
+		Page<Achievement> pageAchievements= playerService.showAchievementsByPlayerId(id, pageRequest);
+		int totalPages = pageAchievements.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
 			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
 		}
+		
+        model.put("achievements", pageAchievements.getContent());
+        model.put("pages", pages);
+        model.put("current", page + 1);
+        model.put("next", page + 2);
+        model.put("prev", page);
+        model.put("last", totalPages);
+        return achievement_listing;
+    }
 
-        model.put( "player", this.playerService.showPlayerById( id ) );
-        model.put( "games", pageGamesByPlayerId.getContent());
-        model.put( "pages", pages);
-        model.put( "current", page + 1);
-        model.put( "next", page + 2);
-        model.put( "prev", page);
-        model.put( "last", totalPages);
-        return player_profile;
+
+    @GetMapping("/data/{username}")
+    public ModelAndView getDataFromPlayer( @PathVariable("username") String username,
+    		@RequestParam Map<String, Object> params) throws NoSuchEntityException {
+    		ModelAndView result=new ModelAndView(player_profile);
+    		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+
+    		PageRequest pageRequest = PageRequest.of(page, 3);
+    		Player player=playerService.getPlayerByUsername(username);
+    		Page<Game> pageGamesByPlayerId= playerService.gamesByPlayerId(player.getId(), pageRequest);
+
+    		int totalPages = pageGamesByPlayerId.getTotalPages();
+    		List<Integer> pages=new ArrayList<>();
+    		if(totalPages > 0) {
+    			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+    		}
+    		
+    		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    		User user = (User)authentication.getPrincipal();
+        	String autenticacion = user.getUsername();
+
+        	System.out.println(autenticacion);
+        	System.out.println(player.getUser().getUsername());
+        	
+        	result.addObject("username", autenticacion);
+    		result.addObject( "player", this.playerService.showPlayerById( player.getId() ) );
+    		result.addObject( "games", pageGamesByPlayerId.getContent());
+    		result.addObject( "pages", pages);
+    		result.addObject( "current", page + 1);
+    		result.addObject( "next", page + 2);
+    		result.addObject( "prev", page);
+    		result.addObject( "last", totalPages);
+            return result;
     }
 
 	@GetMapping("/delete/{id}")
@@ -113,16 +142,22 @@ public class PlayerController {
 
     @PostMapping("/edit/{id}")
     public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
-    		@RequestParam Map<String, Object> params) {
-        ModelAndView result=null;
+    		@RequestParam Map<String, Object> params) throws NoSuchEntityException {
+    	ModelAndView result=null;
+    	if(br.hasErrors()) {
+    		result = new ModelAndView(player_editing);
+    		result.addObject("player", newPlayer);
+    		System.out.println(br.getAllErrors());
+    		return result;
+    	}
         Player playerModified = playerService.showPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
-            result = showAllPlayers(params);
+            result =  getDataFromPlayer(newPlayer.getUser().getUsername(), params);
             result.addObject("message", "Jugador editado satisfactoriamente");
             return result;
          }
-         result = showAllPlayers(params);
+         result = getDataFromPlayer(newPlayer.getUser().getUsername(), params);
          result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
          return result;
         }

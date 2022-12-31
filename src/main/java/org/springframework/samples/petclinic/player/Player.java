@@ -16,6 +16,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.model.BaseEntity;
@@ -31,6 +33,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "players")
+@Audited
 @EqualsAndHashCode(callSuper = false)
 public class Player extends BaseEntity {
 
@@ -60,10 +63,12 @@ public class Player extends BaseEntity {
 	private String profilePicture;
 
 	@OneToOne(cascade = CascadeType.ALL)
+	@NotAudited
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 
 	@ManyToMany
+	@NotAudited
 	@JoinTable(name = "players_games", joinColumns = @JoinColumn(name = "player_id"),
 	inverseJoinColumns = @JoinColumn(name = "game_id"))
 	private Collection<Game> playedGames;
@@ -80,11 +85,12 @@ public class Player extends BaseEntity {
 	}
 
 	 @ManyToMany
+	 @NotAudited
 	 @JoinTable(name = "players_achievements", joinColumns = @JoinColumn(name = "achievement_id"),
 	 inverseJoinColumns = @JoinColumn(name = "player_id"))
 	 private Collection<Achievement> playersAchievement;
 	 
 	 @OneToOne( cascade = CascadeType.ALL )
-	 @NotNull
+	 @NotAudited
 	 private Statistic statistic;
 }

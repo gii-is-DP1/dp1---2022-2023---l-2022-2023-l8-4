@@ -53,6 +53,39 @@
         </c:forEach>
         </tbody>
     </table>
-    <a class="btn btn-default" href="/statistics/achievements/new">Create new achievement</a>
-
+    <c:if test="${pages.size() > 1}">
+     <div class="row" id="pagination-disposition">
+		<div class="col-md-6">
+			<nav class="nav" id="pagination-disposition">
+				<ul class="pagination">
+					<c:if test="${prev != 0}">
+						<li class="page-item">
+							<a class="page-link" href="/statistics/achievements?page=${prev}">Previous</a>
+						</li>
+					</c:if>
+					<c:forEach items="${pages}" var="page">
+						<c:choose>
+						 <c:when test="${current == page}">
+						  <li class="page-item active">
+							<a class="page-link" href="/statistics/achievements?page=${page}"><span>${page}</span></a>
+					   	  </li>
+						 </c:when>
+						 <c:otherwise>
+						  <li class="page-item">
+							<a class="page-link" href="/statistics/achievements?page=${page}"><span>${page}</span></a>
+					   	  </li>
+						 </c:otherwise>
+						</c:choose>
+					</c:forEach>
+					<c:if test="${current != last}">
+						<li class="page-item">
+							<a class="page-link" href="/statistics/achievements?page=${next}">Next</a>
+						</li>
+					</c:if>
+				</ul>
+			</nav>
+		</div>    
+    </div>
+    </c:if>
+    <a href="/statistics/achievements/new"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Achievements</a>
 </dobble:layout>

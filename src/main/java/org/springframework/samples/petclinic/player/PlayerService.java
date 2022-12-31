@@ -63,12 +63,9 @@ public class PlayerService {
 
 	}
 	@Transactional
-    public Collection<Achievement> achievementsByUsername() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		User user = (User)authentication.getPrincipal();
-    	String autenticacion = user.getUsername();
-    	Player player = playerRepository.findPlayerByUsername(autenticacion);
-        return player.getPlayersAchievement();
+    public Page<Achievement> showAchievementsByPlayerId(Integer id, Pageable pageable) {
+		Player player = playerRepository.findById(id).get();
+        return playerRepository.getAchievementsByPlayerId(pageable, player.getId());
     }
 
 	@Transactional(readOnly = true)

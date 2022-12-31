@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
 <petclinic:layout pageName="players">
@@ -11,7 +12,6 @@
         <thead>
         <tr class="tabla">
             <th>Statistics</th>
-            <th>Achievements</th>
             <th>Username</th>
             <th>Register_Date</th>
             <th>Modification_Date</th>
@@ -19,19 +19,19 @@
             <th>Email</th>
             <th>BirthDate</th>
             <th>Profile_Picture</th>
-            <th>Action</th>          
+            <sec:authorize access="hasAuthority('admin')">
+            <th>Action</th>         
+            </sec:authorize> 
         </tr>
         </thead>
         <tbody>
        
         <c:forEach items="${players}" var="player">
             <tr class="tabla">
-                <td>
-                    <a href="/players/data/${player.id}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
+                <td>	
+                    <a href="/players/data/${player.user.username}"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
                 </td>
-                 <td>
-                    <a href="/players/${player.id}/achievements"><span class="glyphicon glyphicon glyphicon-duplicate warning" aria-hidden="true"></span></a>
-                </td>
+      
                 <td>
                     <a href="${playerProfile}"><c:out value="${player.user.username}"/></a>
                 </td>
@@ -53,14 +53,16 @@
                 <td>                    
                     <c:if test="${player.profilePicture == ''}">none</c:if>
                     <c:if test="${player.profilePicture != ''}">
-                        <img src="resources/images/${player.profilePicture}" width="100px"  /> 
+                        <img src="${player.profilePicture}" width="100px"  /> 
                     </c:if>
                 </td>
+                <sec:authorize access="hasAuthority('admin')">
                 <td>
 				<a href="/players/edit/${player.id}" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
 				&nbsp;
 				<span class="glyphicon glyphicon-trash alert" aria-hidden="true" data-toggle="modal" data-target="#myModal"></span></td>
 				<petclinic:modal hrefConfirm="/players/delete/${player.id}" nameModal="myModal"></petclinic:modal>
+				</sec:authorize>
             </tr>
         </c:forEach>
         </tbody>
@@ -99,6 +101,5 @@
 		</div>    
     </div>
     </c:if>
-    <a class="btn btn-default" href="/players/new">Create new player</a>
 
 </petclinic:layout>
