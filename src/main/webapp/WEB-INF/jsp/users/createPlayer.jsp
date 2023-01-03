@@ -17,14 +17,22 @@
             <c:if test="${jugador['new']}">New </c:if> Player
         </h2>
         <form:form modelAttribute="player"
-                   class="form-horizontal">
+                   class="form-horizontal" enctype="multipart/form-data">
             <input type="hidden" name="id" value="${player.id}"/>
             <div class="form-group has-feedback">
                 <petclinic:inputField label="Username" name="user.username"/>
                 <petclinic:inputField label="Contraseña" name="user.password"/>
                 <petclinic:inputField label="email" name="email"/>
                 <petclinic:inputField label="birthDate" name="birthDate"/>
-                <petclinic:inputField label="profilePicture" name="profilePicture"/>
+               	<div id="selector"> 
+                <select name="profilePicture" id="selectorPicture">
+				  <option value="/resources/images/logo.png">logo</option>
+				  <option value="/resources/images/logros/kinglogo.png">king</option>
+				  <option value="/resources/images/logros/viciado.png">viciado</option>
+				  <option value="/resources/images/logros/soldado.png">soldado</option>
+				</select>
+				<img id="imagenSelect" src="/resources/images/logo.png">
+				</div>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -43,3 +51,14 @@
         </c:if>
     </jsp:body>
 </petclinic:layout>
+
+<script>
+
+	const img= document.getElementById('imagenSelect');
+	const select=document.getElementById('selectorPicture');
+	
+		select.addEventListener('change', function(){
+			img.src=select.value;	
+		})
+
+</script>

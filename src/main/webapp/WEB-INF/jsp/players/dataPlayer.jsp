@@ -10,7 +10,7 @@
 <div id="dataPlayer">
 <div id="dataPlayer-superior">
 	<div id="dataPlayer-superior-divImage">
-		<img id="dataPlayer-superior-image" alt="Without image" src="/resources/images/logo.png">
+		<img id="dataPlayer-superior-image" alt="Without image" src="${player.profilePicture}">
 	</div>
 	<div id="dataPlayer-superior-data">
 		<div class="dataPlayer-superior-data-value">
@@ -24,7 +24,6 @@
 		</div>
 	</div>
 </div>
-<div id="dataPlayer-medio">
   
   <h2>My Games</h2>
 
@@ -65,26 +64,26 @@
 				<ul class="pagination">
 					<c:if test="${prev != 0}">
 						<li class="page-item">
-							<a class="page-link" href="/players/data/${player.id}?page=${prev}">Previous</a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${prev}">Previous</a>
 						</li>
 					</c:if>
 					<c:forEach items="${pages}" var="page">
 						<c:choose>
 						 <c:when test="${current == page}">
 						  <li class="page-item active">
-							<a class="page-link" href="/players/data/${player.id}?page=${page}"><span>${page}</span></a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${page}"><span>${page}</span></a>
 					   	  </li>
 						 </c:when>
 						 <c:otherwise>
 						  <li class="page-item">
-							<a class="page-link" href="/players/data/${player.id}?page=${page}"><span>${page}</span></a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${page}"><span>${page}</span></a>
 					   	  </li>
 						 </c:otherwise>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${current != last}">
 						<li class="page-item">
-							<a class="page-link" href="/players/data/${player.id}?page=${next}">Next</a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${next}">Next</a>
 						</li>
 					</c:if>
 				</ul>
@@ -92,40 +91,32 @@
 		</div>    
     </div>
     </c:if>
-</div>
-<div id="dataPlayer-inferior">
-</div>
-<div class="dataPlayer-buttons">
-	<spring:url value="/players/edit/{playerId}" var="editPlayer">
-       <spring:param name="playerId" value="${player.id}"></spring:param>
-    </spring:url>
-	<a href="${editPlayer}"><button class="btn btn-default">Edit Profile</button></a>
-	
-	<spring:url value="/players/delete/{playerId}" var="deletePlayer">
-       <spring:param name="playerId" value="${player.id}"></spring:param>
-    </spring:url>
-	<button class="btn btn-default" data-toggle="modal" data-target="#myModal">Delete Profile</button>
-</div>
-</div>
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+    <div id="dataPlayer-inferior-statistics">
+	    <div class="div1" class="font">Total Points: <span class="values-Player">${player.statistic.totalPoints}</span></div>
+		<div class="div2" class="font">Played Games: <span class="values-Player">${player.statistic.gamesPlayed}</span></div>
+		<div class="div3" class="font">Won Games: <span class="values-Player">${player.statistic.gamesWon}</span></div>
+		<div class="div4" class="font">Lost Games: <span class="values-Player">${player.statistic.gamesLost}</span></div>
+	</div>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Are you sure you want to delete your profile?</h4>
-      </div>
-      <div class="modal-body">
-        <p>If you delete this profile you won`t be able to return back</p>
-      </div>
-       <div class=dataPlayer-buttons>
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <a href="${deletePlayer}"><button type="button" class="btn btn-default">Delete</button></a>
-       </div>
-    </div>
+<c:if test="${player.user.username == username}">
+	<div class="dataPlayer-buttons">
+		<spring:url value="/players/edit/{playerId}" var="editPlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<a href="${editPlayer}"><button class="btn btn-default">Edit Profile</button></a>
+		
+		<spring:url value="/players/{playerId}/achievements" var="AchievementsPlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<a href="${AchievementsPlayer}"><button class="btn btn-default">My Achievements</button></a>
+		
+		<spring:url value="/players/delete/{playerId}" var="deletePlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<button class="btn btn-default" data-toggle="modal" data-target="#myModal">Delete Profile</button>
+	</div>
+</c:if>
 
-  </div>
 </div>
+<petclinic:modal hrefConfirm="${deletePlayer}" nameModal="myModal"></petclinic:modal>
 </petclinic:layout>

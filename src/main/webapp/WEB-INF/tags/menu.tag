@@ -15,13 +15,11 @@
 		</div>
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
-				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'players'}" url="/players?page=1"
 					title="Players">
 					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 					<span>Players</span>
 				</petclinic:menuItem>
-				</sec:authorize>
 				
 				<sec:authorize access="isAuthenticated()">
 				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
@@ -31,9 +29,6 @@
 								<a href="<c:url value="/statistics/achievements" />">Achievements listing</a>
 							</li>
 							<li class="divider"></li>
-							<li>							
-								<a href="<c:url value="/players/{id}/achievements" />">My Achievements <span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></a>
-							</li>
 						</ul>					
 				</petclinic:menuItem>
 				</sec:authorize>
@@ -55,7 +50,7 @@
 				
 				
 				<sec:authorize access="isAuthenticated()">
-				<petclinic:menuItem active="${name eq 'games'}" url="/games"
+				<petclinic:menuItem active="${name eq 'play'}" url="/games"
 					title="Play" dropdown="${true}">										
 						<ul class="dropdown-menu">
 							
@@ -77,48 +72,16 @@
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Login</a></li>
-					<li><a href="<c:url value="/users/new" />">Register</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"
 						data-toggle="dropdown"> <span class="glyphicon glyphicon-user"></span>
-							<strong><sec:authentication property="name" /></strong> <span
+							<strong id="identify"><sec:authentication property="name" /></strong> <span
 							class="glyphicon glyphicon-chevron-down"></span>
 					</a>
-						<ul class="dropdown-menu">
-							<li>
-								<div class="navbar-login">
-									<div class="row">
-										<div class="col-lg-4">
-											<p class="text-xl-center">
-												<span class="glyphicon glyphicon-log-out"></span>
-											</p>
-										</div>
-										<div class="col-lg-8">
-											<p class="text-center">
-												<a href="<c:url value="/logout" />"
-													class="btn btn-primary btn-block btn-sm">Logout</a>
-											</p>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="divider"></li>
-<!-- 							
-                            <li> 
-								<div class="navbar-login navbar-login-session">
-									<div class="row">
-										<div class="col-lg-12">
-											<p>
-												<a href="#" class="btn btn-primary btn-block">My Profile</a>
-												<a href="#" class="btn btn-danger btn-block">Change
-													Password</a>
-											</p>
-										</div>
-									</div>
-								</div>
-							</li>
--->
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+							<li><a href="/logout"><span>Logout </span><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></a></li>
+							<li><a id="enlace" href="/players/data/"><span>My profile </span><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a></li>
 						</ul></li>
 				</sec:authorize>
 			</ul>
@@ -128,3 +91,14 @@
 
 	</div>
 </nav>
+
+<script>
+
+	const nombre=document.getElementById("identify").textContent;
+	const enlace=document.getElementById("enlace");
+	
+	enlace.addEventListener('click', () => {
+		enlace.href=enlace.href+nombre;
+	})
+
+</script>

@@ -14,7 +14,7 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.card.Card;
-import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.AuditableEntity;
 import org.springframework.samples.petclinic.player.Player;
 
 import lombok.EqualsAndHashCode;
@@ -28,7 +28,7 @@ import lombok.ToString;
 @Table(name = "games")
 @ToString
 @EqualsAndHashCode(callSuper=false)
-public class Game extends BaseEntity {
+public class Game extends AuditableEntity {
 
 	@Column(name = "date", nullable = false)
 	@NotNull
@@ -55,7 +55,6 @@ public class Game extends BaseEntity {
 					CascadeType.DETACH,
 					CascadeType.REFRESH})
 	private Collection<Card> cards;
-	
 	
 	protected Collection<Player> getPlayersInternal() {
 		if (this.players == null) {

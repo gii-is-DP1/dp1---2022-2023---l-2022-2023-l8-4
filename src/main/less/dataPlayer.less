@@ -7,10 +7,12 @@
 }
 
 #dataPlayer-superior {
-	width: 70vw;
+	width: 90vw;
 	height: 20vw;
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
+	margin-bottom: 3vw;
 }
 
 #dataPlayer-superior-divImage {
@@ -48,17 +50,37 @@
 	justify-content: center;
 }
 
-#dataPlayer-medio {
-	width: 70vw;
-	height: 25vw;
+#dataPlayer-inferior-statistics {
+	display: grid;
+	grid-template-columns: 34vw 34vw;
+	grid-template-rows: 5vw 5vw;
+	grid-column-gap: 2px;
+	grid-row-gap: 2px;
+	justify-content: center;
+    align-items: center;
 	margin-top: 3vw;
 }
 
-#dataPlayer-inferior {
-	background-color: green;
-	width: 70vw;
-	height: 20vw;
-}
+.div1 { grid-area: 1 / 1 / 2 / 2; 
+		align-self: center; 
+		justify-self: center;
+		color: purple;
+		font-size: 1.5vw;}
+.div2 { grid-area: 2 / 1 / 3 / 2; 
+		align-self: center; 
+		justify-self: center;
+		color: purple;
+		font-size: 1.5vw;}
+.div3 { grid-area: 2 / 2 / 3 / 3; 
+		align-self: center; 
+		justify-self: center;
+		color: purple;
+		font-size: 1.5vw;}
+.div4 { grid-area: 1 / 2 / 2 / 3; 
+		align-self: center; 
+		justify-self: center;
+		color: purple;
+		font-size: 1.5vw;}	
 
 .font {
 	color: purple;
@@ -74,6 +96,6 @@
 	flex-direction: row;
 	align-items: right;
 	justify-content: space-around;
-	margin-top: 1vw;
+	margin-top: 3vw;
 	
 }

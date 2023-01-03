@@ -18,13 +18,20 @@
         </h2>
         <form:form modelAttribute="player"
                    class="form-horizontal">
-            <input type="hidden" name="id" value="${player.id}"/>
             <div class="form-group has-feedback">                
                 <dobble:inputField label="Username" name="user.username"/>
                 <dobble:inputField label="Password" name="user.password"/>
                 <dobble:inputField label="Email" name="email"/>
                 <dobble:inputField label="BirthDate" name="birthDate"/>
-                <dobble:inputField label="Profile Picture" name="profilePicture"/>
+                <div id="selector"> 
+                <select name="profilePicture" id="selectorPicture">
+				  <option value="/resources/images/logo.png">logo</option>
+				  <option value="/resources/images/logros/kinglogo.png">king</option>
+				  <option value="/resources/images/logros/viciado.png">viciado</option>
+				  <option value="/resources/images/logros/soldado.png">soldado</option>
+				</select>
+				<img id="imagenSelect" src="${player.profilePicture}">
+				</div>
         
             </div>
             <div class="form-group">
@@ -42,3 +49,14 @@
         </form:form>       
     </jsp:body>
 </dobble:layout>
+
+<script>
+
+	const img= document.getElementById('imagenSelect');
+	const select=document.getElementById('selectorPicture');
+	
+		select.addEventListener('change', function(){
+			img.src=select.value;	
+		})
+
+</script>

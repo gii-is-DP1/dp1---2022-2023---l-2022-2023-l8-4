@@ -1,12 +1,13 @@
 package org.springframework.samples.petclinic.game;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
@@ -74,10 +75,27 @@ public class GameService {
 	public Game getGameByCode(int gameCode) {
 		return this.gameRepository.findGameByGameCode(gameCode);
 	}
-	
+
 	@Transactional
 	public void addPlayerToGame(Player player, Game game) {
 		game.addPlayer(player);
 		saveGame(game);
+	}
+
+	@Transactional
+	public void deleteCardFromDeck(int gameId, List<Card> deck){
+		Optional<Game> game = gameRepository.findById(gameId);
+		Collection<Card> cards= game.get().getCards();
+		cards.remove( deck.get(0) );
+		game.get().setCards(cards);
+		saveGame(game.get());
+	}
+	//This method has to be called when a game is started before starting the gameplay
+	@Transactional
+	public void randomizeDeck(int gameId){
+		Optional<Game> game = gameRepository.findById(gameId);
+		List<Card>deck = new ArrayList<>(game.get().getCards());
+		Collections.shuffle(deck);
+        game.get().setCards( deck );
 	}
 }
