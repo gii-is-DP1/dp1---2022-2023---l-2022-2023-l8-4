@@ -22,11 +22,11 @@ INSERT INTO authorities(id,username,authority) VALUES (9,'dangalmar','admin');
 
 --Achivements
 INSERT INTO achievement(id,name,description,threshold,percentage,trophy,badge_image) VALUES
-(1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,90.0,3,'/resources/images/logros/viciado.png'),
-(2,'Soldado','Si ganas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un talentoso.',20.0,70.0,2,'/resources/images/logros/soldado.png'),
-(3,'King','Si juegas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un rey.',100.0,70.0,3,'/resources/images/logros/kinglogo.png'),
-(4,'Sensei','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un sensei.',10.0,70.0,1,'/resources/images/logros/sensei logo.png'),
-(5,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,70.0,0,'/resources/images/logo.png');
+(1,'Viciado','Si juegas <THRESHOLD> partidas o mas',10.0,0.0,3,'/resources/images/logros/viciado.png'),
+(2,'Soldado','Si ganas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un talentoso.',20.0,0.0,2,'/resources/images/logros/soldado.png'),
+(3,'King','Si juegas <THRESHOLD> partidas o mas, en cualquier modo es que eres todo un rey.',100.0,0.0,3,'/resources/images/logros/kinglogo.png'),
+(4,'Sensei','Si ganas <THRESHOLD> partidas o mas, en cada modo que eres todo un sensei.',10.0,0.0,1,'/resources/images/logros/sensei logo.png'),
+(5,'El Dobble','Si ganas <THRESHOLD> partida, consiguiendo todas las cartas eres el dobble.',1.0,0.0,0,'/resources/images/logo.png');
 
 --Statistics
 INSERT INTO statistic(id,total_points,games_played, games_won, games_lost) VALUES 

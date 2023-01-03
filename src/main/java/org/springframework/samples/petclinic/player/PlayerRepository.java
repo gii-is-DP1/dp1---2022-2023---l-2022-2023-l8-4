@@ -28,4 +28,7 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
 	
 	@Query(value = "SELECT * FROM players  WHERE players.username=:username", nativeQuery = true)
 	public Player findPlayerByUsername(@Param("username") String username);
+	
+	@Query(value = "SELECT COUNT(*) FROM players", nativeQuery = true)
+	public Integer getNumberOfPlayers();
 }

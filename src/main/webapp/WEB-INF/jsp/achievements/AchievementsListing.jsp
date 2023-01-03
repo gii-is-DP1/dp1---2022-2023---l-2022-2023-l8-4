@@ -28,7 +28,7 @@
                 </td>
                 
                 <td>       
-                    <c:out value="${achievement.percentage} "/>
+                    <c:out value="${achievement.percentage}% "/>
                 </td>
                 <td>       
                     <c:out value="${achievement.trophy} "/>
