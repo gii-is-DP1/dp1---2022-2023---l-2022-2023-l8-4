@@ -10,7 +10,8 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.validation.Valid;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +36,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/players")
 public class PlayerController {
+	
+	Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
 	private PlayerService playerService;
 	private AchievementService achievementService;
@@ -130,6 +133,8 @@ public class PlayerController {
 	@GetMapping("/delete/{id}")
     public ModelAndView deletePlayersById(@PathVariable("id") Integer id) {
 		playerService.deletePlayer(id);
+		logger.info("Dobble::INFO::Player Player with id " + id + " has been removed from the system");
+	
         return showAllPlayers(new HashMap<>());
     }
 
