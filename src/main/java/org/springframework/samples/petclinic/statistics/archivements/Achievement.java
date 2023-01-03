@@ -31,7 +31,6 @@ public class Achievement extends NamedEntity{
     private double threshold;
 
 	@Column(name = "percentage")
-	@NotNull
 	private double percentage;
 
 	@Column(name = "trophy")
