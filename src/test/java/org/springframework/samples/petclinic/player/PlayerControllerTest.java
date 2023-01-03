@@ -84,7 +84,6 @@ public class PlayerControllerTest {
 	        Achievement achievement= new Achievement();
 	        achievement.setId(playerId);
 	        achievement.setName("Pasa");
-	        achievement.setAcquireDate(LocalDate.now());
 	        Game game = new Game();
 	        game.setDate(LocalDate.now());
 	        game.setGameMode(GameMode.EL_FOSO);

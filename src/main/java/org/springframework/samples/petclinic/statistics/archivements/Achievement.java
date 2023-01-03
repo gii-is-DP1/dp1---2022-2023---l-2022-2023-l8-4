@@ -34,10 +34,6 @@ public class Achievement extends NamedEntity{
 	@NotNull
 	private double percentage;
 
-	@Column(name = "acquire_date")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate acquireDate;
-
 	@Column(name = "trophy")
 	private AchievementTrophy trophy;
 
