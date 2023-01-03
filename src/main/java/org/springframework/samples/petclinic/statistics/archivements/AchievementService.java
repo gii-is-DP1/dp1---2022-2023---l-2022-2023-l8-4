@@ -24,19 +24,7 @@ public class AchievementService {
     Page<Achievement> getAchievements(Pageable pageable){
         return repo.findAll(pageable);
     }
-    @Transactional(readOnly = true)
-    public Achievement getById(int id){
-        return repo.findById(id).get();
-    }
-    @Transactional
-    public void deleteAchievementById(int id){
-        repo.deleteById(id);
-    }
-    @Transactional
-    public void save(Achievement achievement){
-    	achievement.setAcquireDate(LocalDate.now());
-        repo.save(achievement);
-    }
+
     
 
 }

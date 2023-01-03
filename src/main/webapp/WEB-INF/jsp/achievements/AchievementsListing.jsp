@@ -14,7 +14,6 @@
             <th>Description</th>
             <th>Percentage</th>
             <th>Trophy</th>
-            <th>Acquire Date</th>
             <th>BadgeImage</th>
         </tr>
         </thead>
@@ -34,9 +33,6 @@
                 <td>       
                     <c:out value="${achievement.trophy} "/>
                 </td>
-                <td>       
-                    <c:out value="${achievement.acquireDate} "/>
-                </td>
                 <td>                    
                     <c:if test="${achievement.badgeImage == ''}">none</c:if>
                     <c:if test="${achievement.badgeImage != ''}">
@@ -44,11 +40,6 @@
                     </c:if>
                 </td>
                 <td>
-				<a href="/statistics/achievements/${achievement.id}/edit" ><span class="glyphicon glyphicon-pencil warning" aria-hidden="true"></span></a>
-				&nbsp;
-				<a href="/statistics/achievements/${achievement.id}/delete"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>
-
-
             </tr>
         </c:forEach>
         </tbody>
@@ -87,5 +78,4 @@
 		</div>    
     </div>
     </c:if>
-    <a href="/statistics/achievements/new"><span class="glyphicon glyphicon-plus sucess" aria-hidden="true"></span>Create Achievements</a>
 </dobble:layout>
