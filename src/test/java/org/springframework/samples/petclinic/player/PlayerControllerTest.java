@@ -18,11 +18,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.game.GameService;
@@ -56,10 +58,11 @@ public class PlayerControllerTest {
 	private MockMvc mockMvc;
 
 	private Integer playerId = 1;
+	private String usernamePlayer="pgmarc";
 
 
 		@BeforeEach
-		private void setup() {
+		private void setup() throws DataAccessException, NoSuchEntityException {
 			Player player= new Player();
 			User user = new User();
 			user.setUsername("nuevo");
@@ -94,11 +97,11 @@ public class PlayerControllerTest {
 	        achievements.add(achievement);
 	        games.add(game);
 	        Page<Player> pagePlayers= new PageImpl<Player>(players, PageRequest.of(0, 5), players.size());
-	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
+	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 3), games.size()));
 	        Mockito.when(playerService.getAllPlayers(null)).thenReturn(pagePlayers);
 	        Mockito.when(playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(achievements, PageRequest.of(0, 5), achievements.size()));
 	        Mockito.when(playerService.showPlayerById(playerId)).thenReturn(player);
-	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
+	        Mockito.when(playerService.getPlayerByUsername(usernamePlayer)).thenReturn(player);
 
 		}
 		@Test
@@ -115,13 +118,16 @@ public class PlayerControllerTest {
 		@Test
 		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 		void shouldShowPlayersData() throws Exception {
-			mockMvc.perform(get("/players/data/" + playerId))
+			mockMvc.perform(get("/players/data/pgmarc"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("players/dataPlayer"))
 			.andExpect(model().attributeExists("player"))
 			.andExpect(model().attributeExists("games"))
 			.andExpect(model().attribute("player", playerService.showPlayerById(playerId)))
-			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
+			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3)).getContent()))
+			.andExpect(model().attribute("username", "pgmarc"))
+			.andExpect(model().attribute("prev", 0));
+			
 		}
 
 	}
