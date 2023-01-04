@@ -26,7 +26,7 @@ INSERT INTO achievement(id,name,description,threshold,percentage,trophy,badge_im
 (2,'Soldier','If you play <THRESHOLD> games or more in any game mode, you are truly a soldier.',20.0,0.0,2,'/resources/images/logros/soldado.png'),
 (3,'King','If you play <THRESHOLD> games or more in any game mode, you are truly a king.',100.0,0.0,1,'/resources/images/logros/kinglogo.png'),
 (4,'Sensei','If you win <THRESHOLD> games or more in any game mode, you are truly a sensei.',10.0,0.0,1,'/resources/images/logros/sensei logo.png'),
-(5,'The Dobble','If you win at least <THRESHOLD> game getting all the cards, you are The Dobble.',1.0,0.0,0,'/resources/images/logo.png');
+(5,'The Dobble','If you win at least <THRESHOLD> game getting 50 or more points, you are The Dobble.',1.0,0.0,0,'/resources/images/logo.png');
 
 --Statistics
 INSERT INTO statistic(id,total_points,games_played, games_won, games_lost) VALUES 

@@ -60,82 +60,35 @@ public class AchievementService {
     	Integer gamesPlayed = player.getStatistic().getGamesPlayed();
     	Integer pointsInGame = data.getPointsNumber();
     	
-    	if(getsGamer(res, gamesPlayed)) {
+    	if(checkAchievement(res, gamesPlayed, 10, 1)) {
     		res.add(this.getAchievementById(1));
     	}
-    	if(getsSoldier(res, gamesPlayed)) {
+    	if(checkAchievement(res, gamesPlayed, 20, 2)) {
     		res.add(this.getAchievementById(2));
     	}
-    	if(getsKing(res, gamesPlayed)) {
+    	if(checkAchievement(res, gamesPlayed, 100, 3)) {
     		res.add(this.getAchievementById(3));
     	}
-    	if(getsSensei(res, gamesWon)) {
+    	if(checkAchievement(res, gamesWon, 10, 4)) {
     		res.add(this.getAchievementById(4));
     	}
-    	if(getsDobble(res, pointsInGame)) {
+    	if(checkAchievement(res, pointsInGame, 50, 5)) {
     		res.add(this.getAchievementById(5));
     	}
     	return res;
     }
     
-    private boolean getsGamer(List<Achievement> list, Integer gamesPlayed) {
-    	if(list.contains(this.getAchievementById(1))) { //puede que haga falta cambiar la lista list por una lista con las IDs
+    private boolean checkAchievement(List<Achievement> list, Integer achieved, Integer treshold, Integer achievementId) {
+    	if(list.contains(this.getAchievementById(achievementId))) { //puede que haga falta cambiar la lista list por una lista con las IDs
     		return false;
     	}
     	else {
-    		if(gamesPlayed >= 10) {
+    		if(achieved >= treshold) {
     			return true;
     		}
     	}
     	return false;
     }
     
-    private boolean getsSoldier(List<Achievement> list, Integer gamesPlayed) {
-    	if(list.contains(this.getAchievementById(2))) {
-    		return false;
-    	}
-    	else {
-    		if(gamesPlayed >= 20) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    private boolean getsKing(List<Achievement> list, Integer gamesPlayed) {
-    	if(list.contains(this.getAchievementById(3))) {
-    		return false;
-    	}
-    	else {
-    		if(gamesPlayed >= 100) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    private boolean getsSensei(List<Achievement> list, Integer gamesWon) {
-    	if(list.contains(this.getAchievementById(4))) {
-    		return false;
-    	}
-    	else {
-    		if(gamesWon >= 10) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
-    
-    private boolean getsDobble(List<Achievement> list, Integer points) {
-    	if(list.contains(this.getAchievementById(5))) {
-    		return false;
-    	}
-    	else {
-    		if(points == (53-2)) {
-    			return true;
-    		}
-    	}
-    	return false;
-    }
 
 }
