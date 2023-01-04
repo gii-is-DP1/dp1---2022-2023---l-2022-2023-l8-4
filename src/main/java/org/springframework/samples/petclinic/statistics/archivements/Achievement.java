@@ -40,7 +40,7 @@ public class Achievement extends NamedEntity{
     private String badgeImage;
 
     public String getActualDescription(){
-        return description.replace("<THRESHOLD>",String.valueOf(threshold));
+        return description.replace("<THRESHOLD>",String.valueOf((int)threshold));
     }
 
     @ManyToMany(mappedBy= "playersAchievement")
