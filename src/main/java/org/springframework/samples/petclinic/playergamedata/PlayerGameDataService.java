@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.playergamedata;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.card.CardRepository;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,16 +50,33 @@ public class PlayerGameDataService {
 		savePlayerGameData(data);
 	}
 
-    public void initGameParams(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
+    public void initGameParamsEstandar(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
         pgd.setGame(game);
         pgd.setPlayer(player);
         pgd.setWinner( false );
         pgd.setPointsNumber( 0 );
         Card middleCard = cardRepository.getCardById(middleCardId);
-        pgd.setActualCard(middleCard);
+        pgd.setActualCard(middleCard);        
         savePlayerGameData( pgd );
     }
 
+    public void initGameParamsElFoso(List<Card> deck, PlayerGameData pgd, Player player, Game game) {
+        pgd.setGame(game);
+        Integer playerNum= game.getPlayers().size();
+        Integer numCartasJugador= 55/playerNum;
+        Collection<Card> cards= new ArrayList<>();
+        int i=0;
+        while(i<numCartasJugador) {
+        	cards.add(deck.get(i));
+        	i++;
+        }
+        pgd.setActualCards(cards);
+        pgd.setPlayer(player);
+        pgd.setWinner( false );
+        pgd.setPointsNumber( 0 );
+        savePlayerGameData( pgd );
+    }
+    
 	public void setWinner(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		data.setWinner(true);

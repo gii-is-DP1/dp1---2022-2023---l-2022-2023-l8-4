@@ -239,19 +239,34 @@ public class GameController {
     public ModelAndView startGame(@PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
     	ModelAndView mav = new ModelAndView(GAME_BOARD);
     	Game game= gameService.getGameById(gameId);
+    	 Integer playerNum= game.getPlayers().size();
+         Integer numCartasJugador= 55/playerNum;
         game.setGameState( GameState.IN_PROGRESS );
         this.gameService.saveGame( game );
     	gameService.randomizeDeck(gameId);
         CopyOnWriteArrayList<Card> deck= new CopyOnWriteArrayList<>(game.getCards());
     	Collection<Player> players= game.getPlayersInternal();
         CopyOnWriteArrayList<PlayerGameData> list = new CopyOnWriteArrayList<>();
-    	for( Player player : new ArrayList<>(players))
-        {
+    	if(game.getGameMode()==GameMode.ESTANDAR) {
+    		for( Player player : new ArrayList<>(players)){
                 PlayerGameData pgd= new PlayerGameData();
-                playerGameDataService.initGameParams(deck.get(0).getId(), pgd, player, game);
+                playerGameDataService.initGameParamsEstandar(deck.get(0).getId(), pgd, player, game);
                 gameService.deleteCardFromDeck(gameId, deck);
                 deck.remove(0);
                 list.add( pgd );
+    		}
+    	}
+    	if(game.getGameMode()==GameMode.EL_FOSO) {
+    		for( Player player : new ArrayList<>(players)){
+                PlayerGameData pgd= new PlayerGameData();
+                playerGameDataService.initGameParamsElFoso(deck, pgd, player, game);
+                int i=0;
+                while(i<numCartasJugador) {
+                	gameService.deleteCardFromDeck(gameId, deck);
+                	deck.remove(0);
+                }
+                list.add( pgd );
+    		}
     	}
     	game.setGameState(GameState.IN_PROGRESS);
     	mav.addObject("players", new ArrayList<>(list));

@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.playergamedata;
 
 
+import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,6 +35,9 @@ public class PlayerGameData extends BaseEntity{
 
 	@ManyToOne
 	private Card actualCard;
+	
+	@ManyToOne
+	private Collection<Card> actualCards;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Player player;
