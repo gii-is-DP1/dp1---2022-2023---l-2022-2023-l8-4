@@ -40,21 +40,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups", "/js/**").permitAll()
+				.antMatchers("/logout").authenticated()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/statistics/**").permitAll()
-				.antMatchers("/session/**").permitAll()
+				.antMatchers("/statistics/**").authenticated()
+				.antMatchers("/session/**").authenticated()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/players/**").permitAll()
+				.antMatchers("/players/**").authenticated()
 				.antMatchers("/games/**").hasAnyAuthority("admin", "Player")
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()
 				 	.defaultSuccessUrl("/games/new")
-				 	/*.loginPage("/login")*/
-				 	.failureUrl("/login-error")
+				 	.loginPage("/login")
+				 	.failureUrl("/login?error")
+				 	.permitAll()
 				.and()
 					.logout()
-						.logoutSuccessUrl("/");
+						.logoutSuccessUrl("/")
+						.permitAll();
                 // Configuración para que funcione la consola de administración
                 // de la BD H2 (deshabilitar las cabeceras de protección contra
                 // ataques de tipo csrf y habilitar los framesets si su contenido
