@@ -10,7 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
+import org.springframework.samples.petclinic.playergamedata.PlayerGameDataService;
+import org.springframework.samples.petclinic.statistics.Statistic;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.stereotype.Service;
@@ -21,12 +24,16 @@ import org.springframework.web.servlet.ModelAndView;
 public class GameService {
 
 	private final GameRepository gameRepository;
+	private final PlayerService playerService;
 	private final AchievementService achievementService;
+	private final PlayerGameDataService playerGameDataService;
 
 	@Autowired
-	public GameService(GameRepository gameRepository, AchievementService achievementService) {
+	public GameService(GameRepository gameRepository, AchievementService achievementService, PlayerGameDataService playerGameDataService, PlayerService playerService) {
 		this.gameRepository = gameRepository;
 		this.achievementService = achievementService;
+		this.playerGameDataService = playerGameDataService;
+		this.playerService = playerService;
 	}
 
 	@Transactional(readOnly = true)
@@ -110,12 +117,43 @@ public class GameService {
 		ModelAndView res = new ModelAndView(path);
 		List<Achievement> newAchievements = this.achievementService.checkNewAchievements(player, data);
 		List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement()); 
-		playerAchievements.addAll(newAchievements);		
+		playerAchievements.addAll(newAchievements);
+		player.setPlayersAchievement(playerAchievements);
+		this.addGameResultsToPlayer(game, player, data);
+		playerService.savePlayer(player);
+		
 		res.addObject("newAchievements", newAchievements);
-		res.addObject("playerGameData", data);
+		res.addObject("points", data.getPointsNumber());
 		res.addObject("game", game);
-		res.addObject("player", player);
+		res.addObject("winner", this.getWinner(game));
 		return res;
+	}
+	
+	@Transactional
+	public Player getWinner(Game game) {
+		Player winner = null;
+		int max = 1000;
+		for(Player player : game.getPlayers()) {
+			int points = playerGameDataService.getByIds(game.getId(), player.getId()).getPointsNumber();
+			if(points > max) {
+				winner = player;
+			}
+		}
+		return winner;
+	}
+	
+	@Transactional
+	public void addGameResultsToPlayer(Game game, Player player, PlayerGameData data) {
+		Statistic stats= player.getStatistic();
+		Player winner = this.getWinner(game);
+		if(player.equals(winner)) {
+			stats.setGamesWon(stats.getGamesWon()+1);
+		} else {
+			stats.setGamesLost(stats.getGamesLost()+1);
+		}
+		stats.setGamesPlayed(stats.getGamesPlayed()+1);
+		stats.setTotalPoints(stats.getTotalPoints() + data.getPointsNumber());
+		player.setStatistic(stats);
 	}
 	
 }
