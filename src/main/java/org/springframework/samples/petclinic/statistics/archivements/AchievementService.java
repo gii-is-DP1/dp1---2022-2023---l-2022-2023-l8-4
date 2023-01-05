@@ -54,8 +54,8 @@ public class AchievementService {
     	achievement.setPercentage(percentage);
     }
     
-    public List<Achievement> checkAchievements(Player player, PlayerGameData data){
-    	List<Achievement> res = player.getPlayersAchievement().stream().collect(Collectors.toList());
+    public List<Achievement> checkNewAchievements(Player player, PlayerGameData data){
+    	List<Achievement> res = new ArrayList<Achievement>();
     	Integer gamesWon = player.getStatistic().getGamesWon(); //IMPORTANTE: se debe actualizar el jugador antes de llamar a este método
     	Integer gamesPlayed = player.getStatistic().getGamesPlayed();
     	Integer pointsInGame = data.getPointsNumber();

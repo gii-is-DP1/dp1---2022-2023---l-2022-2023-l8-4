@@ -47,6 +47,7 @@ public class GameController {
 	private static final String VIEW_GAME_LIST_IN_PROGRESS = "games/listGamesInProgress";
 	private static final String GAME_JOIN_VIEW = "games/joinGame";
 	private static final String GAME_BOARD = "games/board";
+	private static final String GAME_RESULTS = "games/results";
 	private GameService gameService;
 	private CardService cardService;
 	private PlayerService playerService;
@@ -184,13 +185,20 @@ public class GameController {
 
 	//The game middle card is always the top card of the deck that is shuffled at the start of that game
 	@GetMapping(value = "/board/{gameId}/{playerId}/{middleCardId}")
-	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
+	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
         Game game = this.gameService.getGameById(gameId);
-        ModelAndView mav = new ModelAndView(GAME_BOARD );
+        Player gamePlayer =  this.playerService.showPlayerById(playerId);
+        PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
 		playerGameDataService.winPoint(gameId, playerId);
 		playerGameDataService.changeCards(gameId, playerId, middleCardId);
 		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
-        if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+		
+        if (game.getCards().size() == 0 ) {
+        	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
+        	return end;
+        }
+        
+        ModelAndView mav = new ModelAndView(GAME_BOARD );
 		mav.addObject("game", game);
         CopyOnWriteArrayList<PlayerGameData> data= new CopyOnWriteArrayList<>();
 		for(Player player:game.getPlayersInternal()){
@@ -266,6 +274,7 @@ public class GameController {
 
         return mav;
     }
+    
 
     private void addCurrentPlayerToGame(String username, Game game) throws Exception {
 		Player player = playerService.getPlayerByUsername(username);

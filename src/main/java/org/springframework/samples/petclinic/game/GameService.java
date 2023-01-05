@@ -10,17 +10,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
+import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.ModelAndView;
 
 @Service
 public class GameService {
 
 	private final GameRepository gameRepository;
+	private final AchievementService achievementService;
 
 	@Autowired
-	public GameService(GameRepository gameRepository) {
+	public GameService(GameRepository gameRepository, AchievementService achievementService) {
 		this.gameRepository = gameRepository;
+		this.achievementService = achievementService;
 	}
 
 	@Transactional(readOnly = true)
@@ -98,4 +104,18 @@ public class GameService {
 		Collections.shuffle(deck);
         game.get().setCards( deck );
 	}
+	
+	@Transactional
+	public ModelAndView getResults(Game game, Player player, PlayerGameData data, String path) {
+		ModelAndView res = new ModelAndView(path);
+		List<Achievement> newAchievements = this.achievementService.checkNewAchievements(player, data);
+		List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement()); 
+		playerAchievements.addAll(newAchievements);		
+		res.addObject("newAchievements", newAchievements);
+		res.addObject("playerGameData", data);
+		res.addObject("game", game);
+		res.addObject("player", player);
+		return res;
+	}
+	
 }
