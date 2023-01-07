@@ -187,13 +187,13 @@ public class GameController {
 	@GetMapping(value = "/board/{gameId}/{playerId}/{middleCardId}")
 	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
         Game game = this.gameService.getGameById(gameId);
-        Player gamePlayer =  this.playerService.showPlayerById(playerId);
-        PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
 		playerGameDataService.winPoint(gameId, playerId);
 		playerGameDataService.changeCards(gameId, playerId, middleCardId);
 		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
 		
-        if (game.getCards().size() == 0 ) {
+        if (game.getCards().size() == 50 ) {
+        	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+            PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
         	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
         	return end;
         }
@@ -221,7 +221,12 @@ public class GameController {
         ModelAndView mav = new ModelAndView(GAME_BOARD);
 
         Game game = this.gameService.getGameById( gameId );
-        if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+        if (game.getCards().size() == 50 ) {
+        	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+            PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
+        	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
+        	return end;
+        }
 
         CopyOnWriteArrayList<PlayerGameData> players= new CopyOnWriteArrayList<>();
         for ( Player player:game.getPlayersInternal() ) players.add( this.playerGameDataService.getByIds( game.getId(), player.getId() ) );
@@ -244,7 +249,7 @@ public class GameController {
     }
 
     @GetMapping(value = "/board/{gameId}")
-    public ModelAndView startGame(@PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
+    public ModelAndView startGame(Authentication  authentication, @PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
     	ModelAndView mav = new ModelAndView(GAME_BOARD);
     	Game game= gameService.getGameById(gameId);
         game.setGameState( GameState.IN_PROGRESS );

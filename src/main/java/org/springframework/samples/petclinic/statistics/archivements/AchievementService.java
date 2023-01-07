@@ -83,12 +83,11 @@ public class AchievementService {
     	if(list.contains(this.getAchievementById(achievementId))) { //puede que haga falta cambiar la lista list por una lista con las IDs
     		return false;
     	}
-    	else {
-    		if(achieved >= treshold) {
-    			return true;
-    		}
+    	else if(achieved >= treshold) {
+    		return true;
+    	} else {
+    		return false;
     	}
-    	return false;
     }
     
 

@@ -5,15 +5,37 @@
 <%@ taglib prefix="dobble" tagdir="/WEB-INF/tags" %>
 
 <dobble:layout pageName="results">
-	<h2>Game <c:out value='${game.id}'/> </h2>
-	<h3>Winner: <c:out value='${winner}'/> </h3>
-	<h3>Your points: <c:out value='${points}'/> </h3>
-	<h3>New achievements: </h3>
-		<c:forEach items="${newAchievements}" var="achievement">
-             <c:out value="${achievement.name}"></c:out><br/>
-        </c:forEach>  
-	<h3>Players: </h3>
-		<c:forEach items="${game.players}" var="player">
-             <c:out value="${player.user.username}"></c:out><br/>
-        </c:forEach>  
+	<h1>Game <c:out value='#${game.id}'/> </h1>
+	<h2>Winner: <c:out value='${winner.user.username}'/> </h2>
+	<h2>Your points: <c:out value='${points}'/> </h2>
+	<div>
+	<h2>New achievements: </h2>
+    	<c:choose>
+    		<c:when test="${newAchievements.size() == 0}">
+    			No new achievements...
+    		</c:when>
+    		<c:otherwise>
+    			<c:forEach items="${newAchievements}" var="achievement">
+             		<c:out value="${achievement.name}"></c:out><br/>
+        		</c:forEach> 
+    		</c:otherwise>
+    	</c:choose><br/>
+	</div>
+		 
+	<table id="gamePlayersTable" class="table table-striped">
+        <thead>
+        <tr>
+            <th>Players</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach items="${game.players}" var="player">
+            <tr>
+                <td>
+                    <c:out value="${player.user.username}"/>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
 </dobble:layout>
