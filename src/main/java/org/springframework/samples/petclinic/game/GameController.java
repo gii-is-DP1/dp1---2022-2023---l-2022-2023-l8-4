@@ -191,7 +191,7 @@ public class GameController {
 		playerGameDataService.changeCards(gameId, playerId, middleCardId);
 		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
 		
-        if (game.getCards().size() == 50 ) {
+        if (game.getCards().size() == 0 ) {
         	Player gamePlayer =  this.playerService.showPlayerById(playerId);
             PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
         	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
@@ -221,7 +221,7 @@ public class GameController {
         ModelAndView mav = new ModelAndView(GAME_BOARD);
 
         Game game = this.gameService.getGameById( gameId );
-        if (game.getCards().size() == 50 ) {
+        if (game.getCards().size() == 0 ) {
         	Player gamePlayer =  this.playerService.showPlayerById(playerId);
             PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
         	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
