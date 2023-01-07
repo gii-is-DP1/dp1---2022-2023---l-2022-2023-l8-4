@@ -31,12 +31,7 @@ public class Achievement extends NamedEntity{
     private double threshold;
 
 	@Column(name = "percentage")
-	@NotNull
 	private double percentage;
-
-	@Column(name = "acquire_date")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate acquireDate;
 
 	@Column(name = "trophy")
 	private AchievementTrophy trophy;
@@ -45,7 +40,7 @@ public class Achievement extends NamedEntity{
     private String badgeImage;
 
     public String getActualDescription(){
-        return description.replace("<THRESHOLD>",String.valueOf(threshold));
+        return description.replace("<THRESHOLD>",String.valueOf((int)threshold));
     }
 
     @ManyToMany(mappedBy= "playersAchievement")

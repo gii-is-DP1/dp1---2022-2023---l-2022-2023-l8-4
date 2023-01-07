@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.user;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -17,6 +18,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 public class User {
+	
 	@Id
 	String username;
 	
