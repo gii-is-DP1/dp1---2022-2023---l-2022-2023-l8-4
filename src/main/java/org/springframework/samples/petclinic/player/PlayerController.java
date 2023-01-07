@@ -11,6 +11,9 @@ import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
+import org.hibernate.internal.build.AllowSysOut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +22,9 @@ import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -32,6 +38,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/players")
 public class PlayerController {
+	
+	Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
 	private PlayerService playerService;
 	private AchievementService achievementService;
@@ -39,6 +47,7 @@ public class PlayerController {
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
+    public static final String welcome = "welcome";
 
 	@Autowired
 	public PlayerController(PlayerService playerService, AchievementService achievementService) {
@@ -105,9 +114,16 @@ public class PlayerController {
     		if(totalPages > 0) {
     			pages= IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
     		}
+    		
+    		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    		User user = (User)authentication.getPrincipal();
+        	String autenticacion = user.getUsername();
 
+        	System.out.println(autenticacion);
+        	System.out.println(player.getUser().getUsername());
+        	
+        	result.addObject("username", autenticacion);
     		result.addObject( "player", this.playerService.showPlayerById( player.getId() ) );
-    		result.addObject("username", username);
     		result.addObject( "games", pageGamesByPlayerId.getContent());
     		result.addObject( "pages", pages);
     		result.addObject( "current", page + 1);
@@ -118,9 +134,21 @@ public class PlayerController {
     }
 
 	@GetMapping("/delete/{id}")
-    public ModelAndView deletePlayersById(@PathVariable("id") Integer id) {
+    public ModelAndView deletePlayersById(@PathVariable("id") Integer id) throws NoSuchEntityException{
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+    	String autenticacion = user.getUsername();
+    	Player player=this.playerService.getPlayerByUsername(autenticacion);
+		
 		playerService.deletePlayer(id);
-        return showAllPlayers(new HashMap<>());
+		logger.info("Dobble::INFO::Player Player with id " + id + " has been removed from the system");
+	
+        if(player.getId() != id) {
+        	 return showAllPlayers(new HashMap<>());
+        }
+        
+        return new ModelAndView(welcome);
     }
 
 	@GetMapping("/edit/{id}")
@@ -144,11 +172,11 @@ public class PlayerController {
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
             result =  getDataFromPlayer(newPlayer.getUser().getUsername(), params);
-            result.addObject("message", "Jugador editado satisfactoriamente");
+            result.addObject("message", "Player edit succesfully");
             return result;
          }
          result = getDataFromPlayer(newPlayer.getUser().getUsername(), params);
-         result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
+         result.addObject("message", "Player with id "+id+" don't edit succesfully");
          return result;
         }
 

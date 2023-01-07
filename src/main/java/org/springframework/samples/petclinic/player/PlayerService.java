@@ -117,5 +117,10 @@ public class PlayerService {
 
 		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Player");
 	}
+	
+	@Transactional
+	public int getNumberOfPlayers() {
+		return playerRepository.getNumberOfPlayers();
+	}
 
 }

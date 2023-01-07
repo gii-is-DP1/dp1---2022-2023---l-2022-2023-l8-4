@@ -86,7 +86,7 @@ public class GameController {
 		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
 		game.setCards(cardService.getDeck());
 		addCurrentPlayerToGame(authentication.getName(),game);
-		logger.info("Juego con id" + game.getId());
+		logger.info("Dobble::INFO::Game Lobby " + game.getGameCode() + " has been created. Lobby creator = " + authentication.getName());
 		return "redirect:/games/" + game.getId();
 	}
 
@@ -159,7 +159,7 @@ public class GameController {
     @PostMapping("/join")
     public String joinGame(Authentication  authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
         Game game = gameService.getGameByCode(gameCode);
-        if( game.getPlayers().size() >= 4 || game.getGameState().equals( GameState.IN_PROGRESS ) )  {
+        if( game.getPlayers().contains( playerService.getPlayerByUsername( authentication.getName() ) ) || game.getPlayers().size() >= 4 || game.getGameState().equals( GameState.IN_PROGRESS ) )  {
             return "redirect:/games/error";
         }
         addCurrentPlayerToGame(authentication.getName(),game);
@@ -266,7 +266,7 @@ public class GameController {
     }
 
     private void addCurrentPlayerToGame(String username, Game game) throws Exception {
-		Player player = playerService.getPlayerByUsername(username);
+		Player player = this.playerService.getPlayerByUsername( username );
 		this.gameService.addPlayerToGame(player, game);
 	}
 

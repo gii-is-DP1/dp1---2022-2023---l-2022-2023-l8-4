@@ -64,26 +64,26 @@
 				<ul class="pagination">
 					<c:if test="${prev != 0}">
 						<li class="page-item">
-							<a class="page-link" href="/players/data/${username}?page=${prev}">Previous</a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${prev}">Previous</a>
 						</li>
 					</c:if>
 					<c:forEach items="${pages}" var="page">
 						<c:choose>
 						 <c:when test="${current == page}">
 						  <li class="page-item active">
-							<a class="page-link" href="/players/data/${username}?page=${page}"><span>${page}</span></a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${page}"><span>${page}</span></a>
 					   	  </li>
 						 </c:when>
 						 <c:otherwise>
 						  <li class="page-item">
-							<a class="page-link" href="/players/data/${username}?page=${page}"><span>${page}</span></a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${page}"><span>${page}</span></a>
 					   	  </li>
 						 </c:otherwise>
 						</c:choose>
 					</c:forEach>
 					<c:if test="${current != last}">
 						<li class="page-item">
-							<a class="page-link" href="/players/data/${username}?page=${next}">Next</a>
+							<a class="page-link" href="/players/data/${player.user.username}?page=${next}">Next</a>
 						</li>
 					</c:if>
 				</ul>
@@ -97,30 +97,26 @@
 		<div class="div3" class="font">Won Games: <span class="values-Player">${player.statistic.gamesWon}</span></div>
 		<div class="div4" class="font">Lost Games: <span class="values-Player">${player.statistic.gamesLost}</span></div>
 	</div>
-<div class="dataPlayer-buttons">
-	<spring:url value="/players/edit/{playerId}" var="editPlayer">
-       <spring:param name="playerId" value="${player.id}"></spring:param>
-    </spring:url>
-	<a href="${editPlayer}"><button class="btn btn-default">Edit Profile</button></a>
-	
-	<spring:url value="/players/{playerId}/achievements" var="AchievementsPlayer">
-       <spring:param name="playerId" value="${player.id}"></spring:param>
-    </spring:url>
-	<a href="${AchievementsPlayer}"><button class="btn btn-default">Achievements Acquired</button></a>
-	
-	<spring:url value="/players/delete/{playerId}" var="deletePlayer">
-       <spring:param name="playerId" value="${player.id}"></spring:param>
-    </spring:url>
-	<button class="btn btn-default" data-toggle="modal" data-target="#myModal">Delete Profile</button>
-	
-</div>
+
+<c:if test="${player.user.username == username}">
+	<div class="dataPlayer-buttons">
+		<spring:url value="/players/edit/{playerId}" var="editPlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<a href="${editPlayer}"><button class="btn btn-default">Edit Profile</button></a>
+		
+		<spring:url value="/players/{playerId}/achievements" var="AchievementsPlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<a href="${AchievementsPlayer}"><button class="btn btn-default">My Achievements</button></a>
+		
+		<spring:url value="/players/delete/{playerId}" var="deletePlayer">
+	       <spring:param name="playerId" value="${player.id}"></spring:param>
+	    </spring:url>
+		<button class="btn btn-default" data-toggle="modal" data-target="#myModal">Delete Profile</button>
+	</div>
+</c:if>
+
 </div>
 <petclinic:modal hrefConfirm="${deletePlayer}" nameModal="myModal"></petclinic:modal>
 </petclinic:layout>
-
-<script>
-
-console.log(nombre);
-
-</script>
-
