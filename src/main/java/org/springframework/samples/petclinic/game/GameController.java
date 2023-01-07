@@ -192,9 +192,9 @@ public class GameController {
 		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
 		
         if (game.getCards().size() == 0 ) {
-        	Player gamePlayer =  this.playerService.showPlayerById(playerId);
-            PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
-        	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
+        	ModelAndView end = new ModelAndView(GAME_RESULTS);
+        	end.addObject("gameId", gameId);
+        	end.addObject("playerId", playerId);
         	return end;
         }
         
@@ -222,9 +222,9 @@ public class GameController {
 
         Game game = this.gameService.getGameById( gameId );
         if (game.getCards().size() == 0 ) {
-        	Player gamePlayer =  this.playerService.showPlayerById(playerId);
-            PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
-        	ModelAndView end = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
+        	ModelAndView end = new ModelAndView(GAME_RESULTS);
+        	end.addObject("gameId", gameId);
+        	end.addObject("playerId", playerId);
         	return end;
         }
 
@@ -280,6 +280,25 @@ public class GameController {
         return mav;
     }
     
+    @PostMapping("/results/{gameId}/{playerId}")
+    public String postResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
+    	Game game = this.gameService.getGameById(gameId);
+    	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+        PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
+    	gameService.saveResults(game, gamePlayer, gameData);
+
+        return "redirect:/games/results/" + gameId + "/" + playerId;
+    }
+    
+    @GetMapping("/results/{gameId}/{playerId}")
+    public ModelAndView showResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
+    	Game game = this.gameService.getGameById(gameId);
+    	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+        PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
+    	ModelAndView mav = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
+    	mav.addObject("show", true);
+        return mav;
+    }
 
     private void addCurrentPlayerToGame(String username, Game game) throws Exception {
 		Player player = playerService.getPlayerByUsername(username);

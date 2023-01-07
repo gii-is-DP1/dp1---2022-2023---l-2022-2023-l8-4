@@ -114,11 +114,7 @@ public class GameService {
 	
 	@Transactional
 	public ModelAndView getResults(Game game, Player player, PlayerGameData data, String path) {
-		ModelAndView res = new ModelAndView(path);
-		
-		this.savePlayerResults(game, player, data);
-		this.saveGameResults(game);
-		
+		ModelAndView res = new ModelAndView(path);		
 		res.addObject("newAchievements", this.achievementService.checkNewAchievements(player, data));
 		res.addObject("points", data.getPointsNumber());
 		res.addObject("game", game);
@@ -126,7 +122,11 @@ public class GameService {
 		return res;
 	}
 	
-	
+	@Transactional
+	public void saveResults(Game game, Player player, PlayerGameData data) {
+		this.savePlayerResults(game, player, data);
+		this.saveGameResults(game);
+	}
 	
 	@Transactional
 	private void savePlayerResults(Game game, Player player, PlayerGameData data) {
