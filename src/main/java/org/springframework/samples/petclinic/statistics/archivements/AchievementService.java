@@ -36,9 +36,7 @@ public class AchievementService {
     @Transactional(readOnly = true)
     Page<Achievement> getAchievements(Pageable pageable){
     	Page<Achievement> page = repo.findAll(pageable);
-    	for(Achievement achievement : page) {
-    		calculatePercentage(achievement);
-    	}
+    	calculatePercentageOfEachAchievement(page);
     	return page;
     }
 
@@ -47,11 +45,14 @@ public class AchievementService {
         repo.save(achievement);
     }
     
-    private void calculatePercentage(Achievement achievement) {
-    	int numOfPlayersWithTheAchievement = achievement.getPlayers().size(); 
-    	int numOfPlayers = playerService.getNumberOfPlayers();
-    	double percentage = 100.*numOfPlayersWithTheAchievement/numOfPlayers;
-    	achievement.setPercentage(percentage);
+    public void calculatePercentageOfEachAchievement(Page<Achievement> page) {
+    	for(Achievement achievement : page) {
+    		int numOfPlayersWithTheAchievement = achievement.getPlayers().size(); 
+    		int numOfPlayers = playerService.getNumberOfPlayers();
+    		double percentage = 100.*numOfPlayersWithTheAchievement/numOfPlayers;
+    		achievement.setPercentage(percentage);
+    	}
+    	
     }
     
     public List<Achievement> checkNewAchievements(Player player, PlayerGameData data){
