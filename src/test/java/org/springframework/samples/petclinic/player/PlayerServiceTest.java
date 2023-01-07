@@ -22,6 +22,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.statistics.archivements.Achievement;
+import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.samples.petclinic.user.UserService;
 import org.springframework.stereotype.Service;
@@ -65,6 +67,23 @@ public class PlayerServiceTest {
 			assertThrows(Exception.class,() -> playerService.getPlayerByUsername(""));
 			Player player = playerService.getPlayerByUsername("pgmarc");
 			assertEquals(player.getId(), Integer.valueOf(1));
+			
+	}
+	
+	@Test
+	public void testFindPlayerByAchievement() throws Exception {
+		try {
+			Player player = this.playerService.showPlayerById(playerId);
+			Collection<Achievement> achievement = player.getPlayersAchievement();
+			List<Achievement> listaAchievement = achievement.stream().collect(Collectors.toList());
+			assertNotNull(achievement);
+			assertEquals(3, achievement.size());
+			assertEquals(listaAchievement.get(0).getId(), Integer.valueOf(1));
+			assertEquals(listaAchievement.get(1).getId(), Integer.valueOf(2));
+			assertEquals(listaAchievement.get(2).getId(), Integer.valueOf(4));
+		} catch (Exception e) {
+			fail();
+		}
 			
 	}
 	
