@@ -118,7 +118,7 @@ public class PlayerControllerTest {
 		@Test
 		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 		void shouldShowPlayersData() throws Exception {
-			mockMvc.perform(get("/players/data/pgmarc"))
+			mockMvc.perform(get("/players/data/" + usernamePlayer ) )
 			.andExpect(status().isOk())
 			.andExpect(view().name("players/dataPlayer"))
 			.andExpect(model().attributeExists("player"))

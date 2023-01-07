@@ -24,20 +24,15 @@ public class GameModeFormatterTest {
 	void shouldPrintGameMode() {
 		String estandarName = "ESTANDAR";
 		String elFosoName = "EL FOSO";
-		String patataCalienteName = "LA PATATA CALIENTE";
 		GameMode estandar = GameMode.ESTANDAR;
 		GameMode elFoso = GameMode.EL_FOSO;
-		GameMode patataCaliente = GameMode.LA_PATATA_CALIENTE;
-
 
 		
 		String actualEstandar = gameModeFormatter.print(estandar, null);
 		String actualFoso = gameModeFormatter.print(elFoso, null);
-		String actualPatataCaliente = gameModeFormatter.print(patataCaliente, null);
 
 		assertEquals(estandarName, actualEstandar, "Estandar name does not match");
 		assertEquals(elFosoName, actualFoso, "El FOSO mode does not match");
-		assertEquals(patataCalienteName, actualPatataCaliente, "PATATA CALIENTE does not match");
 
 	}
 	
