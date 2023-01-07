@@ -76,10 +76,10 @@ public class GameController {
 	
 	@GetMapping("/description")
 	@ResponseBody
-	public Map<GameMode, String> getMinigamesDescription() {
-		Map<GameMode, String> map = new HashMap<GameMode, String>();
+	public Map<String, GameModeData> getMinigamesDescription() {
+		Map<String, GameModeData> map = new HashMap<String, GameModeData>();
 		for (GameMode gameMode : GameMode.values()) {
-			map.put(gameMode, gameMode.getDescription());
+			map.put(gameMode.toString(), gameMode.getGameModeData());
 		}
 		return map;
 	}

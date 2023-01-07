@@ -5,13 +5,13 @@ import lombok.Getter;
 @Getter
 public enum GameMode {
 
-	ESTANDAR("Descripción la torre infernal ---------"),
-	EL_FOSO("Descripción el foso desde-----------"),
-	LA_PATATA_CALIENTE("Descripción patata caliente --------");
+
+	ESTANDAR(GameModeData.initEstandar()),
+	EL_FOSO(GameModeData.initFoso());
 	
-	private final String description;
+	private final GameModeData gameModeData;
 	
-	GameMode(String description) {
-		this.description = description;
+	GameMode(GameModeData gameModeData) {
+		this.gameModeData = gameModeData;
 	}
 }
