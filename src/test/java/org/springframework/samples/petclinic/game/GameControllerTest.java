@@ -94,7 +94,7 @@ public class GameControllerTest {
 		.andExpect(model().attributeExists("games"))
 		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
 	}
-	
+
 	@Test
 	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 

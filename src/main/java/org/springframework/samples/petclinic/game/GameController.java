@@ -1,6 +1,11 @@
 package org.springframework.samples.petclinic.game;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ThreadLocalRandom;
@@ -30,6 +35,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -45,6 +51,7 @@ public class GameController {
 	private static final String VIEW_GAME_LIST_IN_PROGRESS = "games/listGamesInProgress";
 	private static final String GAME_JOIN_VIEW = "games/joinGame";
 	private static final String GAME_BOARD = "games/board";
+	private static final String GAME_RESULTS = "games/results";
 	private GameService gameService;
 	private CardService cardService;
 	private PlayerService playerService;
@@ -64,6 +71,16 @@ public class GameController {
 		game.setGameMode(GameMode.ESTANDAR);
 		game.setDate(LocalDate.now());
 		return game;
+	}
+	
+	@GetMapping("/description")
+	@ResponseBody
+	public Map<String, GameModeData> getMinigamesDescription() {
+		Map<String, GameModeData> map = new HashMap<String, GameModeData>();
+		for (GameMode gameMode : GameMode.values()) {
+			map.put(gameMode.toString(), gameMode.getGameModeData());
+		}
+		return map;
 	}
 
 	@GetMapping(value = "/new")
@@ -182,13 +199,20 @@ public class GameController {
 
 	//The game middle card is always the top card of the deck that is shuffled at the start of that game
 	@GetMapping(value = "/board/{gameId}/{playerId}/{middleCardId}")
-	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
+	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
         Game game = this.gameService.getGameById(gameId);
-        ModelAndView mav = new ModelAndView(GAME_BOARD );
 		playerGameDataService.winPoint(gameId, playerId);
 		playerGameDataService.changeCards(gameId, playerId, middleCardId);
 		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
-        if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+		
+        if (game.getCards().size() == 0 ) {
+        	ModelAndView end = new ModelAndView(GAME_RESULTS);
+        	end.addObject("gameId", gameId);
+        	end.addObject("playerId", playerId);
+        	return end;
+        }
+        
+        ModelAndView mav = new ModelAndView(GAME_BOARD );
 		mav.addObject("game", game);
         CopyOnWriteArrayList<PlayerGameData> data= new CopyOnWriteArrayList<>();
 		for(Player player:game.getPlayersInternal()){
@@ -211,7 +235,12 @@ public class GameController {
         ModelAndView mav = new ModelAndView(GAME_BOARD);
 
         Game game = this.gameService.getGameById( gameId );
-        if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+        if (game.getCards().size() == 0 ) {
+        	ModelAndView end = new ModelAndView(GAME_RESULTS);
+        	end.addObject("gameId", gameId);
+        	end.addObject("playerId", playerId);
+        	return end;
+        }
 
         CopyOnWriteArrayList<PlayerGameData> players= new CopyOnWriteArrayList<>();
         for ( Player player:game.getPlayersInternal() ) players.add( this.playerGameDataService.getByIds( game.getId(), player.getId() ) );
@@ -234,7 +263,7 @@ public class GameController {
     }
 
     @GetMapping(value = "/board/{gameId}")
-    public ModelAndView startGame(@PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
+    public ModelAndView startGame(Authentication  authentication, @PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
     	ModelAndView mav = new ModelAndView(GAME_BOARD);
     	Game game= gameService.getGameById(gameId);
         game.setGameState( GameState.IN_PROGRESS );
@@ -262,6 +291,26 @@ public class GameController {
         mav.addObject( "playerName", mainPlayer.getUser().getUsername());
         mav.addObject( "playerCard", playerGameDataService.getByIds(gameId, mainPlayer.getId()).getActualCard() );
 
+        return mav;
+    }
+    
+    @PostMapping("/results/{gameId}/{playerId}")
+    public String postResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
+    	Game game = this.gameService.getGameById(gameId);
+    	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+        PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
+    	gameService.saveResults(game, gamePlayer, gameData);
+
+        return "redirect:/games/results/" + gameId + "/" + playerId;
+    }
+    
+    @GetMapping("/results/{gameId}/{playerId}")
+    public ModelAndView showResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
+    	Game game = this.gameService.getGameById(gameId);
+    	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+        PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
+    	ModelAndView mav = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
+    	mav.addObject("show", true);
         return mav;
     }
 
