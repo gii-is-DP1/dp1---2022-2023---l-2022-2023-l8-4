@@ -124,9 +124,10 @@ public class GameService {
 	}
 	
 	@Transactional
-	public void saveResults(Game game, Player player, PlayerGameData data) {
+	public Game saveResults(Game game, Player player, PlayerGameData data) {
 		this.savePlayerResults(game, player, data);
 		this.saveGameResults(game);
+		return game;
 	}
 	
 	@Transactional
