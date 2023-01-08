@@ -9,16 +9,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
-<<<<<<< HEAD
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameDataService;
 import org.springframework.samples.petclinic.statistics.Statistic;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
-=======
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
->>>>>>> origin
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.servlet.ModelAndView;
