@@ -100,7 +100,7 @@ public class GameControllerTest {
 		mockMvc.perform(get("/games/finalized"))
 		.andExpect(status().isOk())
 		.andExpect(view().name("games/listGamesFinalized"))
-		.andExpect(model().attributeExists("game"))
+		.andExpect(model().attributeExists("games"))
 		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
 	}
 	@Test
