@@ -250,12 +250,28 @@ public class GameController {
         ModelAndView mav = new ModelAndView(GAME_BOARD);
 
         Game game = this.gameService.getGameById( gameId );
-        if (game.getCards().size() == 0 ) {
-        	ModelAndView end = new ModelAndView(GAME_RESULTS);
-        	end.addObject("gameId", gameId);
-        	end.addObject("playerId", playerId);
-        	return end;
+        
+        if(game.getGameMode()==GameMode.ESTANDAR) {
+        	if (game.getCards().size() == 0 ) {
+        		ModelAndView end = new ModelAndView(GAME_RESULTS);
+        		end.addObject("gameId", gameId);
+        		end.addObject("playerId", playerId);
+        		return end;
+        	}
         }
+        else if(game.getGameMode()==GameMode.EL_FOSO) {
+			for(Player p:game.getPlayersInternal()) {
+				PlayerGameData pgd= this.playerGameDataService.getByIds(gameId, p.getId());
+						if(pgd.getActualCards().size()==0) {
+							ModelAndView end= new ModelAndView( GAME_RESULTS );
+							end.addObject("gameId",gameId);
+							end.addObject("playerId",playerId);
+							return end;
+						}
+			}
+				
+			
+		}
 
         CopyOnWriteArrayList<PlayerGameData> players= new CopyOnWriteArrayList<>();
         for ( Player player:game.getPlayersInternal() ) players.add( this.playerGameDataService.getByIds( game.getId(), player.getId() ) );
