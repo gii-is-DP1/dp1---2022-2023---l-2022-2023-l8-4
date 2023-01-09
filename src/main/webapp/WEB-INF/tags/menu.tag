@@ -35,6 +35,32 @@
 				</petclinic:menuItem>
 				</sec:authorize>
 				
+				<sec:authorize access="hasAuthority('player')">
+				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
+					title="Achievements" dropdown="${true}">										
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<c:url value="/statistics/achievements" />">Achievements listing</a>
+							</li>
+							<li class="divider"></li>
+						</ul>					
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				
+				<sec:authorize access="hasAuthority('admin')">
+				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements/admin"
+					title="Achievements Admin" dropdown="${true}">										
+						<ul class="dropdown-menu">
+							<li>
+								<a href="<c:url value="/statistics/achievements/admin" />">Achievements Admin</a>
+							</li>
+							<li class="divider"></li>
+						</ul>					
+				</petclinic:menuItem>
+				</sec:authorize>
+				
+				
 				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'games'}" url="/games"
 					title="Games" dropdown="${true}">										

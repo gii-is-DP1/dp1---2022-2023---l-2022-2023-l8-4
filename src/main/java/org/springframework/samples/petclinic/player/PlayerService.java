@@ -62,7 +62,7 @@ public class PlayerService {
         return result.isPresent()?result.get():null;
 
 	}
-	@Transactional
+	@Transactional(readOnly=true)
     public Page<Achievement> showAchievementsByPlayerId(Integer id, Pageable pageable) {
 		Player player = playerRepository.findById(id).get();
         return playerRepository.getAchievementsByPlayerId(pageable, player.getId());

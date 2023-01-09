@@ -35,7 +35,7 @@ void setup() {
 
 
 @Test
-public void shouldGetAchievementById(){
+public void shouldGetAchievementByPlayerId(){
 	playerId = 1;
 	Page<Achievement> actualAchievemntByPlayer = this.playerRepository.getAchievementsByPlayerId(PageRequest.of(0, 
 			5), playerId);

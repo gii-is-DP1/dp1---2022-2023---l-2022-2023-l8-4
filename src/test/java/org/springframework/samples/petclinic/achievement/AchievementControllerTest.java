@@ -1,4 +1,5 @@
-package org.springframework.samples.petclinic.player;
+package org.springframework.samples.petclinic.achievement;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -6,7 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
@@ -30,8 +31,12 @@ import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.game.GameService;
 import org.springframework.samples.petclinic.game.GameState;
+import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerController;
+import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.statistics.Statistic;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
+import org.springframework.samples.petclinic.statistics.archivements.AchievementController;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.samples.petclinic.user.User;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
@@ -40,101 +45,65 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(controllers = PlayerController.class,
+@WebMvcTest(controllers = AchievementController.class,
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 @MockBean(JpaMetamodelMappingContext.class)
-public class PlayerControllerTest {
-
+public class AchievementControllerTest {
+	
 	@MockBean
 	private PlayerService playerService;
 
 	@MockBean
 	private AchievementService achievementService;
 
-	@MockBean
-	private GameService gameService;
+	
 
 	@Autowired
 	private MockMvc mockMvc;
 
 	private Integer playerId = 1;
-	private String usernamePlayer="pgmarc";
+	
 
 
 		@BeforeEach
 		private void setup() throws DataAccessException, NoSuchEntityException {
-			Player player= new Player();
-			User user = new User();
-			user.setUsername("nuevo");
-			user.setPassword("123");
-			Statistic statistic = new Statistic();
-			statistic.setTotalPoints(20);
-			statistic.setGamesPlayed(1);
-			statistic.setGamesWon(1);
-			statistic.setGamesLost(0);
-	        player.setId(playerId);
-	        player.setUser(user);
-	        player.setStatistic(statistic);
-	        player.setRegisterDate(LocalDate.now());
-	        player.setModificationDate(LocalDate.now());
-	        player.setLastLogin(LocalDate.now());
-	        player.setEmail("plopezr2012@gmail.com");
-	        player.setBirthDate(LocalDate.of(2002, 12, 10));
-	        player.getProfilePicture();
-	        List<Player> players = new ArrayList<Player>();
 	        List<Achievement> achievements = new ArrayList<Achievement>();
-	        List<Game> games = new ArrayList<Game>();
 	        Achievement achievement= new Achievement();
 	        achievement.setId(playerId);
 	        achievement.setName("Pasa");
-	        Game game = new Game();
-	        game.setDate(LocalDate.now());
-	        game.setGameMode(GameMode.EL_FOSO);
-	        game.setGameState(GameState.FINALIZED);
-	        game.setPlayers(players);
-	        game.setGameCode(15);
-	        players.add(player);
 	        achievements.add(achievement);
-	        games.add(game);
-	        player.setPlayersAchievement(achievements);
-	        Page<Player> pagePlayers= new PageImpl<Player>(players, PageRequest.of(0, 5), players.size());
-	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 3), games.size()));
-	        Mockito.when(playerService.getAllPlayers(null)).thenReturn(pagePlayers);
-	        Mockito.when(playerService.showPlayerById(playerId)).thenReturn(player);
-	        Mockito.when(playerService.getPlayerByUsername(usernamePlayer)).thenReturn(player);
-	        Mockito.when(playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(achievements, PageRequest.of(0, 5), achievements.size()));
-	    }
-		
+	        Mockito.when(achievementService.getAchievements(PageRequest.of(0, 5))).thenReturn(new PageImpl<>(achievements, PageRequest.of(0, 5), achievements.size()));
+	        
+
+		}
 		
 		@Test
-		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
-		void shouldShowPlayersAchievements() throws Exception {
-			mockMvc.perform(get("/players/" + playerId + "/achievements"))
+		@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
+
+		void shouldShowAchievements() throws Exception {
+			mockMvc.perform(get("/statistics/achievements"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("achievements/AchievementsListing"))
 			.andExpect(model().attributeExists("achievements"))
-			.andExpect(model().attribute("achievements", playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5)).getContent()));
+			.andExpect(model().attribute("achievements", achievementService.getAchievements(PageRequest.of(0, 5)).getContent()))
+			.andExpect(model().attribute("prev", 0));
 		}
-
-
+		
 		@Test
 		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
-		void shouldShowPlayersData() throws Exception {
-			mockMvc.perform(get("/players/data/" + usernamePlayer ) )
-			.andExpect(status().isOk())
-			.andExpect(view().name("players/dataPlayer"))
-			.andExpect(model().attributeExists("player"))
-			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("player", playerService.showPlayerById(playerId)))
-			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3)).getContent()))
-			.andExpect(model().attribute("username", "pgmarc"))
-			.andExpect(model().attribute("prev", 0));
+		void shouldCreateAchievement() throws Exception {
 			
+			mockMvc.perform(post("/statistics/achievements/admin/new")
+					.with(csrf())
+					.param("name", "prueba")
+					.param("description", "Esto es una prueba")
+					.param("threshold", "0.0")
+					.param("trophy", "Gold"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("achievements/createOrUpdateAchievementForm"))
+	        .andExpect(model().attributeExists("achievement"));
 		}
 		
-		
-
-	}
-
-
+			
+}

@@ -2,14 +2,19 @@ package org.springframework.samples.petclinic.statistics.archivements;
 
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
+import org.springframework.samples.petclinic.game.Game;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.player.PlayerRepository;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
 import org.springframework.stereotype.Service;
@@ -28,22 +33,40 @@ public class AchievementService {
     }
     
     @Transactional(readOnly = true)
-    Achievement getAchievementById(Integer id){
+	public Achievement getAchievementsByName(String name ) throws  NoSuchEntityException, DataAccessException {
+    	Achievement achievement = repo.findAchievementByName(name);
+    	if(achievement == null) {
+			throw new NoSuchEntityException("404", "Achievement not found");
+		}
+		return achievement;
+	}
+
+    
+    @Transactional(readOnly = true) 
+  public Achievement getAchievementById(Integer id) throws DataAccessException {
     	Optional<Achievement> achievement = repo.findById(id);
     	return achievement.isPresent()?achievement.get():null;
     }
     
     @Transactional(readOnly = true)
-    Page<Achievement> getAchievements(Pageable pageable){
+	public Page<Achievement> getAchievements(Pageable pageable) throws DataAccessException{
     	Page<Achievement> page = repo.findAll(pageable);
     	calculatePercentageOfEachAchievement(page);
     	return page;
     }
 
     @Transactional
-    public void save(Achievement achievement){
+    public void save(Achievement achievement) throws DataAccessException{
+    	achievement.setPercentage(0.0);
         repo.save(achievement);
     }
+    
+    @Transactional
+    public void deleteAchievements(Integer id) throws DataAccessException{
+    	repo.deleteById(id);
+    	
+    }
+    
     
     public void calculatePercentageOfEachAchievement(Page<Achievement> page) {
     	for(Achievement achievement : page) {

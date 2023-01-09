@@ -79,7 +79,7 @@ public class PlayerController {
 	}
 
 	@GetMapping("/{id}/achievements")
-    public String showAllAchievementGames( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
+    public String showAllAchievementPlayers( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 		PageRequest pageRequest = PageRequest.of(page, 5);
 		Page<Achievement> pageAchievements= playerService.showAchievementsByPlayerId(id, pageRequest);
@@ -153,14 +153,14 @@ public class PlayerController {
     }
 
 	@GetMapping("/edit/{id}")
-    public ModelAndView editJugador(@PathVariable("id") Integer id) {
+    public ModelAndView editPlayer(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(player_editing);
         result.addObject("player", playerService.showPlayerById(id));
         return result;
     }
 
     @PostMapping("/edit/{id}")
-    public ModelAndView editJugador(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
+    public ModelAndView editPlayer(@PathVariable("id") Integer id, @Valid Player newPlayer,BindingResult br,
     		@RequestParam Map<String, Object> params) throws NoSuchEntityException {
     	ModelAndView result=null;
     	if(br.hasErrors()) {
@@ -182,7 +182,7 @@ public class PlayerController {
         }
 
     @GetMapping("/new")
-    public ModelAndView createJugador() {
+    public ModelAndView createPlayer() {
         ModelAndView result = new ModelAndView(player_editing);
         Player jugador = new Player();
         result.addObject("player", jugador);
@@ -192,7 +192,7 @@ public class PlayerController {
 
 
     @PostMapping("/new")
-    public ModelAndView saveNewJugador(@Valid Player player, BindingResult br) {
+    public ModelAndView saveNewPlayer(@Valid Player player, BindingResult br) {
         ModelAndView result=null;
         playerService.savePlayer(player);
         result = showAllPlayers(new HashMap<>());

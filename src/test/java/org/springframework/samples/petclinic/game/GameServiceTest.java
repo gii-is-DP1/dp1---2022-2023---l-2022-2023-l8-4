@@ -57,6 +57,8 @@ public class GameServiceTest {
 		    assertTrue(expectedMessage.contains(actualMessage));
 	}
 	
+	
+	
 	@Test
 	public void shouldAddPlayerToGame() throws NoSuchEntityException {
 		Game game = gameService.getGameById(1);
