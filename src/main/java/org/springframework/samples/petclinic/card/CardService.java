@@ -8,19 +8,19 @@ import java.util.List;
 @Service
 public class CardService {
 
-    private CardRepository cr;
+    private CardRepository cardRepository;
 
     @Autowired
-    public CardService( CardRepository cr)
+    public CardService( CardRepository cardRepository)
     {
-        this.cr = cr;
+        this.cardRepository = cardRepository;
     }
 
     public List<Card> getDeck()
     {
-        return cr.getCards();
+        return cardRepository.getCards();
     }
 
-    public Card findCardById(int cardId) { return cr.getCardById( cardId); }
+    public Card findCardById(int cardId) { return cardRepository.getCardById( cardId); }
 }
 

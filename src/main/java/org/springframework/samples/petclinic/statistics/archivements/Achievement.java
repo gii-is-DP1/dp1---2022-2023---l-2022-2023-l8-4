@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.statistics.archivements;
 
-import java.time.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.petclinic.model.NamedEntity;
 import org.springframework.samples.petclinic.player.Player;
 
@@ -54,13 +53,6 @@ public class Achievement extends NamedEntity{
 		return this.players;
 	}
 	
-	public void addPlayerA(Player player) {
-		getPlayersInternal().add(player);
-		player.addAchievement(this);
-	}
 	
-	public boolean removePlayerA(Player player) {
-		return getPlayersInternal().remove(player);
-	}
    
 }

@@ -100,7 +100,7 @@ public class PlayerControllerTest {
 	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 3), games.size()));
 	        Mockito.when(playerService.getAllPlayers(null)).thenReturn(pagePlayers);
 	        Mockito.when(playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(achievements, PageRequest.of(0, 5), achievements.size()));
-	        Mockito.when(playerService.showPlayerById(playerId)).thenReturn(player);
+	        Mockito.when(playerService.getPlayerById(playerId)).thenReturn(player);
 	        Mockito.when(playerService.getPlayerByUsername(usernamePlayer)).thenReturn(player);
 
 		}
@@ -123,7 +123,7 @@ public class PlayerControllerTest {
 			.andExpect(view().name("players/dataPlayer"))
 			.andExpect(model().attributeExists("player"))
 			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("player", playerService.showPlayerById(playerId)))
+			.andExpect(model().attribute("player", playerService.getPlayerById(playerId)))
 			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3)).getContent()))
 			.andExpect(model().attribute("username", "pgmarc"))
 			.andExpect(model().attribute("prev", 0));

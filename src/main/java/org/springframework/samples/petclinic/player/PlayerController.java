@@ -124,7 +124,7 @@ public class PlayerController {
         	System.out.println(player.getUser().getUsername());
         	
         	result.addObject("username", autenticacion);
-    		result.addObject( "player", this.playerService.showPlayerById( player.getId() ) );
+    		result.addObject( "player", this.playerService.getPlayerById( player.getId() ) );
     		result.addObject( "games", pageGamesByPlayerId.getContent());
     		result.addObject( "pages", pages);
     		result.addObject( "current", page + 1);
@@ -155,7 +155,7 @@ public class PlayerController {
 	@GetMapping("/edit/{id}")
     public ModelAndView editJugador(@PathVariable("id") Integer id) {
         ModelAndView result = new ModelAndView(player_editing);
-        result.addObject("player", playerService.showPlayerById(id));
+        result.addObject("player", playerService.getPlayerById(id));
         return result;
     }
 
@@ -169,7 +169,7 @@ public class PlayerController {
     		System.out.println(br.getAllErrors());
     		return result;
     	}
-        Player playerModified = playerService.showPlayerById(id);
+        Player playerModified = playerService.getPlayerById(id);
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
             result =  getDataFromPlayer(newPlayer.getUser().getUsername(), params);

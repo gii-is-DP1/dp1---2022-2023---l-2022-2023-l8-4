@@ -283,7 +283,7 @@ public class GameController {
         mav.addObject( "card",  card);
         mav.addObject( "cardId", card.getId() );
 
-        mav.addObject( "playerName", this.playerService.showPlayerById( playerId ).getUser().getUsername() );
+        mav.addObject( "playerName", this.playerService.getPlayerById( playerId ).getUser().getUsername() );
         mav.addObject("player", playerId );
 
         PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId );
@@ -339,7 +339,7 @@ public class GameController {
     @PostMapping("/results/{gameId}/{playerId}")
     public String postResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
     	Game game = this.gameService.getGameById(gameId);
-    	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+    	Player gamePlayer =  this.playerService.getPlayerById(playerId);
         PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
     	gameService.saveResults(game, gamePlayer, gameData);
 
@@ -349,7 +349,7 @@ public class GameController {
     @GetMapping("/results/{gameId}/{playerId}")
     public ModelAndView showResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
     	Game game = this.gameService.getGameById(gameId);
-    	Player gamePlayer =  this.playerService.showPlayerById(playerId);
+    	Player gamePlayer =  this.playerService.getPlayerById(playerId);
         PlayerGameData gameData = this.playerGameDataService.getByIds(gameId, playerId);
     	ModelAndView mav = gameService.getResults(game, gamePlayer, gameData, GAME_RESULTS);
     	mav.addObject("show", true);

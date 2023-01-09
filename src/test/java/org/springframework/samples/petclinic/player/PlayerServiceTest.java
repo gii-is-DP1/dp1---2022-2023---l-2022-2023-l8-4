@@ -54,7 +54,7 @@ public class PlayerServiceTest {
 			playerService.savePlayer(player);
 			Page<Player> players=playerService.getAllPlayers(PageRequest.of(0, 5));
 			Integer idPlayerSave=(int) players.getTotalElements();
-			Player playerSave = playerService.showPlayerById(idPlayerSave);
+			Player playerSave = playerService.getPlayerById(idPlayerSave);
 			
 			assertEquals(playerSave.getId(), idPlayerSave);
 			assertEquals(playerSave.getBirthDate(), LocalDate.now());
@@ -73,7 +73,7 @@ public class PlayerServiceTest {
 	@Test
 	public void testFindPlayerByAchievement() throws Exception {
 		try {
-			Player player = this.playerService.showPlayerById(playerId);
+			Player player = this.playerService.getPlayerById(playerId);
 			Collection<Achievement> achievement = player.getPlayersAchievement();
 			List<Achievement> listaAchievement = achievement.stream().collect(Collectors.toList());
 			assertNotNull(achievement);
@@ -90,7 +90,7 @@ public class PlayerServiceTest {
 	@Test
 	void shouldFindPlayerWithGames() {
 		try {
-			Player player = this.playerService.showPlayerById(playerId);
+			Player player = this.playerService.getPlayerById(playerId);
 			Collection<Game> games = player.getPlayedGames();
 			List<Game> listaGame = games.stream().collect(Collectors.toList());
 			assertNotNull(games);

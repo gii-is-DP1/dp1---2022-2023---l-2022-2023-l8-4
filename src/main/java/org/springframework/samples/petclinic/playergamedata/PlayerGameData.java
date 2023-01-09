@@ -27,8 +27,8 @@ import lombok.Setter;
 public class PlayerGameData extends BaseEntity{
 
 	@Range(min=0,max=53)
-	@Column(name = "points_number")
-	private int pointsNumber;
+	@Column(name = "points")
+	private int points;
 
 	@NotNull
 	@Column(name = "winner")

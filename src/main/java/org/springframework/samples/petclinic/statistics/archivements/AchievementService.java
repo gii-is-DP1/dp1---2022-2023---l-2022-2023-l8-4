@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.statistics.archivements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -39,55 +38,56 @@ public class AchievementService {
     	calculatePercentageOfEachAchievement(page);
     	return page;
     }
+    
+    @Transactional
+    public void calculatePercentageOfEachAchievement(Page<Achievement> page) {
+    	for(Achievement achievement : page) {
+    		int numberOfPlayersWithTheAchievement = achievement.getPlayers().size(); 
+    		int numberOfPlayers = playerService.getNumberOfPlayers();
+    		double percentage = 100.*numberOfPlayersWithTheAchievement/numberOfPlayers;
+    		achievement.setPercentage(percentage);
+    	}
+    	
+    }
 
     @Transactional
     public void save(Achievement achievement){
         repo.save(achievement);
     }
     
-    public void calculatePercentageOfEachAchievement(Page<Achievement> page) {
-    	for(Achievement achievement : page) {
-    		int numOfPlayersWithTheAchievement = achievement.getPlayers().size(); 
-    		int numOfPlayers = playerService.getNumberOfPlayers();
-    		double percentage = 100.*numOfPlayersWithTheAchievement/numOfPlayers;
-    		achievement.setPercentage(percentage);
-    	}
-    	
-    }
     
-    public List<Achievement> checkNewAchievements(Player player, PlayerGameData data){
-    	List<Achievement> res = new ArrayList<Achievement>();
-    	Integer gamesWon = player.getStatistic().getGamesWon(); //IMPORTANTE: se debe actualizar el jugador antes de llamar a este método
+    public List<Achievement> checkPlayerNewAchievements(Player player, PlayerGameData playerGameData){
+    	List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement());
+    	Integer gamesWon = player.getStatistic().getGamesWon(); 
     	Integer gamesPlayed = player.getStatistic().getGamesPlayed();
-    	Integer pointsInGame = data.getPointsNumber();
+    	Integer pointsInGame = playerGameData.getPoints();
     	
-    	if(checkAchievement(res, gamesPlayed, 10, 1)) {
-    		res.add(this.getAchievementById(1));
+    	if(achievementIsCompleted(playerAchievements, gamesPlayed, 10, 1)) {
+    		playerAchievements.add(this.getAchievementById(1));
     	}
-    	if(checkAchievement(res, gamesPlayed, 20, 2)) {
-    		res.add(this.getAchievementById(2));
+    	if(achievementIsCompleted(playerAchievements, gamesPlayed, 20, 2)) {
+    		playerAchievements.add(this.getAchievementById(2));
     	}
-    	if(checkAchievement(res, gamesPlayed, 100, 3)) {
-    		res.add(this.getAchievementById(3));
+    	if(achievementIsCompleted(playerAchievements, gamesPlayed, 100, 3)) {
+    		playerAchievements.add(this.getAchievementById(3));
     	}
-    	if(checkAchievement(res, gamesWon, 10, 4)) {
-    		res.add(this.getAchievementById(4));
+    	if(achievementIsCompleted(playerAchievements, gamesWon, 10, 4)) {
+    		playerAchievements.add(this.getAchievementById(4));
     	}
-    	if(checkAchievement(res, pointsInGame, 50, 5)) {
-    		res.add(this.getAchievementById(5));
+    	if(achievementIsCompleted(playerAchievements, pointsInGame, 50, 5)) {
+    		playerAchievements.add(this.getAchievementById(5));
     	}
-    	return res;
+    	return playerAchievements;
     }
     
-    private boolean checkAchievement(List<Achievement> list, Integer achieved, Integer treshold, Integer achievementId) {
-    	if(list.contains(this.getAchievementById(achievementId))) { //puede que haga falta cambiar la lista list por una lista con las IDs
+    private boolean achievementIsCompleted(List<Achievement> playerAchievements, Integer achieved, Integer target, Integer achievementId) {
+    	if(playerAchievements.contains(this.getAchievementById(achievementId))) { 
     		return false;
     	}
-    	else if(achieved >= treshold) {
+    	if(achieved >= target) {
     		return true;
-    	} else {
-    		return false;
     	}
+    	return false;
     }
     
 

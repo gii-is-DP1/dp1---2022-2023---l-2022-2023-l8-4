@@ -14,9 +14,9 @@ import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
 
 import org.springframework.samples.petclinic.player.PlayerService;
-import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameDataService;
 import org.springframework.samples.petclinic.statistics.Statistic;
+import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 
@@ -31,13 +31,18 @@ public class GameService {
 	private final PlayerService playerService;
 	private final AchievementService achievementService;
 	private final PlayerGameDataService playerGameDataService;
+	private final StatisticService statisticService;
 
 	@Autowired
-	public GameService(GameRepository gameRepository, AchievementService achievementService, PlayerGameDataService playerGameDataService, PlayerService playerService) {
+	public GameService(GameRepository gameRepository, AchievementService achievementService, 
+			PlayerGameDataService playerGameDataService, PlayerService playerService,
+			StatisticService statisticService) {
+		
 		this.gameRepository = gameRepository;
 		this.achievementService = achievementService;
 		this.playerGameDataService = playerGameDataService;
 		this.playerService = playerService;
+		this.statisticService= statisticService;
 	}
 
 	@Transactional(readOnly = true)
@@ -138,8 +143,8 @@ public class GameService {
 	@Transactional
 	public ModelAndView getResults(Game game, Player player, PlayerGameData data, String path) {
 		ModelAndView res = new ModelAndView(path);		
-		res.addObject("newAchievements", this.achievementService.checkNewAchievements(player, data));
-		res.addObject("points", data.getPointsNumber());
+		res.addObject("newAchievements", this.achievementService.checkPlayerNewAchievements(player, data));
+		res.addObject("points", data.getPoints());
 		res.addObject("game", game);
 		res.addObject("winner", this.getWinner(game));
 		return res;
@@ -152,47 +157,45 @@ public class GameService {
 	}
 	
 	@Transactional
-	private void savePlayerResults(Game game, Player player, PlayerGameData data) {
-		List<Achievement> newAchievements = this.achievementService.checkNewAchievements(player, data);
-		List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement()); 
-		playerAchievements.addAll(newAchievements);
-		player.setPlayersAchievement(playerAchievements);
-		this.addGameResultsToPlayer(game, player, data);
-		playerService.savePlayer(player);
-	}
-	
-	@Transactional
 	private void saveGameResults(Game game) {
 		game.setGameState(GameState.FINALIZED);
 		this.saveGame(game);
 	}
 	
 	@Transactional
-	private Player getWinner(Game game) {
-		Player winner = null;
-		int max = 0;
-		for(Player player : game.getPlayers()) {
-			int points = playerGameDataService.getByIds(game.getId(), player.getId()).getPointsNumber();
-			if(points > max) {
-				winner = player;
-				max = points;
-			}
-		}
-		return winner;
+	private void savePlayerResults(Game game, Player player, PlayerGameData data) {
+		updatePlayerAchievements(player, data);
+		this.addGameResultsToPlayerStadistics(game, player, data);
+		playerService.savePlayer(player);
 	}
 	
 	@Transactional
-	private void addGameResultsToPlayer(Game game, Player player, PlayerGameData data) {
-		Statistic stats= player.getStatistic();
+	private void updatePlayerAchievements(Player player, PlayerGameData data) {
+		List<Achievement> newAchievements = this.achievementService.checkPlayerNewAchievements(player, data);
+		List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement()); 
+		playerAchievements.addAll(newAchievements);
+		player.setPlayersAchievement(playerAchievements);
+	}
+	
+	@Transactional
+	private void addGameResultsToPlayerStadistics(Game game, Player player, PlayerGameData data) {
+		Statistic statistics= player.getStatistic();
 		Player winner = this.getWinner(game);
-		if(player.equals(winner)) {
-			stats.setGamesWon(stats.getGamesWon()+1);
-		} else {
-			stats.setGamesLost(stats.getGamesLost()+1);
+		statisticService.updatePlayerStadistics(player, data, statistics, winner);
+	}
+	
+	@Transactional
+	private Player getWinner(Game game) {
+		Player winner = null;
+		int maxPoints = 0;
+		for(Player player : game.getPlayers()) {
+			int pointsPlayer = playerGameDataService.getByIds(game.getId(), player.getId()).getPoints();
+			if(pointsPlayer > maxPoints) {
+				winner = player;
+				maxPoints = pointsPlayer;
+			}
 		}
-		stats.setGamesPlayed(stats.getGamesPlayed()+1);
-		stats.setTotalPoints(stats.getTotalPoints() + data.getPointsNumber());
-		player.setStatistic(stats);
+		return winner;
 	}
 	
 }

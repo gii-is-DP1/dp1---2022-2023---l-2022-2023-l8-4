@@ -95,15 +95,5 @@ public class Player extends BaseEntity {
 	 @OneToOne( cascade = CascadeType.ALL )
 	 @NotAudited
 	 private Statistic statistic;
-	 
-	 public void addAchievement(Achievement achievement) {
-		 getAchievementInternal().add(achievement);
-		}
-
-		protected Collection<Achievement> getAchievementInternal() {
-			if (this.playersAchievement == null) {
-				this.playersAchievement = new ArrayList<Achievement>();
-			}
-			return this.playersAchievement;
-		}
+	
 }
