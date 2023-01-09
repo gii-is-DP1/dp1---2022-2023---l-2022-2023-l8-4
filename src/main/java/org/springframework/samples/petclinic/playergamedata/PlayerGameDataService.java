@@ -1,13 +1,17 @@
 package org.springframework.samples.petclinic.playergamedata;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.card.CardRepository;
 import org.springframework.samples.petclinic.game.Game;
+import org.springframework.samples.petclinic.game.GameMode;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,23 +44,54 @@ public class PlayerGameDataService {
         this.savePlayerGameData( data );
 	}
 
-	public void changeCards(Integer gameId, Integer playerId, Integer middleCardId) {
+	public void changePlayerCardEstandar(Integer gameId, Integer playerId, Integer middleCardId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		Card middleCard = cardRepository.getCardById(middleCardId);
 		data.setActualCard(middleCard);
 		savePlayerGameData(data);
 	}
+	
+	public void removePlayerCardElFoso(Integer gameId, Integer playerId) {
+		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
+		List<Card> cards= data.getActualCards().stream().collect(Collectors.toList());
+		cards.remove(0);
+		data.setActualCards(cards);
+		if(data.getActualCards().size()!=0) {
+			data.setActualCard(data.getActualCards().stream().collect(Collectors.toList()).get(0));
+		}
+		savePlayerGameData(data);
+	}
 
-    public void initGameParams(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
+    public void initGameParamsEstandar(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
         pgd.setGame(game);
         pgd.setPlayer(player);
         pgd.setWinner( false );
         pgd.setPointsNumber( 0 );
         Card middleCard = cardRepository.getCardById(middleCardId);
-        pgd.setActualCard(middleCard);
+        pgd.setActualCard(middleCard);        
         savePlayerGameData( pgd );
     }
 
+    public void initGameParamsElFoso(List<Card> deck, PlayerGameData pgd, Player player, Game game) {
+        
+        Integer playerNum= game.getPlayers().size();
+        Integer numCartasJugador= 56/playerNum;
+        List<Card> cards= new ArrayList<>();
+        int i=0;
+        while(i<numCartasJugador) {
+        	cards.add(deck.get(0));
+        	deck.remove(0);
+        	i++;
+        }
+        pgd.setActualCards(cards);
+        pgd.setActualCard(pgd.getActualCards().stream().collect(Collectors.toList()).get(0));
+        pgd.setPlayer(player);
+        pgd.setGame(game);
+        pgd.setWinner( false );
+        pgd.setPointsNumber( 0 );
+        savePlayerGameData( pgd );
+    }
+    
 	public void setWinner(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		data.setWinner(true);
