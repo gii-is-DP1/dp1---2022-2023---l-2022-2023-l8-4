@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -36,7 +37,10 @@ public class PlayerGameData extends BaseEntity{
 	@ManyToOne
 	private Card actualCard;
 	
-	@ManyToOne
+	@ManyToMany(cascade = {CascadeType.PERSIST,
+			CascadeType.MERGE,
+			CascadeType.DETACH,
+			CascadeType.REFRESH})
 	private Collection<Card> actualCards;
 
 	@ManyToOne(cascade = CascadeType.ALL)

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
+import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -83,12 +84,30 @@ public class GameService {
 	}
 
 	@Transactional
-	public void deleteCardFromDeck(int gameId, List<Card> deck){
+	public void deleteCardFromDeckEstandar(int gameId, List<Card> deck){
 		Optional<Game> game = gameRepository.findById(gameId);
 		Collection<Card> cards= game.get().getCards();
 		cards.remove( deck.get(0) );
 		game.get().setCards(cards);
 		saveGame(game.get());
+	}
+	
+	@Transactional
+	public void deleteCardsFromDeckElFoso(int gameId, List<Card> deck){
+		Optional<Game> game = gameRepository.findById(gameId);
+		game.get().setCards(deck);
+		saveGame(game.get());
+	}
+	
+	@Transactional
+	public void changeGameCardElFoso(int gameId,PlayerGameData pgd) {
+		Optional<Game> game = gameRepository.findById(gameId);
+		List<Card> middleCards= game.get().getCards().stream().collect(Collectors.toList());
+		Card playerCard= pgd.getActualCard();
+		middleCards.add(0,playerCard);
+		game.get().setCards(middleCards);
+		saveGame(game.get());
+		
 	}
 	//This method has to be called when a game is started before starting the gameplay
 	@Transactional

@@ -4,6 +4,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -43,10 +44,19 @@ public class PlayerGameDataService {
         this.savePlayerGameData( data );
 	}
 
-	public void changeCards(Integer gameId, Integer playerId, Integer middleCardId) {
+	public void changeCardsEstandar(Integer gameId, Integer playerId, Integer middleCardId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		Card middleCard = cardRepository.getCardById(middleCardId);
 		data.setActualCard(middleCard);
+		savePlayerGameData(data);
+	}
+	
+	public void changePlayerCardElFoso(Integer gameId, Integer playerId) {
+		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
+		List<Card> cards= data.getActualCards().stream().collect(Collectors.toList());
+		cards.remove(0);
+		data.setActualCards(cards);
+		data.setActualCard(data.getActualCards().stream().collect(Collectors.toList()).get(0));
 		savePlayerGameData(data);
 	}
 
@@ -61,17 +71,20 @@ public class PlayerGameDataService {
     }
 
     public void initGameParamsElFoso(List<Card> deck, PlayerGameData pgd, Player player, Game game) {
-        pgd.setGame(game);
+        
         Integer playerNum= game.getPlayers().size();
-        Integer numCartasJugador= 55/playerNum;
-        Collection<Card> cards= new ArrayList<>();
+        Integer numCartasJugador= 56/playerNum;
+        List<Card> cards= new ArrayList<>();
         int i=0;
         while(i<numCartasJugador) {
-        	cards.add(deck.get(i));
+        	cards.add(deck.get(0));
+        	deck.remove(0);
         	i++;
         }
         pgd.setActualCards(cards);
+        pgd.setActualCard(pgd.getActualCards().stream().collect(Collectors.toList()).get(0));
         pgd.setPlayer(player);
+        pgd.setGame(game);
         pgd.setWinner( false );
         pgd.setPointsNumber( 0 );
         savePlayerGameData( pgd );

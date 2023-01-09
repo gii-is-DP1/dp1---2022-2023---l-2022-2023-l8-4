@@ -185,27 +185,35 @@ public class GameController {
 	//The game middle card is always the top card of the deck that is shuffled at the start of that game
 	@GetMapping(value = "/board/{gameId}/{playerId}/{middleCardId}")
 	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
-        Game game = this.gameService.getGameById(gameId);
+        PlayerGameData pgd= this.playerGameDataService.getByIds(gameId, playerId);
+		Game game = this.gameService.getGameById(gameId);
         ModelAndView mav = new ModelAndView(GAME_BOARD );
 		playerGameDataService.winPoint(gameId, playerId);
-		playerGameDataService.changeCards(gameId, playerId, middleCardId);
-		gameService.deleteCardFromDeck(gameId, new ArrayList<>(game.getCards()));
-        if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+		if(game.getGameMode()==GameMode.ESTANDAR) {
+			playerGameDataService.changeCardsEstandar(gameId, playerId, middleCardId);
+			gameService.deleteCardFromDeckEstandar(gameId, new ArrayList<>(game.getCards()));
+			if (game.getCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+		}
+		else if(game.getGameMode()==GameMode.EL_FOSO) {
+			gameService.changeGameCardElFoso(gameId, pgd);
+			playerGameDataService.changePlayerCardElFoso(gameId, playerId);
+			if (pgd.getActualCards().size() == 0 ) return new ModelAndView( VIEW_GAME_LIST_FINALIZED );
+		}
 		mav.addObject("game", game);
-        CopyOnWriteArrayList<PlayerGameData> data= new CopyOnWriteArrayList<>();
+		CopyOnWriteArrayList<PlayerGameData> data= new CopyOnWriteArrayList<>();
 		for(Player player:game.getPlayersInternal()){
 			PlayerGameData playerGameData = this.playerGameDataService.getByIds(game.getId(),player.getId());
 			if ( player.getId().equals( playerId ) )
-            {
-                mav.addObject("player", player.getId());
-                mav.addObject( "playerName", player.getUser().getUsername());
-                mav.addObject( "playerCard", playerGameData.getActualCard() );
-            }
-            data.add(playerGameData);
+			{
+				mav.addObject("player", player.getId());
+				mav.addObject( "playerName", player.getUser().getUsername());
+				mav.addObject( "playerCard", playerGameData.getActualCard() );
+			}
+			data.add(playerGameData);
 		}
 		mav.addObject("players", data);
 		mav.addObject( "card", game.getCards().stream().findFirst().get());
-        mav.addObject( "cardId", game.getCards().stream().findFirst().get().getId() );
+		mav.addObject( "cardId", game.getCards().stream().findFirst().get().getId() );
 		return mav;
 	}
     @GetMapping(value = "/board/{gameId}/{playerId}")
@@ -239,34 +247,30 @@ public class GameController {
     public ModelAndView startGame(@PathVariable("gameId") Integer gameId ) throws DataAccessException, NoSuchEntityException{
     	ModelAndView mav = new ModelAndView(GAME_BOARD);
     	Game game= gameService.getGameById(gameId);
-    	 Integer playerNum= game.getPlayers().size();
-         Integer numCartasJugador= 55/playerNum;
         game.setGameState( GameState.IN_PROGRESS );
         this.gameService.saveGame( game );
     	gameService.randomizeDeck(gameId);
         CopyOnWriteArrayList<Card> deck= new CopyOnWriteArrayList<>(game.getCards());
+        
     	Collection<Player> players= game.getPlayersInternal();
         CopyOnWriteArrayList<PlayerGameData> list = new CopyOnWriteArrayList<>();
     	if(game.getGameMode()==GameMode.ESTANDAR) {
     		for( Player player : new ArrayList<>(players)){
                 PlayerGameData pgd= new PlayerGameData();
                 playerGameDataService.initGameParamsEstandar(deck.get(0).getId(), pgd, player, game);
-                gameService.deleteCardFromDeck(gameId, deck);
+                gameService.deleteCardFromDeckEstandar(gameId, deck);
                 deck.remove(0);
                 list.add( pgd );
     		}
     	}
-    	if(game.getGameMode()==GameMode.EL_FOSO) {
+    	else if(game.getGameMode()==GameMode.EL_FOSO) {
     		for( Player player : new ArrayList<>(players)){
                 PlayerGameData pgd= new PlayerGameData();
                 playerGameDataService.initGameParamsElFoso(deck, pgd, player, game);
-                int i=0;
-                while(i<numCartasJugador) {
-                	gameService.deleteCardFromDeck(gameId, deck);
-                	deck.remove(0);
-                }
+                gameService.deleteCardsFromDeckElFoso(gameId, deck);
                 list.add( pgd );
     		}
+    		game.setCards(deck);
     	}
     	game.setGameState(GameState.IN_PROGRESS);
     	mav.addObject("players", new ArrayList<>(list));
