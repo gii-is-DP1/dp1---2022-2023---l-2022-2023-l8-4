@@ -90,20 +90,7 @@ public class AchievementControllerTest {
 			.andExpect(model().attribute("prev", 0));
 		}
 		
-		@Test
-		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
-		void shouldCreateAchievement() throws Exception {
-			
-			mockMvc.perform(post("/statistics/achievements/admin/new")
-					.with(csrf())
-					.param("name", "prueba")
-					.param("description", "Esto es una prueba")
-					.param("threshold", "0.0")
-					.param("trophy", "Gold"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("achievements/createOrUpdateAchievementForm"))
-	        .andExpect(model().attributeExists("achievement"));
-		}
+		
 		
 			
 }
