@@ -144,7 +144,7 @@ public class GameService {
 	public ModelAndView getResults(Game game, Player player, PlayerGameData data, String path) {
 		ModelAndView res = new ModelAndView(path);		
 		res.addObject("newAchievements", this.achievementService.checkPlayerNewAchievements(player, data));
-		res.addObject("points", data.getPoints());
+		res.addObject("points", data.getPointsNumber());
 		res.addObject("game", game);
 		res.addObject("winner", this.getWinner(game));
 		return res;
@@ -189,7 +189,7 @@ public class GameService {
 		Player winner = null;
 		int maxPoints = 0;
 		for(Player player : game.getPlayers()) {
-			int pointsPlayer = playerGameDataService.getByIds(game.getId(), player.getId()).getPoints();
+			int pointsPlayer = playerGameDataService.getByIds(game.getId(), player.getId()).getPointsNumber();
 			if(pointsPlayer > maxPoints) {
 				winner = player;
 				maxPoints = pointsPlayer;

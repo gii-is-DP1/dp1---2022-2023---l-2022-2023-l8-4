@@ -76,10 +76,10 @@ public class AchievementService {
     
     @Transactional(readOnly = true) 
     public List<Achievement> checkPlayerNewAchievements(Player player, PlayerGameData playerGameData){
-    	List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement());
+    	List<Achievement> playerAchievements = new ArrayList<Achievement>();
     	Integer gamesWon = player.getStatistic().getGamesWon(); 
     	Integer gamesPlayed = player.getStatistic().getGamesPlayed();
-    	Integer pointsInGame = playerGameData.getPoints();
+    	Integer pointsInGame = playerGameData.getPointsNumber();
     	
     	if(achievementIsCompleted(playerAchievements, gamesPlayed, 10, 1)) {
     		playerAchievements.add(this.getAchievementById(1));

@@ -28,7 +28,7 @@ public class PlayerGameData extends BaseEntity{
 
 	@Range(min=0,max=53)
 	@Column(name = "points")
-	private int points;
+	private int pointsNumber;
 
 	@NotNull
 	@Column(name = "winner")

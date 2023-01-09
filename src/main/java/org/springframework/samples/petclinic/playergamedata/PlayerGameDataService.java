@@ -40,8 +40,8 @@ public class PlayerGameDataService {
 	@Transactional
 	public void winPoint(Integer gameId, Integer playerId) {
 		PlayerGameData playerGameData= playerGameDataRepository.findByIds(gameId,playerId);
-		Integer points=playerGameData.getPoints();
-		playerGameData.setPoints(points+1);
+		Integer points=playerGameData.getPointsNumber();
+		playerGameData.setPointsNumber(points+1);
         this.savePlayerGameData( playerGameData );
 	}
 	
@@ -50,7 +50,7 @@ public class PlayerGameDataService {
 		pgd.setGame(game);
 		pgd.setPlayer(player);
 		pgd.setWinner( false );
-		pgd.setPoints( 0 );
+		pgd.setPointsNumber( 0 );
 		Card middleCard = cardRepository.getCardById(middleCardId);
 		pgd.setActualCard(middleCard);        
 		savePlayerGameData( pgd );
@@ -73,7 +73,7 @@ public class PlayerGameDataService {
 		playerGameData.setPlayer(player);
 		playerGameData.setGame(game);
 		playerGameData.setWinner( false );
-		playerGameData.setPoints( 0 );
+		playerGameData.setPointsNumber( 0 );
 		savePlayerGameData( playerGameData );
 	}
 

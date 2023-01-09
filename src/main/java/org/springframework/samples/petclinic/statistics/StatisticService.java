@@ -27,7 +27,7 @@ public class StatisticService {
 			statistics.setGamesLost(statistics.getGamesLost()+1);
 		}
 		statistics.setGamesPlayed(statistics.getGamesPlayed()+1);
-		statistics.setTotalPoints(statistics.getTotalPoints() + data.getPoints());
+		statistics.setTotalPoints(statistics.getTotalPoints() + data.getPointsNumber());
 		player.setStatistic(statistics);
 	}
     
