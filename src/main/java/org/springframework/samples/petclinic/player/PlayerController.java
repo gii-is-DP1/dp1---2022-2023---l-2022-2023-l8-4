@@ -11,6 +11,9 @@ import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
+import org.hibernate.internal.build.AllowSysOut;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,6 +38,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/players")
 public class PlayerController {
+	
+	Logger logger = LoggerFactory.getLogger(PlayerController.class);
 
 	private PlayerService playerService;
 	private AchievementService achievementService;
@@ -42,6 +47,7 @@ public class PlayerController {
     public static final String player_editing = "players/createOrUpdatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
+    public static final String welcome = "welcome";
 
 	@Autowired
 	public PlayerController(PlayerService playerService, AchievementService achievementService) {
@@ -77,6 +83,7 @@ public class PlayerController {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 		PageRequest pageRequest = PageRequest.of(page, 5);
 		Page<Achievement> pageAchievements= playerService.showAchievementsByPlayerId(id, pageRequest);
+		achievementService.calculatePercentageOfEachAchievement(pageAchievements);
 		int totalPages = pageAchievements.getTotalPages();
 		List<Integer> pages=new ArrayList<>();
 		if(totalPages > 0) {
@@ -128,9 +135,21 @@ public class PlayerController {
     }
 
 	@GetMapping("/delete/{id}")
-    public ModelAndView deletePlayersById(@PathVariable("id") Integer id) {
+    public ModelAndView deletePlayersById(@PathVariable("id") Integer id) throws NoSuchEntityException{
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		User user = (User)authentication.getPrincipal();
+    	String autenticacion = user.getUsername();
+    	Player player=this.playerService.getPlayerByUsername(autenticacion);
+		
 		playerService.deletePlayer(id);
-        return showAllPlayers(new HashMap<>());
+		logger.info("Dobble::INFO::Player Player with id " + id + " has been removed from the system");
+	
+        if(player.getId() != id) {
+        	 return showAllPlayers(new HashMap<>());
+        }
+        
+        return new ModelAndView(welcome);
     }
 
 	@GetMapping("/edit/{id}")
@@ -154,11 +173,11 @@ public class PlayerController {
         if(playerModified !=null) {
         	playerService.savePlayer(newPlayer);
             result =  getDataFromPlayer(newPlayer.getUser().getUsername(), params);
-            result.addObject("message", "Jugador editado satisfactoriamente");
+            result.addObject("message", "Player edit succesfully");
             return result;
          }
          result = getDataFromPlayer(newPlayer.getUser().getUsername(), params);
-         result.addObject("message", "Jugador con id "+id+" no ha sido editado correctamente");
+         result.addObject("message", "Player with id "+id+" don't edit succesfully");
          return result;
         }
 

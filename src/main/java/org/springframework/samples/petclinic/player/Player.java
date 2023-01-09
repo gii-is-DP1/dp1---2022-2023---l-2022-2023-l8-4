@@ -12,6 +12,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -65,6 +66,7 @@ public class Player extends BaseEntity {
 	@OneToOne(cascade = CascadeType.ALL)
 	@NotAudited
     @JoinColumn(name = "username", referencedColumnName = "username")
+	@Valid
 	private User user;
 
 	@ManyToMany
@@ -93,4 +95,15 @@ public class Player extends BaseEntity {
 	 @OneToOne( cascade = CascadeType.ALL )
 	 @NotAudited
 	 private Statistic statistic;
+	 
+	 public void addAchievement(Achievement achievement) {
+		 getAchievementInternal().add(achievement);
+		}
+
+		protected Collection<Achievement> getAchievementInternal() {
+			if (this.playersAchievement == null) {
+				this.playersAchievement = new ArrayList<Achievement>();
+			}
+			return this.playersAchievement;
+		}
 }

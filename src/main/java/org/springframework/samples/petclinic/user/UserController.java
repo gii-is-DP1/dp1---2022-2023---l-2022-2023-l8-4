@@ -85,6 +85,7 @@ public class UserController {
 
 	@PostMapping(value = "/users/new")
 	public String processCreationForm(@Valid Player player, BindingResult result) {
+		System.out.println(player.getUser());
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());;
 			return VIEWS_OWNER_CREATE_FORM;

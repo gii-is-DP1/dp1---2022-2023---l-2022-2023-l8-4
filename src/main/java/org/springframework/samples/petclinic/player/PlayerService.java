@@ -73,10 +73,18 @@ public class PlayerService {
     	Player player = playerRepository.findById(id).get();
     	return playerRepository.getGamesByPlayerId(pageable, player.getId());
     }
+	
+	
 
 	@Transactional
  	public void deletePlayer(Integer id) throws DataAccessException {
 		playerRepository.deleteById(id);
+	}
+	
+	@Transactional
+	public void addAchievementToPlayer(Player player, Achievement achievement) {
+		player.addAchievement(achievement);
+		savePlayer(player);
 	}
 
 	@Transactional
@@ -108,6 +116,11 @@ public class PlayerService {
 		userService.saveUser(playerModified.getUser());
 
 		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Player");
+	}
+	
+	@Transactional
+	public int getNumberOfPlayers() {
+		return playerRepository.getNumberOfPlayers();
 	}
 
 }

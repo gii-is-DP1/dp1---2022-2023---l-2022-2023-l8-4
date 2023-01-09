@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.statistics.archivements;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Column;
@@ -31,12 +32,7 @@ public class Achievement extends NamedEntity{
     private double threshold;
 
 	@Column(name = "percentage")
-	@NotNull
 	private double percentage;
-
-	@Column(name = "acquire_date")
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private LocalDate acquireDate;
 
 	@Column(name = "trophy")
 	private AchievementTrophy trophy;
@@ -45,10 +41,26 @@ public class Achievement extends NamedEntity{
     private String badgeImage;
 
     public String getActualDescription(){
-        return description.replace("<THRESHOLD>",String.valueOf(threshold));
+        return description.replace("<THRESHOLD>",String.valueOf((int)threshold));
     }
 
     @ManyToMany(mappedBy= "playersAchievement")
 	private Collection<Player> players;
 
+    protected Collection<Player> getPlayersInternal() {
+		if (this.players == null) {
+			this.players = new ArrayList<Player>();
+		}
+		return this.players;
+	}
+	
+	public void addPlayerA(Player player) {
+		getPlayersInternal().add(player);
+		player.addAchievement(this);
+	}
+	
+	public boolean removePlayerA(Player player) {
+		return getPlayersInternal().remove(player);
+	}
+   
 }

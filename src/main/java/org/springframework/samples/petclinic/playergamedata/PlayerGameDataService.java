@@ -44,19 +44,21 @@ public class PlayerGameDataService {
         this.savePlayerGameData( data );
 	}
 
-	public void changeCardsEstandar(Integer gameId, Integer playerId, Integer middleCardId) {
+	public void changePlayerCardEstandar(Integer gameId, Integer playerId, Integer middleCardId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		Card middleCard = cardRepository.getCardById(middleCardId);
 		data.setActualCard(middleCard);
 		savePlayerGameData(data);
 	}
 	
-	public void changePlayerCardElFoso(Integer gameId, Integer playerId) {
+	public void removePlayerCardElFoso(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		List<Card> cards= data.getActualCards().stream().collect(Collectors.toList());
 		cards.remove(0);
 		data.setActualCards(cards);
-		data.setActualCard(data.getActualCards().stream().collect(Collectors.toList()).get(0));
+		if(data.getActualCards().size()!=0) {
+			data.setActualCard(data.getActualCards().stream().collect(Collectors.toList()).get(0));
+		}
 		savePlayerGameData(data);
 	}
 
