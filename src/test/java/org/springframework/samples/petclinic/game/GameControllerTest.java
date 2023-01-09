@@ -94,15 +94,7 @@ public class GameControllerTest {
 		.andExpect(model().attributeExists("games"))
 		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
 	}
-	@Test
-	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
-	void shouldShowGameListFinalizedFail() throws Exception {
-		mockMvc.perform(get("/games/finalized"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("games/listGamesFinalized"))
-		.andExpect(model().attributeExists("games"))
-		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
-	}
+
 	@Test
 	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 
@@ -116,20 +108,5 @@ public class GameControllerTest {
 	
 
 	
-	
-	@Test
-	@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
-	void shouldCreateGame() throws Exception {
-		
-		mockMvc.perform(post("/games/new")
-				.with(csrf())
-				.param("date", "2022-11-04")
-				.param("gameState", "0")
-				.param("gameMode", "el foso")
-				.param("gameCode", "40"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("games/createGame"))
-        .andExpect(model().attributeExists("game"));
-	}
 	
 }

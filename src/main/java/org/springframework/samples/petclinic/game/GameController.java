@@ -121,7 +121,7 @@ public class GameController {
 	}
 
 	@GetMapping(value = "/finalized")
-	public String listarPartidasAcabadas(Map<String, Object> model, @RequestParam Map<String, Object> params) {
+	public String listFinishGames(Map<String, Object> model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 
 		PageRequest pageRequest = PageRequest.of(page, 5);
@@ -144,7 +144,7 @@ public class GameController {
 	}
 
 	@GetMapping(value = "/inProgress")
-	public String listarPartidasEnProgreso(Map<String, Object> model, @RequestParam Map<String, Object> params) {
+	public String listInProgressGames(Map<String, Object> model, @RequestParam Map<String, Object> params) {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 
 		PageRequest pageRequest = PageRequest.of(page, 5);

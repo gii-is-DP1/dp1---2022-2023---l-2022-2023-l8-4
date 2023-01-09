@@ -6,8 +6,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
@@ -27,13 +29,23 @@ public class AchievementService {
     }
     
     @Transactional(readOnly = true)
-    Achievement getAchievementById(Integer id){
+	public Achievement getAchievementsByName(String name ) throws  NoSuchEntityException, DataAccessException {
+    	Achievement achievement = repo.findAchievementByName(name);
+    	if(achievement == null) {
+			throw new NoSuchEntityException("404", "Achievement not found");
+		}
+		return achievement;
+	}
+
+    
+    @Transactional(readOnly = true) 
+    public Achievement getAchievementById(Integer id) throws DataAccessException {
     	Optional<Achievement> achievement = repo.findById(id);
     	return achievement.isPresent()?achievement.get():null;
     }
     
     @Transactional(readOnly = true)
-    Page<Achievement> getAchievements(Pageable pageable){
+	public Page<Achievement> getAchievements(Pageable pageable) throws DataAccessException{
     	Page<Achievement> page = repo.findAll(pageable);
     	calculatePercentageOfEachAchievement(page);
     	return page;
@@ -51,11 +63,18 @@ public class AchievementService {
     }
 
     @Transactional
-    public void save(Achievement achievement){
+    public void save(Achievement achievement) throws DataAccessException{
+    	achievement.setPercentage(0.0);
         repo.save(achievement);
     }
     
+    @Transactional
+    public void deleteAchievements(Integer id) throws DataAccessException{
+    	repo.deleteById(id);
+    	
+    }
     
+    @Transactional(readOnly = true) 
     public List<Achievement> checkPlayerNewAchievements(Player player, PlayerGameData playerGameData){
     	List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement());
     	Integer gamesWon = player.getStatistic().getGamesWon(); 
@@ -80,6 +99,7 @@ public class AchievementService {
     	return playerAchievements;
     }
     
+    @Transactional(readOnly = true) 
     private boolean achievementIsCompleted(List<Achievement> playerAchievements, Integer achieved, Integer target, Integer achievementId) {
     	if(playerAchievements.contains(this.getAchievementById(achievementId))) { 
     		return false;

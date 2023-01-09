@@ -49,7 +49,7 @@ public class Player extends BaseEntity {
 	@Column(name = "last_login")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate lastLogin;
-
+	
 	@Column(name = "email")
 	@NotEmpty
 	@Email
