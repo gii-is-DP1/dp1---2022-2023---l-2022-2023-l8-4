@@ -50,14 +50,15 @@ public class PlayerService {
 	}
 
 	@Transactional(readOnly = true)
-	public Player getPlayerById(Integer id) {
-		Optional<Player> player= playerRepository.findById(id);
-        return player.isPresent() ? player.get() : null;
+	public Player getPlayerById(Integer id) throws NoSuchEntityException {
+		Player player= playerRepository.findById(id).orElseThrow(()-> new NoSuchEntityException("404","Not found"));
+        return player;
 
 	}
 	@Transactional(readOnly=true)
-    public Page<Achievement> showAchievementsByPlayerId(Integer id, Pageable pageable) {
-		Player player = playerRepository.findById(id).get();
+    public Page<Achievement> showAchievementsByPlayerId(Integer id, Pageable pageable) throws NoSuchEntityException {
+		Player player = playerRepository.findById(id).orElseThrow(()->new NoSuchEntityException("404", "Not found"));
+		
         return playerRepository.getAchievementsByPlayerId(pageable, player.getId());
     }
 
@@ -72,7 +73,7 @@ public class PlayerService {
 	}
 	
 	@Transactional
-	public void addAchievementToPlayer(Player player, Achievement achievement) {
+	public void addAchievementToPlayer(Player player, Achievement achievement) throws DataAccessException, NoSuchEntityException {
 		Collection<Achievement> playerAchievements=player.getPlayersAchievement();
 		playerAchievements.add(achievement);
 		player.setPlayersAchievement(playerAchievements);
@@ -80,7 +81,7 @@ public class PlayerService {
 	}
 
 	@Transactional
-	public void savePlayer(Player Player) throws DataAccessException {
+	public void savePlayer(Player Player) throws DataAccessException, NoSuchEntityException {
 		if(Player.isNew()) {
 			saveNewPlayer(Player);
 		}
@@ -100,7 +101,7 @@ public class PlayerService {
 	}
 
 	@Transactional
-	private void updatePlayer(Player Player) {
+	private void updatePlayer(Player Player) throws NoSuchEntityException {
 		Player playerModified = this.getPlayerById(Player.getId());
 
 		playerModified.setModificationDate(LocalDate.now());

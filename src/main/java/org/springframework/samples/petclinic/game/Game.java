@@ -27,7 +27,6 @@ import lombok.ToString;
 @Entity
 @Table(name = "games")
 @ToString
-@EqualsAndHashCode(callSuper=false)
 public class Game extends AuditableEntity {
 
 	@Column(name = "date", nullable = false)

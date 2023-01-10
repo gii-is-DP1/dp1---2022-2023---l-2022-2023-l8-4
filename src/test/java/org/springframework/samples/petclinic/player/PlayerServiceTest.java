@@ -18,6 +18,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
@@ -41,7 +42,7 @@ public class PlayerServiceTest {
 	private int playerId = 1;
 	
 	@Test
-	public void testsavePlayer() {
+	public void testsavePlayer() throws DataAccessException, NoSuchEntityException {
 			Player player=new Player();
 			player.setEmail("fausto@gmail.com");
 			player.setProfilePicture(null);

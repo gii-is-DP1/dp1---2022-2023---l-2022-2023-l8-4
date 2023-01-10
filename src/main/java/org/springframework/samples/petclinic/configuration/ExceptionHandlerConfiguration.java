@@ -6,6 +6,7 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
+import org.springframework.samples.petclinic.exception.UnaccesibleGameException;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -38,6 +39,14 @@ public class ExceptionHandlerConfiguration
         request.setAttribute("javax.servlet.error.status_code", 404);
         request.setAttribute("exeption", ex);
         return "exception/notfound";
+    }
+   
+   @ExceptionHandler(UnaccesibleGameException.class)
+   public String unaccesibleGameException(HttpServletRequest request,  UnaccesibleGameException ex)  {
+        request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
+        request.setAttribute("javax.servlet.error.status_code", 403);
+        request.setAttribute("exeption", ex);
+        return "exception/unaccesibleGame";
     }
    
 }
