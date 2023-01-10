@@ -15,6 +15,7 @@ import org.hibernate.internal.build.AllowSysOut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
@@ -79,7 +80,7 @@ public class PlayerController {
 	}
 
 	@GetMapping("/{id}/achievements")
-    public String showAllAchievementPlayers( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) {
+    public String showAllAchievementPlayers( @PathVariable("id") Integer id, ModelMap model, @RequestParam Map<String, Object> params) throws NoSuchEntityException {
 		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
 		PageRequest pageRequest = PageRequest.of(page, 5);
 		Page<Achievement> pageAchievements= playerService.showAchievementsByPlayerId(id, pageRequest);
@@ -153,7 +154,7 @@ public class PlayerController {
     }
 
 	@GetMapping("/edit/{id}")
-    public ModelAndView editPlayer(@PathVariable("id") Integer id) {
+    public ModelAndView editPlayer(@PathVariable("id") Integer id) throws NoSuchEntityException {
         ModelAndView result = new ModelAndView(player_editing);
         result.addObject("player", playerService.getPlayerById(id));
         return result;
@@ -192,7 +193,7 @@ public class PlayerController {
 
 
     @PostMapping("/new")
-    public ModelAndView saveNewPlayer(@Valid Player player, BindingResult br) {
+    public ModelAndView saveNewPlayer(@Valid Player player, BindingResult br) throws DataAccessException, NoSuchEntityException {
         ModelAndView result=null;
         playerService.savePlayer(player);
         result = showAllPlayers(new HashMap<>());

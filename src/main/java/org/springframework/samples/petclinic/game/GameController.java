@@ -22,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.card.Card;
 import org.springframework.samples.petclinic.card.CardService;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
+import org.springframework.samples.petclinic.exception.UnaccesibleGameException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.samples.petclinic.playergamedata.PlayerGameData;
@@ -177,7 +178,7 @@ public class GameController {
     public String joinGame(Authentication  authentication, @ModelAttribute("gameCode") int gameCode) throws Exception {
         Game game = gameService.getGameByCode(gameCode);
         if( game.getPlayers().contains( playerService.getPlayerByUsername( authentication.getName() ) ) || game.getPlayers().size() >= 4 || game.getGameState().equals( GameState.IN_PROGRESS ) )  {
-            return "redirect:/games/error";
+            throw new UnaccesibleGameException("403", "Game unaccesible");
         }
         addCurrentPlayerToGame(authentication.getName(),game);
 

@@ -95,8 +95,12 @@ public class GameService {
 
 
 	@Transactional(readOnly = true)
-	public Game getGameByCode(int gameCode) {
-		return this.gameRepository.findGameByGameCode(gameCode);
+	public Game getGameByCode(int gameCode) throws NoSuchEntityException {
+		Game game = this.gameRepository.findGameByGameCode(gameCode);
+		if (game == null) {
+			throw new NoSuchEntityException("404", "Game not found");
+		}
+		return game;
 	}
 
 	@Transactional
@@ -151,7 +155,7 @@ public class GameService {
 	}
 	
 	@Transactional
-	public Game saveResults(Game game, Player player, PlayerGameData data) {
+	public Game saveResults(Game game, Player player, PlayerGameData data) throws DataAccessException, NoSuchEntityException {
 		this.savePlayerResults(game, player, data);
 		this.saveGameResults(game);
 		return game;
@@ -164,7 +168,7 @@ public class GameService {
 	}
 	
 	@Transactional
-	private void savePlayerResults(Game game, Player player, PlayerGameData data) {
+	private void savePlayerResults(Game game, Player player, PlayerGameData data) throws DataAccessException, NoSuchEntityException {
 		updatePlayerAchievements(player, data);
 		this.addGameResultsToPlayerStadistics(game, player, data);
 		playerService.savePlayer(player);

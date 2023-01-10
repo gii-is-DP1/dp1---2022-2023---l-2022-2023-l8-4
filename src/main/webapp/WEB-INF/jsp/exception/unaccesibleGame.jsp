@@ -7,11 +7,11 @@
     <spring:url value="/resources/images/spotit.png" var="spotItImage"/>
     <img src="${spotItImage}" width=300 height=300/><br><br><br><br>
 
-    <h1>Not found</h1>
+    <h1>Unaccesible game</h1>
 	
 	<body>
 		<p>${exception.errorMessage}</p>
-		<p>You were looking for something that currently doesn't exist!</p>
+		<p>Wether you joined a game you were already in or the game your were trying to join is full or is already being played.</p>
 	</body>
     
 </petclinic:layout>

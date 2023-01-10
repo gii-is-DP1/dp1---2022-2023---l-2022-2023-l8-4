@@ -22,6 +22,8 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
 import org.springframework.stereotype.Controller;
@@ -84,7 +86,7 @@ public class UserController {
 	}
 
 	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Player player, BindingResult result) {
+	public String processCreationForm(@Valid Player player, BindingResult result) throws DataAccessException, NoSuchEntityException {
 		System.out.println(player.getUser());
 		if (result.hasErrors()) {
 			System.out.println(result.getAllErrors());;
