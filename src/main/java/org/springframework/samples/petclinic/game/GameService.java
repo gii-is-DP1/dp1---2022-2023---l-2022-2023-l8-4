@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.game;
 
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,10 @@ public class GameService {
 	private final StatisticService statisticService;
 
 	@Autowired
-	public GameService(GameRepository gameRepository, AchievementService achievementService, 
+	public GameService(GameRepository gameRepository, AchievementService achievementService,
 			PlayerGameDataService playerGameDataService, PlayerService playerService,
 			StatisticService statisticService) {
-		
+
 		this.gameRepository = gameRepository;
 		this.achievementService = achievementService;
 		this.playerGameDataService = playerGameDataService;
@@ -60,7 +61,7 @@ public class GameService {
 	public Page<Game> getGamesFinalized(Pageable pageable) throws DataAccessException {
 		return this.gameRepository.findGamesByGameStateOrderByDateDesc(pageable, GameState.FINALIZED);
 	}
-	
+
 
 
 	@Transactional(readOnly = true)
@@ -117,14 +118,14 @@ public class GameService {
 		game.get().setCards(cards);
 		saveGame(game.get());
 	}
-	
+
 	@Transactional
 	public void deleteCardsFromDeckElFoso(int gameId, List<Card> deck){
 		Optional<Game> game = gameRepository.findById(gameId);
 		game.get().setCards(deck);
 		saveGame(game.get());
 	}
-	
+
 	@Transactional
 	public void changeGameCardElFoso(int gameId,PlayerGameData pgd) {
 		Optional<Game> game = gameRepository.findById(gameId);
@@ -133,7 +134,7 @@ public class GameService {
 		middleCards.add(0,playerCard);
 		game.get().setCards(middleCards);
 		saveGame(game.get());
-		
+
 	}
 	//This method has to be called when a game is started before starting the gameplay
 	@Transactional
@@ -143,52 +144,52 @@ public class GameService {
 		Collections.shuffle(deck);
         game.get().setCards( deck );
 	}
-	
+
 	@Transactional
 	public ModelAndView getResults(Game game, Player player, PlayerGameData data, String path) {
-		ModelAndView res = new ModelAndView(path);		
+		ModelAndView res = new ModelAndView(path);
 		res.addObject("newAchievements", this.achievementService.checkPlayerNewAchievements(player, data));
 		res.addObject("points", data.getPointsNumber());
 		res.addObject("game", game);
 		res.addObject("winner", this.getWinner(game));
 		return res;
 	}
-	
+
 	@Transactional
 	public Game saveResults(Game game, Player player, PlayerGameData data) throws DataAccessException, NoSuchEntityException {
 		this.savePlayerResults(game, player, data);
 		this.saveGameResults(game);
 		return game;
 	}
-	
+
 	@Transactional
 	private void saveGameResults(Game game) {
 		game.setGameState(GameState.FINALIZED);
 		this.saveGame(game);
 	}
-	
+
 	@Transactional
 	private void savePlayerResults(Game game, Player player, PlayerGameData data) throws DataAccessException, NoSuchEntityException {
 		updatePlayerAchievements(player, data);
 		this.addGameResultsToPlayerStadistics(game, player, data);
 		playerService.savePlayer(player);
 	}
-	
+
 	@Transactional
 	private void updatePlayerAchievements(Player player, PlayerGameData data) {
 		List<Achievement> newAchievements = this.achievementService.checkPlayerNewAchievements(player, data);
-		List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement()); 
+		List<Achievement> playerAchievements = new ArrayList<Achievement>(player.getPlayersAchievement());
 		playerAchievements.addAll(newAchievements);
 		player.setPlayersAchievement(playerAchievements);
 	}
-	
+
 	@Transactional
 	private void addGameResultsToPlayerStadistics(Game game, Player player, PlayerGameData data) {
 		Statistic statistics= player.getStatistic();
 		Player winner = this.getWinner(game);
 		statisticService.updatePlayerStadistics(player, data, statistics, winner);
 	}
-	
+
 	@Transactional
 	private Player getWinner(Game game) {
 		Player winner = null;
@@ -202,5 +203,74 @@ public class GameService {
 		}
 		return winner;
 	}
-	
+
+    public int deleteCardFromGame(Game game, Integer playerId, Integer middleCardId) {
+
+        Integer gameId = game.getId();
+        if ( game.getGameMode() == GameMode.ESTANDAR)
+        {
+            playerGameDataService.changePlayerCardEstandar(gameId, playerId, middleCardId);
+            deleteCardFromDeckEstandar(gameId, new ArrayList<>(game.getCards()));
+            return game.getCards().size();
+        }
+        else if( game.getGameMode() == GameMode.EL_FOSO )
+        {
+            PlayerGameData pgd = playerGameDataService.getByIds( gameId, playerId );
+            changeGameCardElFoso(gameId, pgd);
+            playerGameDataService.removePlayerCardElFoso(gameId, playerId);
+            return pgd.getActualCards().size();
+        }
+
+        // Since there are no more game modes, this return is unreachable
+
+        return 0;
+    }
+
+    public boolean hasTheGameEnd( Game game )
+    {
+        if( game.getGameMode().equals( GameMode.ESTANDAR ) ) {
+            if (game.getCards().size() == 0 ) return true;
+        }
+        else if(game.getGameMode().equals( GameMode.EL_FOSO ) ) {
+            Integer gameId = game.getId();
+            for ( Player p:game.getPlayersInternal() ) {
+                if (
+                    this.playerGameDataService.getByIds( gameId, p.getId() )
+                    .getActualCards().size() == 0
+                ) return true;
+            }
+        }
+        return false;
+    }
+
+    public Card getFirstCardOfDeck(Game game) {
+
+        return this.gameRepository.findById( game.getId() ).get().getCards().stream().findFirst().get();
+
+    }
+
+    public List<PlayerGameData> getGamePlayerDataInitGame(Game game, List<Card> deck, Collection<Player> players) {
+
+        CopyOnWriteArrayList<PlayerGameData> playersData = new CopyOnWriteArrayList<>();
+        Integer gameId = game.getId();
+        if(game.getGameMode()==GameMode.ESTANDAR) {
+            for( Player player : new ArrayList<>(players)){
+                PlayerGameData pgd= new PlayerGameData();
+                playerGameDataService.initGameParamsEstandar(deck.get(0).getId(), pgd, player, game);
+                this.deleteCardFromDeckEstandar(gameId, deck);
+                deck.remove(0);
+                playersData.add( pgd );
+            }
+        }
+        else if(game.getGameMode()==GameMode.EL_FOSO) {
+            for( Player player : new ArrayList<>(players)){
+                PlayerGameData pgd= new PlayerGameData();
+                playerGameDataService.initGameParamsElFoso(deck, pgd, player, game);
+                this.deleteCardsFromDeckElFoso(gameId, deck);
+                playersData.add( pgd );
+            }
+            game.setCards(deck);
+        }
+        return playersData;
+    }
 }

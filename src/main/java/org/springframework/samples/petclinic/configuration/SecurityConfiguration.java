@@ -31,7 +31,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	DataSource dataSource;
-	
+
 	@Autowired
 	PlayerService playerService;
 
@@ -42,10 +42,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/","/oups", "/js/**").permitAll()
 				.antMatchers("/logout").authenticated()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/statistics/**").authenticated()
 				.antMatchers("/session/**").authenticated()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/statistics/achievements/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/players/**").authenticated()
 				.antMatchers("/games/**").hasAnyAuthority("admin", "Player")
 				.anyRequest().denyAll()

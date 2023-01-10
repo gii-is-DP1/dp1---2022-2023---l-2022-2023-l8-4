@@ -3,7 +3,9 @@ package org.springframework.samples.petclinic.playergamedata;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +33,7 @@ public class PlayerGameDataService {
 	public Collection<PlayerGameData> getAll() {
 		return playerGameDataRepository.findAll();
 	}
-	
+
 	@Transactional(readOnly=true)
 	public PlayerGameData getByIds(Integer gameId, Integer playerId) {
 		return playerGameDataRepository.findByIds(gameId, playerId);
@@ -44,7 +46,7 @@ public class PlayerGameDataService {
 		playerGameData.setPointsNumber(points+1);
         this.savePlayerGameData( playerGameData );
 	}
-	
+
 	@Transactional
 	public void initGameParamsEstandar(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
 		pgd.setGame(game);
@@ -52,11 +54,11 @@ public class PlayerGameDataService {
 		pgd.setWinner( false );
 		pgd.setPointsNumber( 0 );
 		Card middleCard = cardRepository.getCardById(middleCardId);
-		pgd.setActualCard(middleCard);        
+		pgd.setActualCard(middleCard);
 		savePlayerGameData( pgd );
 	}
 
-	
+
 	@Transactional
 	public void changePlayerCardEstandar(Integer gameId, Integer playerId, Integer middleCardId) {
 		PlayerGameData playerGameData = playerGameDataRepository.findByIds(gameId, playerId);
@@ -64,7 +66,7 @@ public class PlayerGameDataService {
 		playerGameData.setActualCard(middleCard);
 		savePlayerGameData(playerGameData);
 	}
-	
+
 	@Transactional
 	public void initGameParamsElFoso(List<Card> deck, PlayerGameData playerGameData, Player player, Game game) {
 		List<Card> cards = getCardsToPlayer(deck, game);
@@ -90,7 +92,7 @@ public class PlayerGameDataService {
 		}
 		return cards;
 	}
-	
+
 	@Transactional
 	public void removePlayerCardElFoso(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
@@ -104,7 +106,7 @@ public class PlayerGameDataService {
 	}
 
 
-    
+
 	@Transactional
 	public void setWinner(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
@@ -120,5 +122,21 @@ public class PlayerGameDataService {
 	@Transactional(readOnly=true)
     public List<PlayerGameData> getById(Integer gameId) {
         return this.playerGameDataRepository.getDataByGameId( gameId );
+    }
+
+    public List<PlayerGameData> addPlayersDataIntoGame(Integer gameId, Integer playerId, Collection<Player> players ) {
+
+        CopyOnWriteArrayList<PlayerGameData> playersData = new CopyOnWriteArrayList<>();
+        for(Player player: players){
+            PlayerGameData playerGameData = this.getByIds( gameId, player.getId() );
+            if ( !player.getId().equals( playerId ) )
+            {
+                playersData.add(playerGameData);
+                continue;
+            }
+            playersData.add(0, playerGameData );
+
+        }
+        return playersData;
     }
 }

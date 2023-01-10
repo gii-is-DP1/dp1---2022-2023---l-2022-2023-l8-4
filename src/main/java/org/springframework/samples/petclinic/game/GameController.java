@@ -44,7 +44,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/games")
 public class GameController {
 
-	Logger logger = LoggerFactory.getLogger(GameController.class);
+    private static final int CODE_MIN_RANGE = 0;
+    private static final int CODE_MAX_RANGE = 10000 + 1;
+    private static final int MAX_NUM_GAMES = 5;
+    Logger logger = LoggerFactory.getLogger(GameController.class);
 
 	private static final String GAME_DETAILS = "games/gameDetails";
 	private static final String VIEW_CREATION_FORM = "games/createGame";
@@ -73,7 +76,7 @@ public class GameController {
 		game.setDate(LocalDate.now());
 		return game;
 	}
-	
+
 	@GetMapping("/description")
 	@ResponseBody
 	public Map<String, GameModeData> getMinigamesDescription() {
@@ -101,11 +104,13 @@ public class GameController {
 
 		game.setDate(LocalDate.now());
 		game.setGameState(GameState.INITIATED);
-		game.setGameCode(ThreadLocalRandom.current().nextInt(0, 10000 + 1));
+		game.setGameCode(ThreadLocalRandom.current().nextInt( CODE_MIN_RANGE, CODE_MAX_RANGE ) );
 		game.setCards(cardService.getDeck());
 		addCurrentPlayerToGame(authentication.getName(),game);
+
 		logger.info("Dobble::INFO::Game Lobby " + game.getGameCode() + " has been created. Lobby creator = " + authentication.getName());
-		return "redirect:/games/" + game.getId();
+
+        return "redirect:/games/" + game.getId();
 	}
 
 	@GetMapping("/{gameId}")
@@ -123,9 +128,9 @@ public class GameController {
 
 	@GetMapping(value = "/finalized")
 	public String listFinishGames(Map<String, Object> model, @RequestParam Map<String, Object> params) {
-		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+		int page = params.get("page") != null ? (Integer.parseInt(params.get("page").toString()) - 1) : 0;
 
-		PageRequest pageRequest = PageRequest.of(page, 5);
+		PageRequest pageRequest = PageRequest.of(page, MAX_NUM_GAMES);
 		Page<Game> pageGamesFinalized= gameService.getGamesFinalized(pageRequest);
 
 		int totalPages = pageGamesFinalized.getTotalPages();
@@ -136,9 +141,12 @@ public class GameController {
 
         model.put( "games", pageGamesFinalized.getContent());
         model.put( "pages", pages);
+
+        // page can start as a 0
         model.put( "current", page + 1);
         model.put( "next", page + 2);
         model.put( "prev", page);
+
         model.put( "last", totalPages);
 		return VIEW_GAME_LIST_FINALIZED;
 
@@ -146,9 +154,9 @@ public class GameController {
 
 	@GetMapping(value = "/inProgress")
 	public String listInProgressGames(Map<String, Object> model, @RequestParam Map<String, Object> params) {
-		int page = params.get("page") != null ? (Integer.valueOf(params.get("page").toString()) -1) : 0;
+		int page = params.get("page") != null ? (Integer.parseInt(params.get("page").toString()) -1) : 0;
 
-		PageRequest pageRequest = PageRequest.of(page, 5);
+		PageRequest pageRequest = PageRequest.of(page, MAX_NUM_GAMES );
 		Page<Game> pageGamesInProgress= gameService.getGamesInProgress(pageRequest);
 
 		int totalPages = pageGamesInProgress.getTotalPages();
@@ -159,9 +167,11 @@ public class GameController {
 
         model.put( "games", pageGamesInProgress.getContent());
         model.put( "pages", pages);
+
         model.put( "current", page + 1);
         model.put( "next", page + 2);
         model.put( "prev", page);
+
         model.put( "last", totalPages);
 		return VIEW_GAME_LIST_IN_PROGRESS;
 
@@ -201,86 +211,56 @@ public class GameController {
 	//The game middle card is always the top card of the deck that is shuffled at the start of that game
 	@GetMapping(value = "/board/{gameId}/{playerId}/{middleCardId}")
 	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
+
         PlayerGameData pgd= this.playerGameDataService.getByIds(gameId, playerId);
 		Game game = this.gameService.getGameById(gameId);
         ModelAndView mav = new ModelAndView(GAME_BOARD );
 		playerGameDataService.winPoint(gameId, playerId);
-		
-		if(game.getGameMode()==GameMode.ESTANDAR) {
-			playerGameDataService.changePlayerCardEstandar(gameId, playerId, middleCardId);
-			gameService.deleteCardFromDeckEstandar(gameId, new ArrayList<>(game.getCards()));
-			if (game.getCards().size() == 0 ) {
-				ModelAndView end= new ModelAndView( GAME_RESULTS );
-				end.addObject("gameId",gameId);
-				end.addObject("playerId",playerId);
-				return end;
-			}
-		}
-		
-		else if(game.getGameMode()==GameMode.EL_FOSO) {
-			gameService.changeGameCardElFoso(gameId, pgd);
-			playerGameDataService.removePlayerCardElFoso(gameId, playerId);
-			if (pgd.getActualCards().size() == 0 ) {
-				ModelAndView end= new ModelAndView( GAME_RESULTS );
-				end.addObject("gameId",gameId);
-				end.addObject("playerId",playerId);
-				return end;
-			}
-			
-		}
-		
+
+
+        int numberOfCards = gameService.deleteCardFromGame( game, playerId, middleCardId);
+
+        if ( numberOfCards == 0 ) {
+            ModelAndView end= new ModelAndView( GAME_RESULTS );
+            end.addObject("gameId",gameId);
+            end.addObject("playerId",playerId);
+            return end;
+        }
+
 		mav.addObject("game", game);
-		CopyOnWriteArrayList<PlayerGameData> data= new CopyOnWriteArrayList<>();
-		for(Player player:game.getPlayersInternal()){
-			PlayerGameData playerGameData = this.playerGameDataService.getByIds(game.getId(),player.getId());
-			if ( player.getId().equals( playerId ) )
-			{
-				mav.addObject("player", player.getId());
-				mav.addObject( "playerName", player.getUser().getUsername());
-				mav.addObject( "playerCard", playerGameData.getActualCard() );
-			}
-			data.add(playerGameData);
-		}
-		mav.addObject("players", data);
+
+        List<PlayerGameData> playersData = playerGameDataService.addPlayersDataIntoGame( game.getId(), playerId, game.getPlayersInternal() );
+
+        //First element is the main player
+        PlayerGameData winnerPlayer = playersData.get(0);
+
+        mav.addObject("player", winnerPlayer.getPlayer().getId());
+        mav.addObject( "playerName", winnerPlayer.getPlayer().getUser().getUsername() );
+        mav.addObject( "playerCard", winnerPlayer.getActualCard() );
+		mav.addObject("players", playersData );
 		mav.addObject( "card", game.getCards().stream().findFirst().get());
 		mav.addObject( "cardId", game.getCards().stream().findFirst().get().getId() );
 		return mav;
 	}
     @GetMapping(value = "/board/{gameId}/{playerId}")
     public ModelAndView enterGame(@PathVariable( "gameId" ) Integer gameId, @PathVariable( "playerId" ) Integer playerId) throws DataAccessException, NoSuchEntityException{
+
         ModelAndView mav = new ModelAndView(GAME_BOARD);
-
         Game game = this.gameService.getGameById( gameId );
-        
-        if(game.getGameMode()==GameMode.ESTANDAR) {
-        	if (game.getCards().size() == 0 ) {
-        		ModelAndView end = new ModelAndView(GAME_RESULTS);
-        		end.addObject("gameId", gameId);
-        		end.addObject("playerId", playerId);
-        		return end;
-        	}
+        if ( gameService.hasTheGameEnd( game ) )
+        {
+            ModelAndView end = new ModelAndView(GAME_RESULTS);
+            end.addObject("gameId", gameId);
+            end.addObject("playerId", playerId);
+            return end;
         }
-        else if(game.getGameMode()==GameMode.EL_FOSO) {
-			for(Player p:game.getPlayersInternal()) {
-				PlayerGameData pgd= this.playerGameDataService.getByIds(gameId, p.getId());
-						if(pgd.getActualCards().size()==0) {
-							ModelAndView end= new ModelAndView( GAME_RESULTS );
-							end.addObject("gameId",gameId);
-							end.addObject("playerId",playerId);
-							return end;
-						}
-			}
-				
-			
-		}
 
-        CopyOnWriteArrayList<PlayerGameData> players= new CopyOnWriteArrayList<>();
-        for ( Player player:game.getPlayersInternal() ) players.add( this.playerGameDataService.getByIds( game.getId(), player.getId() ) );
+        List<PlayerGameData> players = playerGameDataService.addPlayersDataIntoGame( game.getId(), playerId, game.getPlayersInternal() );
 
         mav.addObject("players", players );
         mav.addObject("game", game);
 
-        Card card = this.gameService.getGameById( gameId ).getCards().stream().findFirst().get();
+        Card card = this.gameService.getFirstCardOfDeck( game );
         mav.addObject( "card",  card);
         mav.addObject( "cardId", card.getId() );
 
@@ -288,7 +268,6 @@ public class GameController {
         mav.addObject("player", playerId );
 
         PlayerGameData gameData = this.playerGameDataService.getByIds( gameId,  playerId );
-
         mav.addObject( "playerCard", gameData.getActualCard() );
 
         return mav;
@@ -300,29 +279,13 @@ public class GameController {
     	Game game= gameService.getGameById(gameId);
         game.setGameState( GameState.IN_PROGRESS );
         this.gameService.saveGame( game );
-    	gameService.randomizeDeck(gameId);
+
+        gameService.randomizeDeck(gameId);
+
         CopyOnWriteArrayList<Card> deck= new CopyOnWriteArrayList<>(game.getCards());
-        
     	Collection<Player> players= game.getPlayersInternal();
-        CopyOnWriteArrayList<PlayerGameData> list = new CopyOnWriteArrayList<>();
-    	if(game.getGameMode()==GameMode.ESTANDAR) {
-    		for( Player player : new ArrayList<>(players)){
-                PlayerGameData pgd= new PlayerGameData();
-                playerGameDataService.initGameParamsEstandar(deck.get(0).getId(), pgd, player, game);
-                gameService.deleteCardFromDeckEstandar(gameId, deck);
-                deck.remove(0);
-                list.add( pgd );
-    		}
-    	}
-    	else if(game.getGameMode()==GameMode.EL_FOSO) {
-    		for( Player player : new ArrayList<>(players)){
-                PlayerGameData pgd= new PlayerGameData();
-                playerGameDataService.initGameParamsElFoso(deck, pgd, player, game);
-                gameService.deleteCardsFromDeckElFoso(gameId, deck);
-                list.add( pgd );
-    		}
-    		game.setCards(deck);
-    	}
+        List<PlayerGameData> list = this.gameService.getGamePlayerDataInitGame( game, deck, players);
+
     	game.setGameState(GameState.IN_PROGRESS);
     	mav.addObject("players", new ArrayList<>(list));
         mav.addObject("game", game);
@@ -336,7 +299,7 @@ public class GameController {
 
         return mav;
     }
-    
+
     @PostMapping("/results/{gameId}/{playerId}")
     public String postResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
     	Game game = this.gameService.getGameById(gameId);
@@ -346,7 +309,7 @@ public class GameController {
 
         return "redirect:/games/results/" + gameId + "/" + playerId;
     }
-    
+
     @GetMapping("/results/{gameId}/{playerId}")
     public ModelAndView showResults(Authentication  authentication, @PathVariable("gameId") Integer gameId, @PathVariable("playerId") Integer playerId) throws Exception {
     	Game game = this.gameService.getGameById(gameId);
