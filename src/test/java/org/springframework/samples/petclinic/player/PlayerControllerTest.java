@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.player;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -96,14 +95,17 @@ public class PlayerControllerTest {
 	        players.add(player);
 	        achievements.add(achievement);
 	        games.add(game);
+	        player.setPlayersAchievement(achievements);
 	        Page<Player> pagePlayers= new PageImpl<Player>(players, PageRequest.of(0, 5), players.size());
 	        Mockito.when(playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 3), games.size()));
 	        Mockito.when(playerService.getAllPlayers(null)).thenReturn(pagePlayers);
 	        Mockito.when(playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(achievements, PageRequest.of(0, 5), achievements.size()));
-	        Mockito.when(playerService.showPlayerById(playerId)).thenReturn(player);
+	        Mockito.when(playerService.getPlayerById(playerId)).thenReturn(player);
 	        Mockito.when(playerService.getPlayerByUsername(usernamePlayer)).thenReturn(player);
-
-		}
+	        Mockito.when(playerService.showAchievementsByPlayerId(playerId, PageRequest.of(0, 5))).thenReturn(new PageImpl<>(achievements, PageRequest.of(0, 5), achievements.size()));
+	    }
+		
+		
 		@Test
 		@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 		void shouldShowPlayersAchievements() throws Exception {
@@ -123,12 +125,14 @@ public class PlayerControllerTest {
 			.andExpect(view().name("players/dataPlayer"))
 			.andExpect(model().attributeExists("player"))
 			.andExpect(model().attributeExists("games"))
-			.andExpect(model().attribute("player", playerService.showPlayerById(playerId)))
+			.andExpect(model().attribute("player", playerService.getPlayerById(playerId)))
 			.andExpect(model().attribute("games", playerService.gamesByPlayerId(playerId, PageRequest.of(0, 3)).getContent()))
 			.andExpect(model().attribute("username", "pgmarc"))
 			.andExpect(model().attribute("prev", 0));
 			
 		}
+		
+		
 
 	}
 

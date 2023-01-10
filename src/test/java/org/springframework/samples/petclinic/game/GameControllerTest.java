@@ -92,7 +92,7 @@ public class GameControllerTest {
         Mockito.when(gameService.getGamesInProgress(PageRequest.of(0, 5))).thenReturn(new PageImpl<>(games, PageRequest.of(0, 5), games.size()));
         Mockito.when(gameService.getResults(game, player, data, "games/results")).thenReturn(results);
         Mockito.when(gameService.saveResults(game, player, data)).thenCallRealMethod();
-        Mockito.when(playerService.showPlayerById(player.getId())).thenReturn(player);
+        Mockito.when(playerService.getPlayerById(player.getId())).thenReturn(player);
         Mockito.when(playerDataService.getByIds(game.getId(), player.getId())).thenReturn(data);
 	}
 	
@@ -124,8 +124,8 @@ public class GameControllerTest {
 	
 	private void setupPlayerGameData(PlayerGameData data, Game game, Player player) {
 		List<Card> deck =  game.getCards().stream().collect(Collectors.toList());
-		playerDataService.initGameParams(deck.get(0).getId(), data, player, game);
-        gameService.deleteCardFromDeck(gameId, deck);
+		playerDataService.initGameParamsEstandar(deck.get(0).getId(), data, player, game);
+        gameService.deleteCardFromDeckEstandar(gameId, deck);
 	}
 	
 	private void setupModelAndView(ModelAndView mav, Player player, Game game) {
@@ -160,15 +160,7 @@ public class GameControllerTest {
 		.andExpect(model().attributeExists("games"))
 		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
 	}
-	@Test
-	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
-	void shouldShowGameListFinalizedFail() throws Exception {
-		mockMvc.perform(get("/games/finalized"))
-		.andExpect(status().isOk())
-		.andExpect(view().name("games/listGamesFinalized"))
-		.andExpect(model().attributeExists("games"))
-		.andExpect(model().attribute("games", gameService.getGamesFinalized(PageRequest.of(0, 5)).getContent()));
-	}
+
 	@Test
 	@WithMockUser(username = "admin1", password ="4dm1n", authorities = {"admin"})
 
@@ -181,7 +173,6 @@ public class GameControllerTest {
 	}
 	
 
-	
 	
 	@Test
 	@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
@@ -215,7 +206,7 @@ public class GameControllerTest {
 	@WithMockUser(username = "pgmarc", password ="abc", authorities = {"admin"})
 	void shouldSaveResults() throws Exception {
 		
-		Player player = this.playerService.showPlayerById(playerId);
+		Player player = this.playerService.getPlayerById(playerId);
 		mockMvc.perform(post("/games/results/"+gameId+"/"+playerId)
 				.with(csrf()))
 		.andExpect(status().isOk());		

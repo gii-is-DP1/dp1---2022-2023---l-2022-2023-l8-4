@@ -2,25 +2,18 @@ package org.springframework.samples.petclinic.player;
 
 import java.time.LocalDate;
 import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.statistics.Statistic;
 import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.user.AuthoritiesService;
 import org.springframework.samples.petclinic.user.UserService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,17 +23,17 @@ public class PlayerService {
 
 	private PlayerRepository playerRepository;
 	private StatisticService statisticService;
+	private UserService userService;
+	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public PlayerService(PlayerRepository playerRepository, StatisticService statisticService) {
+	public PlayerService(PlayerRepository playerRepository, StatisticService statisticService,
+			UserService userService, AuthoritiesService authoritiesService) {
 		this.playerRepository = playerRepository;
 		this.statisticService = statisticService;
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
 	}
-	@Autowired
-	private UserService userService;
-
-	@Autowired
-	private AuthoritiesService authoritiesService;
 
 	@Transactional(readOnly=true)
 	public Page<Player> getAllPlayers(Pageable pageable){
@@ -57,12 +50,12 @@ public class PlayerService {
 	}
 
 	@Transactional(readOnly = true)
-	public Player showPlayerById(Integer id) {
-		Optional<Player> result= playerRepository.findById(id);
-        return result.isPresent()?result.get():null;
+	public Player getPlayerById(Integer id) {
+		Optional<Player> player= playerRepository.findById(id);
+        return player.isPresent() ? player.get() : null;
 
 	}
-	@Transactional
+	@Transactional(readOnly=true)
     public Page<Achievement> showAchievementsByPlayerId(Integer id, Pageable pageable) {
 		Player player = playerRepository.findById(id).get();
         return playerRepository.getAchievementsByPlayerId(pageable, player.getId());
@@ -70,11 +63,8 @@ public class PlayerService {
 
 	@Transactional(readOnly = true)
     public Page<Game> gamesByPlayerId(Integer id, Pageable pageable) {
-    	Player player = playerRepository.findById(id).get();
-    	return playerRepository.getGamesByPlayerId(pageable, player.getId());
+    	return playerRepository.getGamesByPlayerId(pageable, id);
     }
-	
-	
 
 	@Transactional
  	public void deletePlayer(Integer id) throws DataAccessException {
@@ -83,38 +73,43 @@ public class PlayerService {
 	
 	@Transactional
 	public void addAchievementToPlayer(Player player, Achievement achievement) {
-		player.addAchievement(achievement);
+		Collection<Achievement> playerAchievements=player.getPlayersAchievement();
+		playerAchievements.add(achievement);
+		player.setPlayersAchievement(playerAchievements);
 		savePlayer(player);
 	}
 
 	@Transactional
-	public void savePlayer(Player newPlayer) throws DataAccessException {
-		if(newPlayer.isNew()) {
-			newPlayer.setModificationDate(LocalDate.now());
-			newPlayer.setRegisterDate(LocalDate.now());
-			newPlayer.setLastLogin(LocalDate.now());
-			Statistic statistic=new Statistic();
-			statistic.setGamesPlayed(0);
-			statistic.setGamesLost(0);
-			statistic.setGamesWon(0);
-			statistic.setTotalPoints(0);
-			statisticService.saveStatistic(statistic);
-			newPlayer.setStatistic(statistic);
-			playerRepository.save(newPlayer);
-			userService.saveUser(newPlayer.getUser());
-			authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Player");
+	public void savePlayer(Player Player) throws DataAccessException {
+		if(Player.isNew()) {
+			saveNewPlayer(Player);
 		}
-		Player playerModified = this.showPlayerById(newPlayer.getId());
+		updatePlayer(Player);
+	}
+	
+	@Transactional
+	private void saveNewPlayer(Player newPlayer) {
+		newPlayer.setModificationDate(LocalDate.now());
+		newPlayer.setRegisterDate(LocalDate.now());
+		newPlayer.setLastLogin(LocalDate.now());
+		statisticService.createPlayerStadistic(newPlayer);
+		
+		playerRepository.save(newPlayer);
+		userService.saveUser(newPlayer.getUser());
+		authoritiesService.saveAuthorities(newPlayer.getUser().getUsername(), "Player");
+	}
+
+	@Transactional
+	private void updatePlayer(Player Player) {
+		Player playerModified = this.getPlayerById(Player.getId());
 
 		playerModified.setModificationDate(LocalDate.now());
-    	playerModified.setEmail(newPlayer.getEmail());
-    	playerModified.setUser(newPlayer.getUser());
-    	playerModified.setProfilePicture(newPlayer.getProfilePicture());
+    	playerModified.setEmail(Player.getEmail());
+    	playerModified.setUser(Player.getUser());
+    	playerModified.setProfilePicture(Player.getProfilePicture());
 
     	playerRepository.save(playerModified);
-
 		userService.saveUser(playerModified.getUser());
-
 		authoritiesService.saveAuthorities(playerModified.getUser().getUsername(), "Player");
 	}
 	

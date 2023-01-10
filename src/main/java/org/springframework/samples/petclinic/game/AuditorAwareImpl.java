@@ -9,8 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /*
- * NO TOCAR!!!
- * Este componente sirve para rellenar el campo de creador de la tabla game
+ * NO TOUCH IT!!!
+ * This component is used to fill in the creator field of the game table
  */
 @Component
 public class AuditorAwareImpl implements AuditorAware<String> {

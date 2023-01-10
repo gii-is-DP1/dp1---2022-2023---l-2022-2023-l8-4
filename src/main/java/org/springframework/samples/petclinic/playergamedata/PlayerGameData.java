@@ -1,9 +1,12 @@
 package org.springframework.samples.petclinic.playergamedata;
 
 
+import java.util.Collection;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -24,7 +27,7 @@ import lombok.Setter;
 public class PlayerGameData extends BaseEntity{
 
 	@Range(min=0,max=53)
-	@Column(name = "points_number")
+	@Column(name = "points")
 	private int pointsNumber;
 
 	@NotNull
@@ -33,6 +36,12 @@ public class PlayerGameData extends BaseEntity{
 
 	@ManyToOne
 	private Card actualCard;
+	
+	@ManyToMany(cascade = {CascadeType.PERSIST,
+			CascadeType.MERGE,
+			CascadeType.DETACH,
+			CascadeType.REFRESH})
+	private Collection<Card> actualCards;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Player player;

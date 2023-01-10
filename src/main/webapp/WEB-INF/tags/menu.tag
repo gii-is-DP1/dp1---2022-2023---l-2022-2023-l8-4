@@ -23,6 +23,7 @@
 				</petclinic:menuItem>
 			</sec:authorize>
 				
+				
 				<sec:authorize access="isAuthenticated()">
 				<petclinic:menuItem active="${name eq 'achievements'}" url="/statistics/achievements"
 					title="Achievements" dropdown="${true}">										
@@ -34,6 +35,10 @@
 						</ul>					
 				</petclinic:menuItem>
 				</sec:authorize>
+				
+				
+	
+				
 				
 				<sec:authorize access="hasAuthority('admin')">
 				<petclinic:menuItem active="${name eq 'games'}" url="/games"

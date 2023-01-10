@@ -1,7 +1,10 @@
 package org.springframework.samples.petclinic.playergamedata;
 
+
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -19,7 +22,7 @@ public class PlayerGameDataService {
 	private CardRepository cardRepository;
 
 	@Autowired
-	public PlayerGameDataService(PlayerGameDataRepository playerGameDataRepository,CardRepository cardRepository) {
+	public PlayerGameDataService(PlayerGameDataRepository playerGameDataRepository, CardRepository cardRepository) {
 		this.playerGameDataRepository = playerGameDataRepository;
 		this.cardRepository = cardRepository;
 	}
@@ -28,35 +31,81 @@ public class PlayerGameDataService {
 	public Collection<PlayerGameData> getAll() {
 		return playerGameDataRepository.findAll();
 	}
-
+	
+	@Transactional(readOnly=true)
 	public PlayerGameData getByIds(Integer gameId, Integer playerId) {
 		return playerGameDataRepository.findByIds(gameId, playerId);
 	}
 
+	@Transactional
 	public void winPoint(Integer gameId, Integer playerId) {
-		PlayerGameData data= playerGameDataRepository.findByIds(gameId,playerId);
-		Integer points=data.getPointsNumber();
-		data.setPointsNumber(points+1);
-        this.savePlayerGameData( data );
+		PlayerGameData playerGameData= playerGameDataRepository.findByIds(gameId,playerId);
+		Integer points=playerGameData.getPointsNumber();
+		playerGameData.setPointsNumber(points+1);
+        this.savePlayerGameData( playerGameData );
+	}
+	
+	@Transactional
+	public void initGameParamsEstandar(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
+		pgd.setGame(game);
+		pgd.setPlayer(player);
+		pgd.setWinner( false );
+		pgd.setPointsNumber( 0 );
+		Card middleCard = cardRepository.getCardById(middleCardId);
+		pgd.setActualCard(middleCard);        
+		savePlayerGameData( pgd );
 	}
 
-	public void changeCards(Integer gameId, Integer playerId, Integer middleCardId) {
-		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
+	
+	@Transactional
+	public void changePlayerCardEstandar(Integer gameId, Integer playerId, Integer middleCardId) {
+		PlayerGameData playerGameData = playerGameDataRepository.findByIds(gameId, playerId);
 		Card middleCard = cardRepository.getCardById(middleCardId);
-		data.setActualCard(middleCard);
+		playerGameData.setActualCard(middleCard);
+		savePlayerGameData(playerGameData);
+	}
+	
+	@Transactional
+	public void initGameParamsElFoso(List<Card> deck, PlayerGameData playerGameData, Player player, Game game) {
+		List<Card> cards = getCardsToPlayer(deck, game);
+		playerGameData.setActualCards(cards);
+		playerGameData.setActualCard(playerGameData.getActualCards().stream().collect(Collectors.toList()).get(0));
+		playerGameData.setPlayer(player);
+		playerGameData.setGame(game);
+		playerGameData.setWinner( false );
+		playerGameData.setPointsNumber( 0 );
+		savePlayerGameData( playerGameData );
+	}
+
+	@Transactional(readOnly=true)
+	private List<Card> getCardsToPlayer(List<Card> deck, Game game) {
+		Integer playersNumber= game.getPlayers().size();
+		Integer CardsPlayerNumber= 56/playersNumber;
+		List<Card> cards= new ArrayList<>();
+		int i=0;
+		while(i < CardsPlayerNumber) {
+			cards.add(deck.get(0));
+			deck.remove(0);
+			i++;
+		}
+		return cards;
+	}
+	
+	@Transactional
+	public void removePlayerCardElFoso(Integer gameId, Integer playerId) {
+		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
+		List<Card> cards= data.getActualCards().stream().collect(Collectors.toList());
+		cards.remove(0);
+		data.setActualCards(cards);
+		if(data.getActualCards().size()!=0) {
+			data.setActualCard(data.getActualCards().stream().collect(Collectors.toList()).get(0));
+		}
 		savePlayerGameData(data);
 	}
 
-    public void initGameParams(Integer middleCardId, PlayerGameData pgd, Player player, Game game) {
-        pgd.setGame(game);
-        pgd.setPlayer(player);
-        pgd.setWinner( false );
-        pgd.setPointsNumber( 0 );
-        Card middleCard = cardRepository.getCardById(middleCardId);
-        pgd.setActualCard(middleCard);
-        savePlayerGameData( pgd );
-    }
 
+    
+	@Transactional
 	public void setWinner(Integer gameId, Integer playerId) {
 		PlayerGameData data = playerGameDataRepository.findByIds(gameId, playerId);
 		data.setWinner(true);
@@ -68,6 +117,7 @@ public class PlayerGameDataService {
 		this.playerGameDataRepository.save(playerGameData);
 	}
 
+	@Transactional(readOnly=true)
     public List<PlayerGameData> getById(Integer gameId) {
         return this.playerGameDataRepository.getDataByGameId( gameId );
     }

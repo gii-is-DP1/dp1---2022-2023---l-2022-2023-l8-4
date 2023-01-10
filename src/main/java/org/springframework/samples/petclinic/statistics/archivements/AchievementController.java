@@ -12,8 +12,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
@@ -27,9 +29,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/statistics/achievements")
 public class AchievementController {
-
     private final String ACHIEVEMENTS_LISTING_VIEW="achievements/AchievementsListing";
-
+    private final String ACHIEVEMENTS_FORM="achievements/createOrUpdateAchievementForm";
+    private final String ACHIEVEMENTS_LISTING_VIEW_ADMIN="achievements/admin/AchievementsListingAdmin";
     private AchievementService service;
 
     @Autowired
@@ -59,8 +61,6 @@ public class AchievementController {
         result.addObject("last", totalPages);
         return result;
     }
-
-
 
 
 }
