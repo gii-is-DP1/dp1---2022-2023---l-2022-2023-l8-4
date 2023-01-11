@@ -45,7 +45,7 @@ public class PlayerController {
 	private PlayerService playerService;
 	private AchievementService achievementService;
 	public static final String player_listing = "players/playerList";
-    public static final String player_editing = "players/createOrUpdatePlayer";
+    public static final String player_editing = "players/updatePlayer";
     public static final String achievement_listing = "achievements/AchievementsListing";
     public static final String player_profile = "players/dataPlayer";
     public static final String welcome = "welcome";
@@ -182,23 +182,6 @@ public class PlayerController {
          return result;
         }
 
-    @GetMapping("/new")
-    public ModelAndView createPlayer() {
-        ModelAndView result = new ModelAndView(player_editing);
-        Player jugador = new Player();
-        result.addObject("player", jugador);
-        return result;
 
-    }
-
-
-    @PostMapping("/new")
-    public ModelAndView saveNewPlayer(@Valid Player player, BindingResult br) throws DataAccessException, NoSuchEntityException {
-        ModelAndView result=null;
-        playerService.savePlayer(player);
-        result = showAllPlayers(new HashMap<>());
-        result.addObject("message", "Jugador creado satisfactoriamente");
-        return result;
-    }
 
 }
