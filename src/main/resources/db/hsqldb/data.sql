@@ -85,8 +85,6 @@ INSERT INTO players_achievements(achievement_id,player_id) VALUES
 (3,5),
 (5,5);
 
---Player Game Data
-
 INSERT INTO cards (id, icons) VALUES
 (0, 'CABALLO FOCA SINSAJO SERPIENTE PALOMA DELFIN ABEJA ZORRO'),
 (1, 'PULPO COCODRILO KIWI ORCA CABALLO GALLINA GATO RATA'),
@@ -145,3 +143,19 @@ INSERT INTO cards (id, icons) VALUES
 (54, 'LORO CIGUEÑA CONEJO PEREZOSO KIWI PANDA FOCA UNICORNIO'),
 (55, 'ALPACA AVISPA GAMBA DELFIN RATA CIGUEÑA PAVOREAL MARIPOSA'),
 (56, 'CANGREJO ARDILLA CEBRA COCODRILO CONEJO DELFIN CANGURO CISNE');
+
+--Player Game Data
+INSERT INTO player_game_data(id,points_number,winner,actual_card_id,player_id,game_id) VALUES
+(1, 23, false, 0, 1, 1),
+(2, 31, false, 1, 2, 1),
+(3, 14, false, 2, 2, 2),
+(4, 15, false, 3, 3, 2),
+(5, 14, false , 4, 3, 3),
+(6, 12, false, 5, 2, 3),
+(7, 10, false, 6, 1, 3),
+(8, 5, false, 7, 5, 3),
+(9, 10, false, 8, 4, 4),
+(10, 45, true, 9, 2, 4),
+(11, 1, false, 10, 5, 5),
+(12, 2, false, 11, 3, 5),
+(13, 14, true, 12, 1, 5);
