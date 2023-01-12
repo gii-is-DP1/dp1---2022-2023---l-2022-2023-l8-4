@@ -12,19 +12,19 @@
         <h2>
             <c:if test="${game['new']}">New </c:if> Game
         </h2>
-        <h2>Reglas del juego</h2>
+        <h2>Minigame rules</h2>
             <ul id="rules" class="nav nav-tabs nav-justified">
-  				<li><a href="#setup" data-toggle="tab">Preparación</a></li>
-  				<li><a href="#objective" data-toggle="tab">Objectivo</a></li>
-  				<li><a href="#howto" data-toggle="tab">Cómo jugar</a></li>
-  				<li id = "gameEnding"><a href="#ending" data-toggle="tab">Final</a></li>
+  				<li><a href="#setup" data-toggle="tab">Setup</a></li>
+  				<li><a href="#objective" data-toggle="tab">Objective</a></li>
+  				<li><a href="#howto" data-toggle="tab">How to play</a></li>
+  				<li id="gameEnding"><a href="#ending" data-toggle="tab">Ending</a></li>
 			</ul>
 			
 			<div class="tab-content">
-    			<div role="tabpanel" class="tab-pane fade" id="setup">Hola</div>
-    			<div role="tabpanel" class="tab-pane fade" id="objective">Buenas</div>
-   				<div role="tabpanel" class="tab-pane fade" id="howto">Tardes</div>
-    			<div role="tabpanel" class="tab-pane fade" id="ending">Miguelon</div>
+    			<div role="tabpanel" class="tab-pane fade" id="setup"></div>
+    			<div role="tabpanel" class="tab-pane fade" id="objective"></div>
+   				<div role="tabpanel" class="tab-pane fade" id="howto"></div>
+    			<div role="tabpanel" class="tab-pane fade" id="ending"></div>
 			</div>
 			
         <form:form modelAttribute="game" Sclass="form-horizontal">

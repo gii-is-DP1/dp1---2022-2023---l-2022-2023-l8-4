@@ -9,7 +9,7 @@ const handleGameModeEvent = async (event) => {
 	const gameModeData = await fetchGameModeDescriptions();
 	const gameMode = event.target.value;
 	const endingTab = document.querySelector("a[href='#ending']");
-	const endingTitle = gameModeData[gameMode].hasWinner ? 'Ganador' : 'Perdedor'
+	const endingTitle = gameModeData[gameMode].hasWinner ? 'Winner' : 'Loser'
 	
 	setup.innerHTML = gameModeData[gameMode].setup;
 	objective.innerHTML = gameModeData[gameMode].objective;
