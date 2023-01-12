@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="games">
+<petclinic:htmlHeader/>
 <form action="/games/board/${game.id}/${player}" method="GET" id="reloadPage"></form>
 <form action="/games/board/${game.id}/${player}/${cardId}" method="GET" id="nextRound"></form>
 <div id="middle-card" hidden>${card.icons}</div>
@@ -22,12 +22,12 @@
     		</li>
     </c:forEach>
 	</ul>
-	<div class="card" style="width: 18rem; float: right;"> <!-- DO NOT TOUCH -->
+	<div class="card" style="width: 18rem; float: right; top: 10%; left: 50%; position: absolute"> <!-- DO NOT TOUCH -->
 		<p>Central</p>
 		<div class="card-body" id = "middlecard">
 		</div>
 	</div>
-	<div class="card" style="width: 18rem; float: right;"> <!-- DO NOT TOUCH -->
+	<div class="card" style="width: 18rem; float: right; top: 10%; left: 20%; position: absolute"> <!-- DO NOT TOUCH -->
 		<p>My card</p>
 		<div class="card-body" id = "mycard">
 		</div>
@@ -81,4 +81,3 @@
 			     }
 		     )
 </script>
-</petclinic:layout>
