@@ -5,9 +5,9 @@ const fetchGameModeDescriptions = async () => {
 	return descriptions;
 }
 
-const handleGameModeEvent = async (event) => {
+const handleGameModeEvent = async () => {
 	const gameModeData = await fetchGameModeDescriptions();
-	const gameMode = event.target.value;
+	const gameMode = selectGameModes.value;
 	const endingTab = document.querySelector("a[href='#ending']");
 	const endingTitle = gameModeData[gameMode].hasWinner ? 'Winner' : 'Loser'
 	
@@ -29,6 +29,6 @@ const howto = document.getElementById('howto');
 const ending = document.getElementById('ending');
 const rules = document.getElementById(rulesId);
 
-
+window.addEventListener("DOMContentLoaded", handleGameModeEvent);
 selectGameModes.addEventListener('click', handleGameModeEvent);
 
