@@ -17,9 +17,6 @@ INSERT INTO authorities(id,username,authority) VALUES (7,'pedlopruz','admin');
 INSERT INTO users(username,password,enabled) VALUES ('carzarrei','chocolate', TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (8,'carzarrei','admin');
 
-INSERT INTO users(username,password,enabled) VALUES ('dangalmar','kaka', TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (9,'dangalmar','admin');
-
 --Achivements
 INSERT INTO achievement(id,name,description,threshold,percentage,trophy,badge_image) VALUES
 (1,'Gamer','If you play <THRESHOLD> games or more in any game mode, you are truly a gamer.',10.0,0.0,3,'/resources/images/logros/viciado.png'),
@@ -145,7 +142,7 @@ INSERT INTO cards (id, icons) VALUES
 (56, 'CANGREJO ARDILLA CEBRA COCODRILO CONEJO DELFIN CANGURO CISNE');
 
 --Player Game Data
-INSERT INTO player_game_data(id,points_number,winner,actual_card_id,player_id,game_id) VALUES
+INSERT INTO player_game_data(id,points,winner,actual_card_id,player_id,game_id) VALUES
 (1, 23, false, 0, 1, 1),
 (2, 31, false, 1, 2, 1),
 (3, 14, false, 2, 2, 2),
