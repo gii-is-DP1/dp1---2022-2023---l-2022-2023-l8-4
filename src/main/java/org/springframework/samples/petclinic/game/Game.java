@@ -28,20 +28,20 @@ import lombok.ToString;
 @ToString
 public class Game extends AuditableEntity {
 
-	@Column(name = "date", nullable = false)
+	@Column(nullable = false)
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
-	@Column(name = "game_mode", nullable = false)
+	@Column(nullable = false)
 	@NotNull
 	private GameMode gameMode;
 	
-	@Column(name = "game_state", nullable = false)
+	@Column(nullable = false)
 	@NotNull
 	private GameState gameState;
 	
-	@Column(name = "game_code", unique = true, nullable = false)
+	@Column(unique = true, nullable = false)
 	private Integer gameCode;
 	
 	@ManyToMany(mappedBy= "playedGames")

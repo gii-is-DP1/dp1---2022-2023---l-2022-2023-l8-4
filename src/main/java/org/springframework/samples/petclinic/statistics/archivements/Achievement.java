@@ -4,7 +4,6 @@ package org.springframework.samples.petclinic.statistics.archivements;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
@@ -20,23 +19,20 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "achievement")
+@Table(name = "achievements")
 public class Achievement extends NamedEntity{
-	@Column(name = "description")
+	
+	
 	@NotEmpty
     private String description;
 
-	@Column(name = "threshold")
 	@NotNull
     private double threshold;
 
-	@Column(name = "percentage")
 	private double percentage;
 
-	@Column(name = "trophy")
 	private AchievementTrophy trophy;
 
-	@Column(name = "badgeImage")
     private String badgeImage;
 
     public String getActualDescription(){

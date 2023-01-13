@@ -31,7 +31,6 @@ public class PlayerGameData extends BaseEntity{
 	private int pointsNumber;
 
 	@NotNull
-	@Column(name = "winner")
 	private boolean winner;
 
 	@ManyToOne
