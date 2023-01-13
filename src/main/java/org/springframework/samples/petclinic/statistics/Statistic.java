@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.player.Player;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

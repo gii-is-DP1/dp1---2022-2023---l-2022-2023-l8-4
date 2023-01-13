@@ -17,7 +17,6 @@ public interface PlayerRepository extends JpaRepository<Player,Integer> {
 	
 	public List<Player> findAll();
 	
-
 	Player save(Player usuario);
 	
 	@Query("SELECT games FROM Player player INNER JOIN player.playedGames games WHERE player.id= ?1")

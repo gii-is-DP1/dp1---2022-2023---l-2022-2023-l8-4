@@ -212,7 +212,6 @@ public class GameController {
 	@GetMapping(value = "/board/{gameId}/{playerId}/{middleCardId}")
 	public ModelAndView clickCard(@PathVariable("gameId") Integer gameId,@PathVariable("playerId") Integer playerId,@PathVariable("middleCardId") Integer middleCardId) throws DataAccessException, NoSuchEntityException{
 
-        PlayerGameData pgd= this.playerGameDataService.getByIds(gameId, playerId);
 		Game game = this.gameService.getGameById(gameId);
         ModelAndView mav = new ModelAndView(GAME_BOARD );
 		playerGameDataService.winPoint(gameId, playerId);

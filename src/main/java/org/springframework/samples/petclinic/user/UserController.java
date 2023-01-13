@@ -26,6 +26,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.player.Player;
 import org.springframework.samples.petclinic.player.PlayerService;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -80,6 +81,7 @@ public class UserController {
 
 	@GetMapping(value = "/users/new")
 	public String initCreationForm(Map<String, Object> model) {
+		SecurityContextHolder.clearContext();
 		Player player = new Player();
 		model.put("player", player);
 		return VIEWS_OWNER_CREATE_FORM;

@@ -5,22 +5,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import javax.validation.Valid;
 
-import org.hibernate.internal.build.AllowSysOut;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.samples.petclinic.game.Game;
-import org.springframework.samples.petclinic.statistics.StatisticService;
 import org.springframework.samples.petclinic.statistics.archivements.Achievement;
 import org.springframework.samples.petclinic.statistics.archivements.AchievementService;
 import org.springframework.security.core.Authentication;
@@ -120,9 +117,6 @@ public class PlayerController {
     		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     		User user = (User)authentication.getPrincipal();
         	String autenticacion = user.getUsername();
-
-        	System.out.println(autenticacion);
-        	System.out.println(player.getUser().getUsername());
         	
         	result.addObject("username", autenticacion);
     		result.addObject( "player", this.playerService.getPlayerById( player.getId() ) );

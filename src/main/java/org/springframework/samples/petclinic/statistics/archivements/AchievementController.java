@@ -2,26 +2,17 @@ package org.springframework.samples.petclinic.statistics.archivements;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.samples.petclinic.exception.NoSuchEntityException;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,8 +21,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/statistics/achievements")
 public class AchievementController {
     private final String ACHIEVEMENTS_LISTING_VIEW="achievements/AchievementsListing";
-    private final String ACHIEVEMENTS_FORM="achievements/createOrUpdateAchievementForm";
-    private final String ACHIEVEMENTS_LISTING_VIEW_ADMIN="achievements/admin/AchievementsListingAdmin";
     private AchievementService service;
 
     @Autowired
